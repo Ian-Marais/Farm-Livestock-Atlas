@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | South African Livestock Atlas</title>
+    <script>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem("south-african-livestock-atlas-theme");
+          const preferredTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.theme = savedTheme === "dark" || (!savedTheme && preferredTheme === "dark") ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;800&family=Source+Sans+3:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-a"></div>
+      <div class="ambient ambient-b"></div>
+
+      <main class="auth-page-layout py-4 py-lg-5">
+        <section class="auth-page-panel">
+          <div class="auth-page-header mb-4">
+            <div>
+              <p class="eyebrow mb-2">South African Livestock Atlas</p>
+              <h1 class="panel-title mb-2" data-auth-copy="auth.profileTitle">Your profile</h1>
+              <p class="hero-copy mb-0" data-auth-copy="auth.profileCopy">
+                Update the details shown in the header and keep your account information current.
+              </p>
+            </div>
+
+            <div class="auth-inline-tools">
+              <button type="button" class="theme-toggle js-theme-toggle" aria-label="Switch to dark mode">
+                <span class="theme-toggle-icon" aria-hidden="true"></span>
+                <span class="theme-toggle-label">Dark mode</span>
+              </button>
+              <div class="language-switcher">
+                <label class="language-switcher-label" for="languageSelectProfile">Language</label>
+                <select id="languageSelectProfile" class="form-select language-select js-language-select" aria-label="Language selector" data-i18n-aria-label="common.languageSelector">
+                  <option value="en" data-i18n="common.lang.en">English</option>
+                  <option value="af" data-i18n="common.lang.af">Afrikaans</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-page-grid">
+            <aside id="profileSummaryCard" class="profile-summary-card"></aside>
+
+            <div class="auth-form-card">
+              <form id="profileForm" class="auth-form-grid">
+                <div class="feedback-grid two-up">
+                  <div>
+                    <label class="form-label small-label" for="profileFirstName" data-auth-copy="auth.firstName">First name</label>
+                    <input id="profileFirstName" name="first_name" class="form-control" type="text" autocomplete="given-name" required />
+                  </div>
+                  <div>
+                    <label class="form-label small-label" for="profileLastName" data-auth-copy="auth.lastName">Last name</label>
+                    <input id="profileLastName" name="last_name" class="form-control" type="text" autocomplete="family-name" required />
+                  </div>
+                </div>
+
+                <div class="feedback-grid two-up">
+                  <div>
+                    <label class="form-label small-label" for="profileEmail" data-auth-copy="auth.email">Email address</label>
+                    <input id="profileEmail" name="email" class="form-control" type="email" readonly />
+                  </div>
+                  <div>
+                    <label class="form-label small-label" for="profileMobile" data-auth-copy="auth.mobileNumber">Mobile number</label>
+                    <input id="profileMobile" name="mobile_number" class="form-control" type="text" autocomplete="tel" />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="form-label small-label" for="profilePicture" data-auth-copy="auth.profilePicture">Profile picture URL</label>
+                  <input id="profilePicture" name="profile_picture" class="form-control" type="url" placeholder="https://example.com/photo.jpg" />
+                  <div class="feedback-upload-note" data-auth-copy="auth.profilePictureHint">Paste an image URL, or leave it blank to use initials.</div>
+                </div>
+
+                <div class="feedback-grid two-up">
+                  <div>
+                    <label class="form-label small-label" for="profileNewPassword" data-auth-copy="auth.newPassword">New password</label>
+                    <input id="profileNewPassword" name="new_password" class="form-control" type="password" autocomplete="new-password" />
+                  </div>
+                  <div>
+                    <label class="form-label small-label" for="profileConfirmPassword" data-auth-copy="auth.confirmPassword">Confirm password</label>
+                    <input id="profileConfirmPassword" name="confirm_password" class="form-control" type="password" autocomplete="new-password" />
+                  </div>
+                </div>
+
+                <button type="submit" class="feedback-submit-button" data-auth-copy="auth.saveProfile">Save profile</button>
+                <div id="profileStatus" class="feedback-status" aria-live="polite"></div>
+              </form>
+            </div>
+          </div>
+
+          <section id="developerPanel" class="developer-panel mt-4" hidden>
+            <div class="developer-panel-header">
+              <div>
+                <p class="panel-kicker mb-1" data-auth-copy="auth.developerTitle">Developer console</p>
+                <h2 class="panel-title mb-2" data-auth-copy="auth.developerUsers">System users</h2>
+                <p class="hero-copy mb-0" data-auth-copy="auth.developerCopy">
+                  Review every account in the system, inspect role assignments, and update user details directly from Stellards.
+                </p>
+              </div>
+              <button id="developerRefreshButton" type="button" class="site-auth-action site-auth-action-secondary" data-auth-copy="auth.developerRefresh">Refresh users</button>
+            </div>
+
+            <div class="developer-grid mt-4">
+              <div class="developer-table-card">
+                <div class="table-responsive">
+                  <table class="developer-table">
+                    <thead>
+                      <tr>
+                        <th data-auth-copy="auth.developerTableName">Name</th>
+                        <th data-auth-copy="auth.developerTableEmail">Email</th>
+                        <th data-auth-copy="auth.developerTableRole">Role</th>
+                        <th data-auth-copy="auth.developerTableStatus">Status</th>
+                        <th data-auth-copy="auth.developerTableActions">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="developerUsersTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="developer-editor-card">
+                <div class="developer-editor-header mb-3">
+                  <div>
+                    <p class="panel-kicker mb-1" data-auth-copy="auth.developerEditTitle">Edit selected user</p>
+                    <h3 id="developerSelectedUserTitle" class="detail-title mb-0" data-auth-copy="auth.developerSelectedUser">Selected user</h3>
+                  </div>
+                </div>
+
+                <div id="developerNoSelection" class="empty-state" data-auth-copy="auth.developerNoSelection">Select a user from the table to edit them.</div>
+
+                <form id="developerUserForm" class="auth-form-grid" hidden>
+                  <input type="hidden" name="id" />
+
+                  <div class="feedback-grid two-up">
+                    <div>
+                      <label class="form-label small-label" for="developerFirstName" data-auth-copy="auth.firstName">First name</label>
+                      <input id="developerFirstName" name="first_name" class="form-control" type="text" required />
+                    </div>
+                    <div>
+                      <label class="form-label small-label" for="developerLastName" data-auth-copy="auth.lastName">Last name</label>
+                      <input id="developerLastName" name="last_name" class="form-control" type="text" required />
+                    </div>
+                  </div>
+
+                  <div class="feedback-grid two-up">
+                    <div>
+                      <label class="form-label small-label" for="developerEmail" data-auth-copy="auth.email">Email address</label>
+                      <input id="developerEmail" name="email" class="form-control" type="email" required />
+                    </div>
+                    <div>
+                      <label class="form-label small-label" for="developerMobile" data-auth-copy="auth.mobileNumber">Mobile number</label>
+                      <input id="developerMobile" name="mobile_number" class="form-control" type="text" />
+                    </div>
+                  </div>
+
+                  <div class="feedback-grid two-up">
+                    <div>
+                      <label class="form-label small-label" for="developerRole" data-auth-copy="auth.developerRole">Role</label>
+                      <select id="developerRole" name="role" class="form-select">
+                        <option value="user" data-auth-copy="auth.roleUser">User</option>
+                        <option value="developer" data-auth-copy="auth.roleDeveloper">Developer</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="form-label small-label" for="developerStatus" data-auth-copy="auth.developerStatus">Status</label>
+                      <select id="developerStatusField" name="status" class="form-select">
+                        <option value="active">active</option>
+                        <option value="inactive">inactive</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="form-label small-label" for="developerProfilePicture" data-auth-copy="auth.profilePicture">Profile picture URL</label>
+                    <input id="developerProfilePicture" name="profile_picture" class="form-control" type="url" placeholder="https://example.com/photo.jpg" />
+                  </div>
+
+                  <div>
+                    <label class="form-label small-label" for="developerPassword" data-auth-copy="auth.developerNewPassword">Reset password</label>
+                    <input id="developerPassword" name="new_password" class="form-control" type="password" autocomplete="new-password" />
+                  </div>
+
+                  <button type="submit" class="feedback-submit-button" data-auth-copy="auth.developerSaveUser">Save user</button>
+                </form>
+
+                <div id="developerStatus" class="feedback-status mt-3" aria-live="polite"></div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="i18n.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

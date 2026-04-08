@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>South African Livestock Atlas</title>
+    <script>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem("south-african-livestock-atlas-theme");
+          const preferredTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.theme = savedTheme === "dark" || (!savedTheme && preferredTheme === "dark") ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;800&family=Source+Sans+3:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="home">
+    <div class="page-shell">
+      <div class="ambient ambient-a"></div>
+      <div class="ambient ambient-b"></div>
+
+      <main class="site-layout py-4 py-lg-5">
+        <section class="hero-card mb-4 mb-lg-5">
+          <div class="row g-4 align-items-stretch">
+            <div class="col-lg-8">
+              <p class="eyebrow mb-2" data-i18n="common.brand">South African Livestock Atlas</p>
+              <div class="hero-heading-row mb-3">
+                <h1 class="display-title mb-0" data-i18n="home.hero.title">
+                  Explore where key sheep, goat and cattle breeds are commonly found across South Africa.
+                </h1>
+              </div>
+              <p class="hero-copy mb-0" data-i18n="home.hero.copy">
+                Filter breeds, choose one animal, and the provincial map updates immediately to show where it is commonly found.
+              </p>
+
+              <div class="hero-metrics hero-metrics--tablet mt-3">
+                <div>
+                  <span class="metric-value" data-breed-count>0</span>
+                  <span class="metric-label" data-i18n="home.metrics.breeds">Breeds loaded</span>
+                </div>
+                <div>
+                  <span class="metric-value">9</span>
+                  <span class="metric-label" data-i18n="home.metrics.provinces">South African provinces</span>
+                </div>
+                <div>
+                  <span class="metric-value" data-i18n="common.public">Public</span>
+                  <span class="metric-label" data-i18n="home.metrics.sources">Source-based dataset</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 hero-side-column">
+              <div class="hero-heading-tools mb-3">
+                <a class="hero-feedback-link" href="feedback.html" data-i18n="home.hero.feedbackLink">Community Feedback</a>
+                <button type="button" class="theme-toggle js-theme-toggle" aria-label="Switch to dark mode">
+                  <span class="theme-toggle-icon" aria-hidden="true"></span>
+                  <span class="theme-toggle-label">Dark mode</span>
+                </button>
+                <div class="language-switcher">
+                  <label class="language-switcher-label" for="languageSelectHome" data-i18n="common.language">Language</label>
+                  <select id="languageSelectHome" class="form-select language-select js-language-select" aria-label="Language selector" data-i18n-aria-label="common.languageSelector">
+                    <option value="en" data-i18n="common.lang.en">English</option>
+                    <option value="af" data-i18n="common.lang.af">Afrikaans</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="service-offer-card mb-3">
+                <p class="panel-kicker mb-1" data-i18n="home.services.kicker">Farm Websites &amp; Software</p>
+                <p class="service-offer-copy mb-3" data-i18n="home.services.copy">
+                  If your farm does not have a website yet, we will create a professional-looking website for you with any features you require. Additionally, if custom software is required to streamline any farm process, also contact us via WhatsApp or E-mail below.
+                </p>
+                <div class="service-contact-links">
+                  <a
+                    class="service-contact-link"
+                    href="https://wa.me/27000000000"
+                    target="_blank"
+                    rel="noreferrer"
+                    data-i18n-aria-label="home.services.whatsappAria"
+                    aria-label="Open WhatsApp chat"
+                  >
+                    <span class="service-contact-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" role="img" focusable="false">
+                        <path d="M19.11 4.93A9.9 9.9 0 0 0 12.05 2c-5.48 0-9.94 4.46-9.94 9.94 0 1.75.46 3.47 1.33 4.99L2 22l5.24-1.37a9.9 9.9 0 0 0 4.8 1.23h.01c5.48 0 9.94-4.46 9.94-9.94a9.88 9.88 0 0 0-2.88-6.99ZM12.05 20.18h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.11.82.83-3.03-.2-.31a8.24 8.24 0 0 1-1.26-4.4c0-4.52 3.68-8.2 8.21-8.2a8.14 8.14 0 0 1 5.81 2.42 8.14 8.14 0 0 1 2.39 5.79c0 4.52-3.68 8.2-8.18 8.2Zm4.49-6.12c-.25-.12-1.49-.73-1.72-.81-.23-.09-.4-.12-.57.12-.17.25-.65.81-.8.98-.15.17-.29.19-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.22-1.45-1.36-1.69-.14-.25-.02-.38.1-.5.11-.11.25-.29.37-.44.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.57-1.37-.78-1.87-.21-.5-.42-.43-.57-.43h-.49c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09s.9 2.43 1.03 2.59c.12.17 1.76 2.69 4.27 3.77.6.26 1.07.42 1.44.54.6.19 1.15.16 1.58.1.48-.07 1.49-.61 1.7-1.2.21-.59.21-1.09.15-1.2-.06-.1-.23-.17-.48-.29Z" fill="currentColor"></path>
+                      </svg>
+                    </span>
+                    <span class="service-contact-copy">
+                      <strong data-i18n="home.services.whatsappLabel">WhatsApp</strong>
+                      <small>+27 00 000 0000</small>
+                    </span>
+                  </a>
+
+                  <a
+                    class="service-contact-link"
+                    href="mailto:your-email@example.com"
+                    data-i18n-aria-label="home.services.emailAria"
+                    aria-label="Send an email"
+                  >
+                    <span class="service-contact-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" role="img" focusable="false">
+                        <path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.51l9 5.89 9-5.89V7H3Zm18 10V9.89l-8.45 5.53a1 1 0 0 1-1.1 0L3 9.89V17h18Z" fill="currentColor"></path>
+                      </svg>
+                    </span>
+                    <span class="service-contact-copy">
+                      <strong data-i18n="home.services.emailLabel">E-mail</strong>
+                      <small>your-email@example.com</small>
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="feedback-callout-card">
+                <p class="panel-kicker mb-1" data-i18n="home.callout.kicker">Community Feedback</p>
+                <h2 class="feedback-title mb-2" data-i18n="home.callout.title">Help improve local livestock mapping</h2>
+                <p class="feedback-copy mb-3" data-i18n="home.callout.copy">
+                  Open the dedicated feedback page to submit farm details, Google Maps locations, property boundary notes, images, and species information for more accurate provincial mapping.
+                </p>
+                <a class="feedback-callout-link" href="feedback.html" data-i18n="home.callout.link">Open feedback page</a>
+              </div>
+
+              <div class="hero-metrics hero-metrics--desktop mt-3">
+                <div>
+                  <span class="metric-value" data-breed-count>0</span>
+                  <span class="metric-label" data-i18n="home.metrics.breeds">Breeds loaded</span>
+                </div>
+                <div>
+                  <span class="metric-value">9</span>
+                  <span class="metric-label" data-i18n="home.metrics.provinces">South African provinces</span>
+                </div>
+                <div>
+                  <span class="metric-value" data-i18n="common.public">Public</span>
+                  <span class="metric-label" data-i18n="home.metrics.sources">Source-based dataset</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="main-grid">
+          <aside class="sidebar-card">
+            <div class="sidebar-header">
+              <div>
+                <p class="panel-kicker mb-1" data-i18n="home.controls.kicker">Breed Controls</p>
+                <h2 class="panel-title mb-0" data-i18n="home.controls.title">Choose one animal and assign a color</h2>
+              </div>
+              <span class="selection-pill"><span id="selectedCount">0</span> <span id="selectedCountLabel" data-i18n="common.active">active</span></span>
+            </div>
+
+            <div class="search-wrap mt-4">
+              <label class="form-label small-label" for="searchInput" data-i18n="home.search.label">Search animals</label>
+              <input
+                id="searchInput"
+                class="form-control form-control-lg"
+                type="search"
+                placeholder="Search Dorper, Nguni, Boer goat..."
+                data-i18n-placeholder="home.search.placeholder"
+              />
+            </div>
+
+            <div class="breed-list-dropdown mt-4">
+              <details class="breed-list-details" id="breedListDetails">
+                <summary class="breed-list-summary">
+                  <span class="breed-list-summary-copy">
+                    <span class="breed-list-summary-title" data-i18n="home.breeds.toggle">Breed list</span>
+                    <span class="breed-list-summary-subtitle" data-i18n="home.breeds.toggleHint">Tap to expand and scroll the full list</span>
+                  </span>
+                  <span class="breed-list-summary-state" id="breedListSummaryState">14 breeds</span>
+                </summary>
+                <div class="breed-list-panel">
+                  <div class="filter-row mb-3" id="categoryFilters">
+                    <button class="filter-chip active" data-category="all" type="button" data-i18n="home.filters.all">All</button>
+                    <button class="filter-chip" data-category="sheep" type="button" data-i18n="home.filters.sheep">Sheep</button>
+                    <button class="filter-chip" data-category="goat" type="button" data-i18n="home.filters.goat">Goats</button>
+                    <button class="filter-chip" data-category="cattle" type="button" data-i18n="home.filters.cattle">Cattle</button>
+                  </div>
+                  <div class="breed-list" id="breedList"></div>
+                </div>
+              </details>
+            </div>
+
+            <div class="note-card mt-4">
+              <h3 class="note-title" data-i18n="home.note.title">How to use it</h3>
+              <p class="note-copy mb-0" data-i18n="home.note.copy">Either type the name of the specific species you are looking for in the "Search animals" field or, to view the entire range of species, use the arrow to expand the list of animals. Use the middle mouse wheel on the list of species to scroll through. Click any animal card to paint the map immediately. Only one animal is active at a time, and changing its color updates the map straight away.</p>
+            </div>
+          </aside>
+
+          <section class="content-card">
+            <div class="content-topbar">
+              <div>
+                <p class="panel-kicker mb-1" data-i18n="home.map.kicker">Provincial View</p>
+                <h2 class="panel-title mb-0" data-i18n="home.map.title">South Africa breed distribution map</h2>
+              </div>
+              <div class="status-chip" id="statusChip" data-i18n="home.status.default">Choose an animal to paint the map</div>
+            </div>
+
+            <div class="map-and-detail mt-4">
+              <div class="map-stage">
+                <div class="map-frame">
+                  <button
+                    type="button"
+                    class="return-map-button return-map-button-overlay"
+                    data-return-map
+                    disabled
+                    data-i18n="home.drilldown.return"
+                  >
+                    Return to South Africa
+                  </button>
+                  <svg
+                    id="saMapSvg"
+                    class="map-svg"
+                    viewBox="0 0 760 760"
+                    aria-label="Detailed map of South Africa provinces"
+                    data-i18n-aria-label="home.map.aria"
+                    role="img"
+                  >
+                    <defs id="mapDefs"></defs>
+                    <g id="mapRegions"></g>
+                  </svg>
+                </div>
+                <p class="map-helper mb-0" id="mapHelper" data-i18n="home.map.helper">
+                  The active animal is painted immediately across every province where it is mapped.
+                </p>
+              </div>
+
+              <div class="detail-stack">
+                <div class="province-detail-card">
+                  <p class="panel-kicker mb-1" data-i18n="home.province.kicker">Province Focus</p>
+                  <h3 class="detail-title" id="provinceTitle" data-i18n="home.province.defaultTitle">Select or hover a province</h3>
+                  <p class="detail-copy" id="provinceDescription" data-i18n="home.province.defaultDescription">
+                    The detail panel shows whether the active animal is displayed in the chosen province.
+                  </p>
+                  <div class="legend-list" id="provinceLegend"></div>
+                </div>
+
+                <div class="source-card">
+                  <div class="d-flex justify-content-between align-items-start gap-3">
+                    <div>
+                      <p class="panel-kicker mb-1" data-i18n="home.source.kicker">Data Notes</p>
+                      <h3 class="detail-title mb-2" data-i18n="home.source.title">Source transparency</h3>
+                    </div>
+                    <span class="source-badge" data-i18n="home.source.badge">Province-level</span>
+                  </div>
+                  <p class="detail-copy mb-3" data-i18n="home.source.copy">
+                    This demo uses public breed directories and agricultural references, including SA Stud Book society listings and South African livestock reference pages. The map indicates broad provincial presence and adaptation, not live farm-by-farm registry counts.
+                  </p>
+                  <div id="sourceList" class="source-list"></div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="i18n.js"></script>
+    <script src="auth.js"></script>
+    <script src="maps.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
