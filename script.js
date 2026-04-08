@@ -432,6 +432,8 @@ function updateReturnMapButton() {
 }
 
 function renderProvinceSelector() {
+  updateReturnMapButton();
+
   if (!provinceSelector) {
     return;
   }
@@ -449,7 +451,6 @@ function renderProvinceSelector() {
     </button>
   `).join("");
 
-  updateReturnMapButton();
 }
 
 function syncProvinceFocus() {
