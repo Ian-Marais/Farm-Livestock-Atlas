@@ -23,6 +23,14 @@
     af: {}
   };
 
+  const DEFAULT_MAP_BOUNDS = {
+    x: 55,
+    y: 129.57,
+    width: 650,
+    height: 500.77
+  };
+  const DEFAULT_MAP_PADDING = 36;
+
   const provinceLabelTranslations = {
     en: {
       WC: ["WESTERN", "CAPE"],
@@ -125,12 +133,26 @@
     return "province-percent";
   }
 
+  function squareViewBox(bounds, padding) {
+    const side = Math.max(bounds.width, bounds.height) + padding * 2;
+    const centerX = bounds.x + bounds.width / 2;
+    const centerY = bounds.y + bounds.height / 2;
+
+    return [
+      centerX - side / 2,
+      centerY - side / 2,
+      side,
+      side
+    ].join(" ");
+  }
+
   function createMapController({ svgId, defsId, regionsId, onProvinceInteract, onProvinceSelect }) {
     const svg = document.getElementById(svgId);
     const defs = document.getElementById(defsId);
     const regions = document.getElementById(regionsId);
     const provinceRefs = new Map();
     const contextLabelRefs = [];
+    const defaultViewBox = squareViewBox(DEFAULT_MAP_BOUNDS, DEFAULT_MAP_PADDING);
 
     function currentLanguage() {
       return window.SiteI18n?.getLanguage?.() ?? "en";
@@ -323,15 +345,7 @@
 
       const padding = 34;
       const { bounds } = provinceRef.meta;
-      svg.setAttribute(
-        "viewBox",
-        [
-          bounds.x - padding,
-          bounds.y - padding,
-          bounds.width + padding * 2,
-          bounds.height + padding * 2
-        ].join(" ")
-      );
+      svg.setAttribute("viewBox", squareViewBox(bounds, padding));
     }
 
     function clearProvinceFocus() {
@@ -339,7 +353,7 @@
         provinceRef.group.classList.remove("focused", "dimmed");
       });
 
-      svg.setAttribute("viewBox", "0 0 760 760");
+      svg.setAttribute("viewBox", defaultViewBox);
     }
 
     function setLanguage(language) {
@@ -357,6 +371,8 @@
     }
 
     build();
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    svg.setAttribute("viewBox", defaultViewBox);
 
     return {
       provinces,
