@@ -193,8 +193,11 @@
             </div>
 
             <div class="note-card mt-4">
-              <h3 class="note-title" data-i18n="home.note.title">How to use it</h3>
-              <p class="note-copy mb-0" data-i18n="home.note.copy">Either type the name of the specific species you are looking for in the "Search animals" field or, to view the entire range of species, use the arrow to expand the list of animals. Use the middle mouse wheel on the list of species to scroll through. Click any animal card to paint the map immediately. Only one animal is active at a time, and changing its color updates the map straight away.</p>
+              <div class="note-card-header">
+                <h3 class="note-title mb-0" data-i18n="home.note.title">How to use it</h3>
+                <button type="button" class="note-toggle-button" data-note-toggle aria-expanded="false">Click here to read</button>
+              </div>
+              <p class="note-copy mb-0" id="noteDescription" data-i18n="home.note.copy" hidden>Either type the name of the specific species you are looking for in the "Search animals" field or, to view the entire range of species, use the arrow to expand the list of animals. Use the middle mouse wheel on the list of species to scroll through. Click any animal card to paint the map immediately. Only one animal is active at a time, and changing its color updates the map straight away.</p>
             </div>
           </aside>
 

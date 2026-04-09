@@ -304,11 +304,20 @@ const provinceTitle = document.getElementById("provinceTitle");
 const provinceDescription = document.getElementById("provinceDescription");
 const provinceLegend = document.getElementById("provinceLegend");
 const sourceList = document.getElementById("sourceList");
+const noteDescription = document.getElementById("noteDescription");
+const noteToggleButton = document.querySelector("[data-note-toggle]");
 const provinceSelector = document.getElementById("provinceSelector");
+const sidebarCard = document.querySelector(".sidebar-card");
 const mapStage = document.querySelector("[data-map-stage]");
 const mapOverlayBackdrop = document.querySelector("[data-map-overlay-backdrop]");
 const mapOverlayToggle = document.querySelector("[data-map-overlay-toggle]");
 const returnMapButtons = [...document.querySelectorAll("[data-return-map]")];
+const sidebarCardOriginalParent = sidebarCard?.parentElement ?? null;
+const sidebarCardOriginalNextSibling = sidebarCard?.nextElementSibling ?? null;
+const mapStageOriginalParent = mapStage?.parentElement ?? null;
+const mapStageOriginalNextSibling = mapStage?.nextElementSibling ?? null;
+const mapOverlayBackdropOriginalParent = mapOverlayBackdrop?.parentElement ?? null;
+const mapOverlayBackdropOriginalNextSibling = mapOverlayBackdrop?.nextElementSibling ?? null;
 const mapController = window.SouthAfricaMap.createMapController({
   svgId: "saMapSvg",
   defsId: "mapDefs",
@@ -337,12 +346,56 @@ function syncMapOverlayControls() {
   }
 }
 
+function syncNoteToggle() {
+  if (!noteToggleButton || !noteDescription) {
+    return;
+  }
+
+  const isExpanded = !noteDescription.hidden;
+  noteToggleButton.textContent = isExpanded ? t("home.note.hide") : t("home.note.show");
+  noteToggleButton.setAttribute("aria-expanded", String(isExpanded));
+}
+
+function restoreMapOverlayNode(node, parent, nextSibling) {
+  if (!node || !parent) {
+    return;
+  }
+
+  if (nextSibling && nextSibling.parentElement === parent) {
+    parent.insertBefore(node, nextSibling);
+    return;
+  }
+
+  parent.appendChild(node);
+}
+
+function openMapOverlay() {
+  if (!mapStage || document.body.classList.contains("map-overlay-open")) {
+    return;
+  }
+
+  if (mapOverlayBackdrop) {
+    document.body.appendChild(mapOverlayBackdrop);
+  }
+
+  if (sidebarCard) {
+    mapStage.insertBefore(sidebarCard, mapStage.firstChild);
+  }
+
+  document.body.appendChild(mapStage);
+  document.body.classList.add("map-overlay-open");
+  syncMapOverlayControls();
+}
+
 function closeMapOverlay() {
   if (!document.body.classList.contains("map-overlay-open")) {
     return;
   }
 
   document.body.classList.remove("map-overlay-open");
+  restoreMapOverlayNode(mapOverlayBackdrop, mapOverlayBackdropOriginalParent, mapOverlayBackdropOriginalNextSibling);
+  restoreMapOverlayNode(mapStage, mapStageOriginalParent, mapStageOriginalNextSibling);
+  restoreMapOverlayNode(sidebarCard, sidebarCardOriginalParent, sidebarCardOriginalNextSibling);
   syncMapOverlayControls();
 }
 
@@ -351,8 +404,12 @@ function toggleMapOverlay() {
     return;
   }
 
-  document.body.classList.toggle("map-overlay-open");
-  syncMapOverlayControls();
+  if (document.body.classList.contains("map-overlay-open")) {
+    closeMapOverlay();
+    return;
+  }
+
+  openMapOverlay();
 }
 
 function categoryLabel(category) {
@@ -639,6 +696,7 @@ function renderSourceList(items) {
 function refreshLanguage() {
   applyTranslations(document);
   mapController.setLanguage(getLanguage());
+  syncNoteToggle();
   syncMapOverlayControls();
   renderProvinceSelector();
   renderAnimalList();
@@ -727,6 +785,15 @@ provinceSelector?.addEventListener("click", (event) => {
   selectProvince(button.dataset.provinceSelect);
 });
 
+noteToggleButton?.addEventListener("click", () => {
+  if (!noteDescription) {
+    return;
+  }
+
+  noteDescription.hidden = !noteDescription.hidden;
+  syncNoteToggle();
+});
+
 mapOverlayToggle?.addEventListener("click", toggleMapOverlay);
 mapOverlayBackdrop?.addEventListener("click", closeMapOverlay);
 
@@ -757,6 +824,7 @@ if (breedList && breedCountElements.length && searchInput && categoryFilters && 
     mapController.setProvinceVisual(provinceCode, [], false);
   });
   mapController.setLanguage(getLanguage());
+  syncNoteToggle();
   syncMapOverlayControls();
   renderProvinceSelector();
   syncProvinceFocus();

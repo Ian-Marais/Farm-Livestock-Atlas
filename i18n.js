@@ -156,7 +156,9 @@
         },
         note: {
           title: "How to use it",
-          copy: "Either type the name of the specific species you are looking for in the \"Search animals\" field or, to view the entire range of species, use the arrow to expand the list of animals. Use the middle mouse wheel on the list of species to scroll through. Click any animal card to paint the map immediately. Only one animal is active at a time, and changing its color updates the map straight away."
+          copy: "Either type the name of the specific species you are looking for in the \"Search animals\" field or, to view the entire range of species, use the arrow to expand the list of animals. Use the middle mouse wheel on the list of species to scroll through. Click any animal card to paint the map immediately. Only one animal is active at a time, and changing its color updates the map straight away.",
+          show: "Click here to read",
+          hide: "Click here to hide description"
         },
         map: {
           kicker: "Provincial View",
@@ -324,7 +326,9 @@
         },
         note: {
           title: "Hoe om dit te gebruik",
-          copy: "Klik op enige dierekaart om die kaart onmiddellik in te kleur. Slegs een dier is op 'n slag aktief, en 'n kleurverandering werk die kaart dadelik by."
+          copy: "Klik op enige dierekaart om die kaart onmiddellik in te kleur. Slegs een dier is op 'n slag aktief, en 'n kleurverandering werk die kaart dadelik by.",
+          show: "Klik hier om te lees",
+          hide: "Klik hier om beskrywing te versteek"
         },
         map: {
           kicker: "Provinsiale Aansig",
