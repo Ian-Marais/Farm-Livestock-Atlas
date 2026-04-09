@@ -572,12 +572,12 @@
     if (!host) {
       host = document.createElement("header");
       host.dataset.siteHeader = "true";
-      host.className = "site-auth-header";
       shell.insertBefore(host, shell.firstChild);
     }
 
     const user = currentUser();
     const currentPath = window.location.pathname.split("/").pop() || "index.html";
+    host.className = `site-auth-header ${user ? "site-auth-header--signed-in" : "site-auth-header--guest"}`;
 
     host.innerHTML = `
       <div class="site-auth-header-inner">
@@ -937,8 +937,26 @@
     }
   }
 
+  function registerServiceWorker() {
+    if (!("serviceWorker" in navigator)) {
+      return;
+    }
+
+    const protocol = window.location.protocol;
+    if (protocol !== "https:" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+      return;
+    }
+
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("service-worker.js").catch((error) => {
+        console.error("Service worker registration failed", error);
+      });
+    }, { once: true });
+  }
+
   function init() {
     guardGuestPages();
+    registerServiceWorker();
     renderHeader();
     applyStaticCopy();
     bindLoginForm();

@@ -1,6 +1,8 @@
 const provinces = window.SouthAfricaMap.provinces;
 const { t, provinceName, applyTranslations, getLanguage, animalSummary, animalSourceNote } = window.SiteI18n;
 
+const stellardsFarmerWebsites = {};
+
 const animals = [
   {
     id: "dorper",
@@ -304,6 +306,11 @@ const provinceTitle = document.getElementById("provinceTitle");
 const provinceDescription = document.getElementById("provinceDescription");
 const provinceLegend = document.getElementById("provinceLegend");
 const sourceList = document.getElementById("sourceList");
+const sourceContent = document.getElementById("sourceContent");
+const sourceToggleButton = document.querySelector("[data-source-toggle]");
+const farmerWebsitesSection = document.getElementById("farmerWebsitesSection");
+const farmerWebsitesDescription = document.getElementById("farmerWebsitesDescription");
+const farmerWebsitesList = document.getElementById("farmerWebsitesList");
 const noteDescription = document.getElementById("noteDescription");
 const noteToggleButton = document.querySelector("[data-note-toggle]");
 const provinceSelector = document.getElementById("provinceSelector");
@@ -354,6 +361,16 @@ function syncNoteToggle() {
   const isExpanded = !noteDescription.hidden;
   noteToggleButton.textContent = isExpanded ? t("home.note.hide") : t("home.note.show");
   noteToggleButton.setAttribute("aria-expanded", String(isExpanded));
+}
+
+function syncSourceToggle() {
+  if (!sourceToggleButton || !sourceContent) {
+    return;
+  }
+
+  const isExpanded = !sourceContent.hidden;
+  sourceToggleButton.textContent = isExpanded ? t("home.source.hide") : t("home.source.show");
+  sourceToggleButton.setAttribute("aria-expanded", String(isExpanded));
 }
 
 function restoreMapOverlayNode(node, parent, nextSibling) {
@@ -587,6 +604,7 @@ function paintMap() {
     }
     syncProvinceFocus();
     renderSourceList([]);
+    renderFarmerWebsites();
     return;
   }
 
@@ -602,6 +620,7 @@ function paintMap() {
 
   syncProvinceFocus();
   renderSourceList([picked]);
+  renderFarmerWebsites();
 }
 
 function clearMap() {
@@ -620,6 +639,7 @@ function clearMap() {
   syncProvinceFocus();
   renderAnimalList();
   renderSourceList([]);
+  renderFarmerWebsites();
 }
 
 function updateProvinceDetail(provinceCode) {
@@ -675,6 +695,56 @@ function uniqueSources(items) {
   return [...seen.values()];
 }
 
+function websiteHostLabel(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+function websiteInitials(name) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
+function renderFarmerWebsites() {
+  if (!farmerWebsitesSection || !farmerWebsitesList || !farmerWebsitesDescription) {
+    return;
+  }
+
+  const currentAnimal = activeAnimal();
+  const websites = currentAnimal ? (stellardsFarmerWebsites[currentAnimal.id] ?? []) : [];
+
+  if (!currentAnimal || !websites.length) {
+    farmerWebsitesSection.hidden = true;
+    farmerWebsitesList.innerHTML = "";
+    return;
+  }
+
+  farmerWebsitesSection.hidden = false;
+  farmerWebsitesDescription.textContent = t("home.farmerWebsites.copy");
+  farmerWebsitesList.innerHTML = websites.map((website) => {
+    const logo = website.logoUrl
+      ? `<span class="farmer-website-logo"><img src="${website.logoUrl}" alt="${website.name} logo" loading="lazy" /></span>`
+      : `<span class="farmer-website-logo">${websiteInitials(website.name)}</span>`;
+
+    return `
+      <a class="farmer-website-link" href="${website.url}" target="_blank" rel="noreferrer">
+        ${logo}
+        <span class="farmer-website-copy">
+          <span class="farmer-website-name">${website.name}</span>
+          <span class="farmer-website-url">${websiteHostLabel(website.url)}</span>
+        </span>
+      </a>
+    `;
+  }).join("");
+}
+
 function renderSourceList(items) {
   if (!sourceList) {
     return;
@@ -697,6 +767,7 @@ function refreshLanguage() {
   applyTranslations(document);
   mapController.setLanguage(getLanguage());
   syncNoteToggle();
+  syncSourceToggle();
   syncMapOverlayControls();
   renderProvinceSelector();
   renderAnimalList();
@@ -706,6 +777,7 @@ function refreshLanguage() {
   } else {
     statusChip.textContent = t("home.status.default");
     renderSourceList([]);
+    renderFarmerWebsites();
     if (!state.activeProvince) {
       provinceTitle.textContent = t("home.province.defaultTitle");
       provinceDescription.textContent = t("home.province.defaultDescription");
@@ -794,6 +866,15 @@ noteToggleButton?.addEventListener("click", () => {
   syncNoteToggle();
 });
 
+sourceToggleButton?.addEventListener("click", () => {
+  if (!sourceContent) {
+    return;
+  }
+
+  sourceContent.hidden = !sourceContent.hidden;
+  syncSourceToggle();
+});
+
 mapOverlayToggle?.addEventListener("click", toggleMapOverlay);
 mapOverlayBackdrop?.addEventListener("click", closeMapOverlay);
 
@@ -825,6 +906,7 @@ if (breedList && breedCountElements.length && searchInput && categoryFilters && 
   });
   mapController.setLanguage(getLanguage());
   syncNoteToggle();
+  syncSourceToggle();
   syncMapOverlayControls();
   renderProvinceSelector();
   syncProvinceFocus();

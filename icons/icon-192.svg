@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-labelledby="title desc">
+  <title id="title">South African Livestock Atlas icon</title>
+  <desc id="desc">Rounded square badge with SA lettering and a simplified livestock map motif.</desc>
+  <defs>
+    <linearGradient id="bg" x1="18" y1="18" x2="174" y2="174" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5ecd3" />
+      <stop offset="1" stop-color="#d7ddb0" />
+    </linearGradient>
+    <linearGradient id="panel" x1="40" y1="38" x2="152" y2="154" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b944f" />
+      <stop offset="1" stop-color="#6a7337" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="172" height="172" rx="40" fill="url(#bg)" />
+  <rect x="34" y="34" width="124" height="124" rx="28" fill="url(#panel)" />
+  <path d="M60 83c8-17 26-28 45-28 9 0 16 2 24 5l10 15-5 17 7 11-13 24-22 11-22-6-18 4-11-17 4-20-8-16 9-10Z" fill="#f8f3e4" opacity="0.9"/>
+  <text x="48" y="146" fill="#352611" font-family="Bitter, serif" font-size="42" font-weight="800">SA</text>
+</svg>

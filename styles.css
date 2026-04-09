@@ -884,6 +884,77 @@ body::after {
   border: 1px solid rgba(105, 90, 51, 0.12);
 }
 
+.source-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.farmer-websites-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.farmer-website-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1.1rem;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255, 250, 241, 0.72);
+  border: 1px solid rgba(105, 90, 51, 0.12);
+  transition: border-color 180ms ease, transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.farmer-website-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(132, 65, 24, 0.24);
+  background: rgba(255, 250, 241, 0.9);
+  box-shadow: 0 14px 28px rgba(90, 66, 26, 0.08);
+}
+
+.farmer-website-logo {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(165, 90, 42, 0.16), rgba(121, 143, 77, 0.18));
+  border: 1px solid rgba(105, 90, 51, 0.12);
+  color: #3a2b18;
+  font-family: "Bitter", serif;
+  font-weight: 800;
+}
+
+.farmer-website-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.farmer-website-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.farmer-website-name {
+  font-weight: 800;
+  color: var(--text);
+}
+
+.farmer-website-url {
+  color: var(--muted);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
 .note-title {
   font-size: 1rem;
   font-weight: 800;
@@ -1756,7 +1827,7 @@ html[data-theme="dark"] .map-context-label {
 
 .site-auth-header {
   width: min(96vw, 1800px);
-  margin: 1.25rem auto 0;
+  margin: 0.4rem auto 0;
   position: relative;
   z-index: 3;
 }
@@ -2206,7 +2277,11 @@ html[data-theme="dark"] .site-auth-dropdown-link:hover {
 @media (max-width: 767.98px) {
   .site-auth-header {
     width: min(92vw, 1800px);
-    margin-top: 1rem;
+    margin-top: 0.35rem;
+  }
+
+  .site-auth-nav {
+    display: none;
   }
 
   .site-auth-header-inner,
@@ -2227,6 +2302,49 @@ html[data-theme="dark"] .site-auth-dropdown-link:hover {
   .site-auth-dropdown {
     position: static;
     margin-top: 0.65rem;
+  }
+
+  .site-auth-header--guest .site-auth-header-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .site-auth-header--guest .site-auth-brand,
+  .site-auth-header--guest .site-auth-tools {
+    width: auto;
+  }
+
+  .site-auth-header--guest .site-auth-tools {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .site-auth-header--guest .site-auth-guest-copy,
+  .site-auth-header--guest .site-auth-action:not(.site-auth-action-secondary) {
+    display: none;
+  }
+
+  .site-auth-header--guest .site-auth-action-secondary {
+    width: auto;
+    padding: 0.68rem 0.92rem;
+    white-space: nowrap;
+  }
+
+  .site-auth-header--guest .site-auth-brand {
+    min-width: 0;
+    gap: 0.65rem;
+  }
+
+  .site-auth-header--guest .site-auth-brand > span:last-child {
+    min-width: 0;
+  }
+
+  .site-auth-header--guest .site-auth-brand strong,
+  .site-auth-header--guest .site-auth-brand small {
+    white-space: nowrap;
   }
 
   .auth-page-panel,

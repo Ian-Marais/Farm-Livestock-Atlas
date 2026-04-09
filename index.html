@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#7a8444" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Livestock Atlas" />
     <title>South African Livestock Atlas</title>
     <script>
       (() => {
@@ -27,6 +31,9 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/icon-192.svg" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body data-page="home">
@@ -34,8 +41,8 @@
       <div class="ambient ambient-a"></div>
       <div class="ambient ambient-b"></div>
 
-      <main class="site-layout py-4 py-lg-5">
-        <section class="hero-card mb-4 mb-lg-5">
+      <main class="site-layout py-3 py-lg-4">
+        <section class="hero-card mb-3 mb-lg-4">
           <div class="row g-4 align-items-stretch">
             <div class="col-lg-8">
               <p class="eyebrow mb-2" data-i18n="common.brand">South African Livestock Atlas</p>
@@ -261,17 +268,31 @@
                 </div>
 
                 <div class="source-card">
-                  <div class="d-flex justify-content-between align-items-start gap-3">
-                    <div>
-                      <p class="panel-kicker mb-1" data-i18n="home.source.kicker">Data Notes</p>
-                      <h3 class="detail-title mb-2" data-i18n="home.source.title">Source transparency</h3>
-                    </div>
-                    <span class="source-badge" data-i18n="home.source.badge">Province-level</span>
+                  <div class="source-card-header">
+                    <h3 class="detail-title mb-0" data-i18n="home.source.title">Source transparency</h3>
+                    <button type="button" class="note-toggle-button" data-source-toggle aria-expanded="false">Click here to read</button>
                   </div>
-                  <p class="detail-copy mb-3" data-i18n="home.source.copy">
-                    This demo uses public breed directories and agricultural references, including SA Stud Book society listings and South African livestock reference pages. The map indicates broad provincial presence and adaptation, not live farm-by-farm registry counts.
+                  <div id="sourceContent" hidden>
+                    <div class="d-flex justify-content-between align-items-start gap-3 mt-3">
+                      <p class="panel-kicker mb-0" data-i18n="home.source.kicker">Data Notes</p>
+                      <span class="source-badge" data-i18n="home.source.badge">Province-level</span>
+                    </div>
+                    <p class="detail-copy mb-3 mt-3" data-i18n="home.source.copy">
+                      This demo uses public breed directories and agricultural references, including SA Stud Book society listings and South African livestock reference pages. The map indicates broad provincial presence and adaptation, not live farm-by-farm registry counts.
+                    </p>
+                    <div id="sourceList" class="source-list"></div>
+                  </div>
+                </div>
+
+                <div class="source-card farmer-websites-card" id="farmerWebsitesSection" hidden>
+                  <div>
+                    <p class="panel-kicker mb-1" data-i18n="home.farmerWebsites.kicker">Farmer Websites</p>
+                    <h3 class="detail-title mb-2" data-i18n="home.farmerWebsites.title">Available farmer websites</h3>
+                  </div>
+                  <p class="detail-copy mb-3" id="farmerWebsitesDescription" data-i18n="home.farmerWebsites.copy">
+                    These Stellards-linked farmer websites sell the selected animal. Click any logo or website name to open it in a new tab.
                   </p>
-                  <div id="sourceList" class="source-list"></div>
+                  <div id="farmerWebsitesList" class="farmer-websites-list"></div>
                 </div>
               </div>
             </div>

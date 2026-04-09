@@ -175,7 +175,14 @@
           kicker: "Data Notes",
           title: "Source transparency",
           badge: "Province-level",
-          copy: "This demo uses public breed directories and agricultural references, including SA Stud Book society listings and South African livestock reference pages. The map indicates broad provincial presence and adaptation, not live farm-by-farm registry counts."
+          copy: "This demo uses public breed directories and agricultural references, including SA Stud Book society listings and South African livestock reference pages. The map indicates broad provincial presence and adaptation, not live farm-by-farm registry counts.",
+          show: "Click here to read",
+          hide: "Click here to hide description"
+        },
+        farmerWebsites: {
+          kicker: "Farmer Websites",
+          title: "Available farmer websites",
+          copy: "These Stellards-linked farmer websites sell the selected animal. Click any logo or website name to open it in a new tab."
         },
         drilldown: {
           kicker: "Province Zoom",
@@ -345,7 +352,14 @@
           kicker: "Datanotas",
           title: "Brondeursigtigheid",
           badge: "Provinsievlak",
-          copy: "Hierdie demonstrasie gebruik openbare rasgidse en landbouverwysings, insluitend SA Stud Book-genootskapslyste en Suid-Afrikaanse lewendehawe-verwysingsbladsye. Die kaart dui breë provinsiale teenwoordigheid en aanpassing aan, nie lewende plaas-tot-plaas registrasietellings nie."
+          copy: "Hierdie demonstrasie gebruik openbare rasgidse en landbouverwysings, insluitend SA Stud Book-genootskapslyste en Suid-Afrikaanse lewendehawe-verwysingsbladsye. Die kaart dui breë provinsiale teenwoordigheid en aanpassing aan, nie lewende plaas-tot-plaas registrasietellings nie.",
+          show: "Klik hier om te lees",
+          hide: "Klik hier om beskrywing te versteek"
+        },
+        farmerWebsites: {
+          kicker: "Boerewebwerwe",
+          title: "Beskikbare boerewebwerwe",
+          copy: "Hierdie Stellards-gekoppelde boerewebwerwe verkoop die geselekteerde dier. Klik op enige logo of webwerfnaam om dit in 'n nuwe oortjie oop te maak."
         },
         drilldown: {
           kicker: "Provinsie-zoem",
