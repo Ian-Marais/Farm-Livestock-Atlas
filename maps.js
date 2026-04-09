@@ -153,6 +153,7 @@
     const provinceRefs = new Map();
     const contextLabelRefs = [];
     const defaultViewBox = squareViewBox(DEFAULT_MAP_BOUNDS, DEFAULT_MAP_PADDING);
+    const countryHitPath = createSvgElement("path", { d: countryOutline });
 
     function currentLanguage() {
       return window.SiteI18n?.getLanguage?.() ?? "en";
@@ -370,6 +371,25 @@
       });
     }
 
+    function isPointInCountry(clientX, clientY) {
+      const svgMatrix = svg.getScreenCTM();
+      if (!svgMatrix) {
+        return false;
+      }
+
+      const point = svg.createSVGPoint();
+      point.x = clientX;
+      point.y = clientY;
+
+      const localPoint = point.matrixTransform(svgMatrix.inverse());
+
+      if (typeof countryHitPath.isPointInFill === "function") {
+        return countryHitPath.isPointInFill(localPoint) || countryHitPath.isPointInStroke(localPoint);
+      }
+
+      return false;
+    }
+
     build();
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
     svg.setAttribute("viewBox", defaultViewBox);
@@ -382,7 +402,8 @@
       clearActiveProvince,
       setProvinceFocus,
       clearProvinceFocus,
-      setLanguage
+      setLanguage,
+      isPointInCountry
     };
   }
 

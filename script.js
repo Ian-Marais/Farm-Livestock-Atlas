@@ -305,6 +305,10 @@ const provinceDescription = document.getElementById("provinceDescription");
 const provinceLegend = document.getElementById("provinceLegend");
 const sourceList = document.getElementById("sourceList");
 const provinceSelector = document.getElementById("provinceSelector");
+const mapFrame = document.querySelector(".map-frame");
+const mapOverlay = document.getElementById("mapOverlay");
+const mapOverlayStage = mapOverlay?.querySelector("[data-map-overlay-stage]");
+const enlargeMapButtons = [...document.querySelectorAll("[data-enlarge-map]")];
 const returnMapButtons = [...document.querySelectorAll("[data-return-map]")];
 const mapController = window.SouthAfricaMap.createMapController({
   svgId: "saMapSvg",
@@ -313,6 +317,7 @@ const mapController = window.SouthAfricaMap.createMapController({
   onProvinceInteract: updateProvinceDetail,
   onProvinceSelect: selectProvince
 });
+let mapFramePlaceholder = null;
 
 if (breedCountElements.length) {
   breedCountElements.forEach((element) => {
@@ -429,6 +434,63 @@ function updateReturnMapButton() {
   returnMapButtons.forEach((button) => {
     button.disabled = isDisabled;
   });
+}
+
+function isMapOverlayOpen() {
+  return Boolean(mapOverlay && !mapOverlay.hidden);
+}
+
+function syncEnlargeMapButtons() {
+  if (!enlargeMapButtons.length) {
+    return;
+  }
+
+  const isOpen = isMapOverlayOpen();
+  const label = t(isOpen ? "home.drilldown.close" : "home.drilldown.enlarge");
+
+  enlargeMapButtons.forEach((button) => {
+    button.textContent = label;
+    button.setAttribute("aria-label", label);
+    button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
+}
+
+function openMapOverlay() {
+  if (!mapFrame || !mapOverlay || !mapOverlayStage || isMapOverlayOpen()) {
+    return;
+  }
+
+  mapFramePlaceholder = document.createElement("div");
+  mapFramePlaceholder.hidden = true;
+  mapFrame.before(mapFramePlaceholder);
+  mapOverlayStage.appendChild(mapFrame);
+  mapOverlay.hidden = false;
+  mapOverlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("map-overlay-open");
+  syncEnlargeMapButtons();
+}
+
+function closeMapOverlay() {
+  if (!mapFrame || !mapOverlay || !mapFramePlaceholder) {
+    return;
+  }
+
+  mapFramePlaceholder.before(mapFrame);
+  mapFramePlaceholder.remove();
+  mapFramePlaceholder = null;
+  mapOverlay.hidden = true;
+  mapOverlay.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("map-overlay-open");
+  syncEnlargeMapButtons();
+}
+
+function toggleMapOverlay() {
+  if (isMapOverlayOpen()) {
+    closeMapOverlay();
+    return;
+  }
+
+  openMapOverlay();
 }
 
 function renderProvinceSelector() {
@@ -604,6 +666,7 @@ function renderSourceList(items) {
 function refreshLanguage() {
   applyTranslations(document);
   mapController.setLanguage(getLanguage());
+  syncEnlargeMapButtons();
   renderProvinceSelector();
   renderAnimalList();
 
@@ -691,6 +754,12 @@ provinceSelector?.addEventListener("click", (event) => {
   selectProvince(button.dataset.provinceSelect);
 });
 
+enlargeMapButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    toggleMapOverlay();
+  });
+});
+
 returnMapButtons.forEach((button) => {
   button.addEventListener("click", () => {
     state.selectedProvinceCode = null;
@@ -704,6 +773,35 @@ returnMapButtons.forEach((button) => {
   });
 });
 
+mapOverlay?.addEventListener("click", (event) => {
+  if (event.target === mapOverlay) {
+    closeMapOverlay();
+    return;
+  }
+
+  if (!isMapOverlayOpen() || !mapFrame?.contains(event.target)) {
+    return;
+  }
+
+  if (event.target.closest("button")) {
+    return;
+  }
+
+  if (event.target.closest("[data-province], .province-label-group")) {
+    return;
+  }
+
+  if (event.target.closest(".map-frame")) {
+    closeMapOverlay();
+  }
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && isMapOverlayOpen()) {
+    closeMapOverlay();
+  }
+});
+
 window.addEventListener("site-language-change", refreshLanguage);
 
 if (breedList && breedCountElements.length && searchInput && categoryFilters && statusChip && provinceTitle && provinceDescription && provinceLegend && sourceList) {
@@ -712,6 +810,7 @@ if (breedList && breedCountElements.length && searchInput && categoryFilters && 
     mapController.setProvinceVisual(provinceCode, [], false);
   });
   mapController.setLanguage(getLanguage());
+  syncEnlargeMapButtons();
   renderProvinceSelector();
   syncProvinceFocus();
   renderAnimalList();

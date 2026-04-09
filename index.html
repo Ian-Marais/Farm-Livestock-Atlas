@@ -210,15 +210,24 @@
             <div class="map-and-detail mt-4">
               <div class="map-stage">
                 <div class="map-frame">
-                  <button
-                    type="button"
-                    class="return-map-button return-map-button-overlay"
-                    data-return-map
-                    disabled
-                    data-i18n="home.drilldown.return"
-                  >
-                    Return to South Africa
-                  </button>
+                  <div class="map-frame-controls">
+                    <button
+                      type="button"
+                      class="map-frame-button enlarge-map-button"
+                      data-enlarge-map
+                    >
+                      Enlarge
+                    </button>
+                    <button
+                      type="button"
+                      class="map-frame-button return-map-button return-map-button-overlay"
+                      data-return-map
+                      disabled
+                      data-i18n="home.drilldown.return"
+                    >
+                      Return to South Africa
+                    </button>
+                  </div>
                   <svg
                     id="saMapSvg"
                     class="map-svg"
@@ -265,6 +274,10 @@
           </section>
         </section>
       </main>
+    </div>
+
+    <div class="map-overlay" id="mapOverlay" hidden aria-hidden="true">
+      <div class="map-overlay-stage" data-map-overlay-stage></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
