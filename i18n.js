@@ -180,7 +180,7 @@
           title: "Select a province to focus the map",
           copy: "Province drill-down is available now, but not all area-level livestock data has been added yet. The focused provincial view will become more accurate as more regional information becomes available.",
           enlarge: "Enlarge",
-          close: "Close",
+          closeOverlay: "Close",
           return: "Return to South Africa",
           focusAria: "Focus {province}"
         },
@@ -348,7 +348,7 @@
           title: "Kies 'n provinsie om die kaart te fokus",
           copy: "Provinsiale afboor is nou beskikbaar, maar nie alle gebiedsvlak-lewendehawe data is nog bygevoeg nie. Die gefokusde provinsiale aansig sal meer akkuraat word soos meer streeksinligting beskikbaar raak.",
           enlarge: "Vergroot",
-          close: "Sluit",
+          closeOverlay: "Maak toe",
           return: "Keer terug na Suid-Afrika",
           focusAria: "Fokus {province}"
         },

@@ -305,10 +305,9 @@ const provinceDescription = document.getElementById("provinceDescription");
 const provinceLegend = document.getElementById("provinceLegend");
 const sourceList = document.getElementById("sourceList");
 const provinceSelector = document.getElementById("provinceSelector");
-const mapFrame = document.querySelector(".map-frame");
-const mapOverlay = document.getElementById("mapOverlay");
-const mapOverlayStage = mapOverlay?.querySelector("[data-map-overlay-stage]");
-const enlargeMapButtons = [...document.querySelectorAll("[data-enlarge-map]")];
+const mapStage = document.querySelector("[data-map-stage]");
+const mapOverlayBackdrop = document.querySelector("[data-map-overlay-backdrop]");
+const mapOverlayToggle = document.querySelector("[data-map-overlay-toggle]");
 const returnMapButtons = [...document.querySelectorAll("[data-return-map]")];
 const mapController = window.SouthAfricaMap.createMapController({
   svgId: "saMapSvg",
@@ -317,12 +316,43 @@ const mapController = window.SouthAfricaMap.createMapController({
   onProvinceInteract: updateProvinceDetail,
   onProvinceSelect: selectProvince
 });
-let mapFramePlaceholder = null;
 
 if (breedCountElements.length) {
   breedCountElements.forEach((element) => {
     element.textContent = String(animals.length);
   });
+}
+
+function syncMapOverlayControls() {
+  if (!mapOverlayToggle) {
+    return;
+  }
+
+  const isOpen = document.body.classList.contains("map-overlay-open");
+  mapOverlayToggle.textContent = isOpen ? t("home.drilldown.closeOverlay") : t("home.drilldown.enlarge");
+  mapOverlayToggle.setAttribute("aria-pressed", String(isOpen));
+
+  if (mapOverlayBackdrop) {
+    mapOverlayBackdrop.hidden = !isOpen;
+  }
+}
+
+function closeMapOverlay() {
+  if (!document.body.classList.contains("map-overlay-open")) {
+    return;
+  }
+
+  document.body.classList.remove("map-overlay-open");
+  syncMapOverlayControls();
+}
+
+function toggleMapOverlay() {
+  if (!mapStage) {
+    return;
+  }
+
+  document.body.classList.toggle("map-overlay-open");
+  syncMapOverlayControls();
 }
 
 function categoryLabel(category) {
@@ -434,63 +464,6 @@ function updateReturnMapButton() {
   returnMapButtons.forEach((button) => {
     button.disabled = isDisabled;
   });
-}
-
-function isMapOverlayOpen() {
-  return Boolean(mapOverlay && !mapOverlay.hidden);
-}
-
-function syncEnlargeMapButtons() {
-  if (!enlargeMapButtons.length) {
-    return;
-  }
-
-  const isOpen = isMapOverlayOpen();
-  const label = t(isOpen ? "home.drilldown.close" : "home.drilldown.enlarge");
-
-  enlargeMapButtons.forEach((button) => {
-    button.textContent = label;
-    button.setAttribute("aria-label", label);
-    button.setAttribute("aria-expanded", isOpen ? "true" : "false");
-  });
-}
-
-function openMapOverlay() {
-  if (!mapFrame || !mapOverlay || !mapOverlayStage || isMapOverlayOpen()) {
-    return;
-  }
-
-  mapFramePlaceholder = document.createElement("div");
-  mapFramePlaceholder.hidden = true;
-  mapFrame.before(mapFramePlaceholder);
-  mapOverlayStage.appendChild(mapFrame);
-  mapOverlay.hidden = false;
-  mapOverlay.setAttribute("aria-hidden", "false");
-  document.body.classList.add("map-overlay-open");
-  syncEnlargeMapButtons();
-}
-
-function closeMapOverlay() {
-  if (!mapFrame || !mapOverlay || !mapFramePlaceholder) {
-    return;
-  }
-
-  mapFramePlaceholder.before(mapFrame);
-  mapFramePlaceholder.remove();
-  mapFramePlaceholder = null;
-  mapOverlay.hidden = true;
-  mapOverlay.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("map-overlay-open");
-  syncEnlargeMapButtons();
-}
-
-function toggleMapOverlay() {
-  if (isMapOverlayOpen()) {
-    closeMapOverlay();
-    return;
-  }
-
-  openMapOverlay();
 }
 
 function renderProvinceSelector() {
@@ -666,7 +639,7 @@ function renderSourceList(items) {
 function refreshLanguage() {
   applyTranslations(document);
   mapController.setLanguage(getLanguage());
-  syncEnlargeMapButtons();
+  syncMapOverlayControls();
   renderProvinceSelector();
   renderAnimalList();
 
@@ -754,11 +727,8 @@ provinceSelector?.addEventListener("click", (event) => {
   selectProvince(button.dataset.provinceSelect);
 });
 
-enlargeMapButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    toggleMapOverlay();
-  });
-});
+mapOverlayToggle?.addEventListener("click", toggleMapOverlay);
+mapOverlayBackdrop?.addEventListener("click", closeMapOverlay);
 
 returnMapButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -773,31 +743,8 @@ returnMapButtons.forEach((button) => {
   });
 });
 
-mapOverlay?.addEventListener("click", (event) => {
-  if (event.target === mapOverlay) {
-    closeMapOverlay();
-    return;
-  }
-
-  if (!isMapOverlayOpen() || !mapFrame?.contains(event.target)) {
-    return;
-  }
-
-  if (event.target.closest("button")) {
-    return;
-  }
-
-  if (event.target.closest("[data-province], .province-label-group")) {
-    return;
-  }
-
-  if (event.target.closest(".map-frame")) {
-    closeMapOverlay();
-  }
-});
-
 window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && isMapOverlayOpen()) {
+  if (event.key === "Escape") {
     closeMapOverlay();
   }
 });
@@ -810,7 +757,7 @@ if (breedList && breedCountElements.length && searchInput && categoryFilters && 
     mapController.setProvinceVisual(provinceCode, [], false);
   });
   mapController.setLanguage(getLanguage());
-  syncEnlargeMapButtons();
+  syncMapOverlayControls();
   renderProvinceSelector();
   syncProvinceFocus();
   renderAnimalList();
