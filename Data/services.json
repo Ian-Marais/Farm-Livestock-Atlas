@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "Livestock Auctioneering",
+    "Group": "Livestock Marketing",
+    "Description": "Nationwide livestock auctions and liaison transactions supported by fixed-auction points, branch offices, and biosecurity-focused facilities.",
+    "Location": "WC, EC, FS, NC, KZN, GP, LP, MP, NW",
+    "Image": "",
+    "Tags": ["auctions", "livestock", "marketing", "biosecurity"],
+    "Sources": [
+      {
+        "title": "BKB Livestock & Auctioneering",
+        "url": "https://www.bkb.co.za/livestock-and-auctioneering",
+        "note": "BKB says the division covers all of South Africa with 11 branch offices, 57 fixed-auction points, and daily auctions across the country."
+      }
+    ]
+  },
+  {
+    "Name": "Grain Storage & Handling",
+    "Group": "Storage & Logistics",
+    "Description": "Depot-based grain storage and handling for producers operating in South Africa's major grain-producing regions.",
+    "Location": "FS, NW, GP, MP, LP",
+    "Image": "",
+    "Tags": ["grain", "storage", "handling", "depots"],
+    "Sources": [
+      {
+        "title": "BKB GrainCo Storage",
+        "url": "https://www.bkb.co.za/grainco-storage",
+        "note": "GrainCo says it has strategically located depots across South Africa's major grain-producing regions and handles more than 300,000 tons annually."
+      }
+    ]
+  },
+  {
+    "Name": "Agricultural Bulk Transport",
+    "Group": "Logistics",
+    "Description": "Bulk and agricultural transport support for moving farm inputs and commodities between production points and markets.",
+    "Location": "WC, EC, FS, NC, KZN, GP, LP, MP, NW",
+    "Image": "",
+    "Tags": ["transport", "bulk", "logistics", "agriculture"],
+    "Sources": [
+      {
+        "title": "AFGRI Logistics",
+        "url": "https://www.afgri.co.za/",
+        "note": "AFGRI describes its logistics business as a nationwide provider of agricultural and bulk transport services."
+      }
+    ]
+  },
+  {
+    "Name": "Farmer Development Support",
+    "Group": "Advisory & Training",
+    "Description": "Training and development programmes aimed at building operational capability across farming businesses.",
+    "Location": "WC, EC, FS, NC, KZN, GP, LP, MP, NW",
+    "Image": "",
+    "Tags": ["training", "development", "advisory", "farm"],
+    "Sources": [
+      {
+        "title": "AFGRI Farmer Development",
+        "url": "https://www.afgri.co.za/",
+        "note": "AFGRI lists farmer development among its agribusiness solutions and describes the offering as cutting-edge training and development programmes."
+      }
+    ]
+  }
+]

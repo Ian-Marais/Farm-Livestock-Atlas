@@ -1,0 +1,82 @@
+[
+  {
+    "Name": "Avocado Orchard Trees",
+    "Group": "Fruits",
+    "Description": "Orchard tree stock aligned with South Africa's avocado production regions and long-cycle subtropical plantings.",
+    "Location": "LP, MP, KZN, WC",
+    "Color": "#7aa95c",
+    "Image": "",
+    "Tags": ["avocado", "orchard", "fruit", "subtropical"],
+    "Sources": [
+      {
+        "title": "SAAGA Avocado Production Stats & Regions",
+        "url": "https://avocado.co.za/avocado-production-stats-regions/",
+        "note": "The page lists South African avocado production regions including Limpopo, Mpumalanga, KwaZulu-Natal, and the Western Cape."
+      }
+    ]
+  },
+  {
+    "Name": "Citrus Orchard Plants",
+    "Group": "Fruits",
+    "Description": "Citrus planting stock suited to commercial orchard systems backed by South African grower-industry intelligence and market access support.",
+    "Location": "WC, EC, LP, MP, KZN",
+    "Color": "#d88f2d",
+    "Image": "",
+    "Tags": ["citrus", "fruit", "orchard", "nursery"],
+    "Sources": [
+      {
+        "title": "CGA Industry Statistics 2025",
+        "url": "https://www.cga.co.za/industry-statistics-2025/cga-key-industry-statistics-2025_compressed/",
+        "note": "CGA publishes citrus industry statistics and supports citrus growers with market access, research, and industry intelligence."
+      }
+    ]
+  },
+  {
+    "Name": "Table Grape Vines",
+    "Group": "Fruits",
+    "Description": "Table grape vine stock aligned with South Africa's five major growing regions and export-focused production calendar.",
+    "Location": "LP, MP, NC, WC",
+    "Color": "#9b6cc4",
+    "Image": "",
+    "Tags": ["table grapes", "fruit", "vines", "export"],
+    "Sources": [
+      {
+        "title": "SATI Regions",
+        "url": "https://www.satgi.co.za/about/#Regions",
+        "note": "SATI describes five major table grape growing regions, including the Northern Provinces, Orange River, Olifants River, Berg River, and Hex River areas."
+      }
+    ]
+  },
+  {
+    "Name": "Seed Potatoes",
+    "Group": "Vegetables",
+    "Description": "Seed potato stock and planting material linked to regional grower activity across the Western, Southern, Eastern Free State, Marble Hall, and KwaZulu-Natal potato belts.",
+    "Location": "NC, FS, LP, KZN, WC",
+    "Color": "#b78f55",
+    "Image": "",
+    "Tags": ["potatoes", "seed potato", "vegetables", "planting"],
+    "Sources": [
+      {
+        "title": "Potatoes SA Regional Search Results",
+        "url": "https://www.potatoes.co.za/?s=region",
+        "note": "The site surfaces regional seed potato and table potato grower meetings in Douglas, Elandsbaai, Marble Hall, Weenen, and the Eastern Free State."
+      }
+    ]
+  },
+  {
+    "Name": "Maize Seed Stock",
+    "Group": "Crop Plants",
+    "Description": "Summer-grain seed stock for maize-focused operations supported by Grain SA's national producer network and commodity services.",
+    "Location": "FS, NW, GP, MP, LP",
+    "Color": "#c6a233",
+    "Image": "",
+    "Tags": ["maize", "crop", "seed", "grain"],
+    "Sources": [
+      {
+        "title": "Grain SA Contact and Commodity Hub",
+        "url": "https://www.grainsa.co.za/pages/contact-us",
+        "note": "Grain SA provides national producer support, commodity information, and farmer-development services for the grain sector."
+      }
+    ]
+  }
+]

@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#7a8444" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Livestock Atlas" />
-    <title>South African Livestock Atlas</title>
+    <meta name="apple-mobile-web-app-title" content="Agri Atlas" />
+    <title>Agri Atlas</title>
     <script>
       (() => {
         try {
@@ -32,8 +32,8 @@
       crossorigin="anonymous"
     />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+    <link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body data-page="home">
@@ -44,16 +44,26 @@
       <main class="site-layout py-3 py-lg-4">
         <section class="hero-card mb-3 mb-lg-4">
           <div class="row g-4 align-items-stretch">
-            <div class="col-lg-8">
-              <p class="eyebrow mb-2" data-i18n="common.brand">South African Livestock Atlas</p>
+            <div class="col-lg-8 hero-primary-column">
+              <div class="hero-brand-lockup mb-3">
+                <span class="hero-brand-mark" aria-hidden="true">
+                  <img src="icons/logo-mark.svg" alt="" />
+                </span>
+                <span class="hero-brand-name" data-i18n="common.brand">Agri Atlas</span>
+              </div>
               <div class="hero-heading-row mb-3">
-                <h1 class="display-title mb-0" data-i18n="home.hero.title">
-                  Explore where key sheep, goat and cattle breeds are commonly found across South Africa.
+                <h1 class="display-title mb-0">
+                  <span class="display-title-copy">
+                    <span data-i18n="home.hero.titleIntro">Welcome to Agri Atlas!</span>
+                    <br>
+                    <span data-i18n="home.hero.titleBody">Explore registered farmers offering products and services by searching the categories below — see their area data highlighted on the map to find business opportunities and lasting partnerships.</span>
+                  </span>
+                  <small class="display-title-inline-note">
+                    <span data-i18n="home.hero.disclaimerLineOne">Agri Atlas is not part of any other Agri</span>
+                    <span data-i18n="home.hero.disclaimerLineTwo">company, it is an entity on its own.</span>
+                  </small>
                 </h1>
               </div>
-              <p class="hero-copy mb-0" data-i18n="home.hero.copy">
-                Filter breeds, choose one animal, and the provincial map updates immediately to show where it is commonly found.
-              </p>
 
               <div class="hero-metrics hero-metrics--tablet mt-3">
                 <div>
@@ -67,6 +77,16 @@
                 <div>
                   <span class="metric-value" data-i18n="common.public">Public</span>
                   <span class="metric-label" data-i18n="home.metrics.sources">Source-based dataset</span>
+                </div>
+              </div>
+
+              <div class="hero-category-block">
+                <p class="hero-category-label mb-2" data-i18n="home.hero.categoriesLabel">Categories</p>
+                <div class="hero-category-actions">
+                  <button type="button" class="hero-category-button active" data-catalog-view="animals" aria-pressed="true" data-i18n="home.hero.categories.animals">Animals</button>
+                  <button type="button" class="hero-category-button" data-catalog-view="plants" aria-pressed="false" data-i18n="home.hero.categories.plants">Plants</button>
+                  <button type="button" class="hero-category-button" data-catalog-view="items" aria-pressed="false" data-i18n="home.hero.categories.items">Items</button>
+                  <button type="button" class="hero-category-button" data-catalog-view="services" aria-pressed="false" data-i18n="home.hero.categories.services">Services</button>
                 </div>
               </div>
             </div>
@@ -86,8 +106,11 @@
                 </div>
               </div>
 
-              <div class="service-offer-card mb-3">
-                <p class="panel-kicker mb-1" data-i18n="home.services.kicker">Farm Websites &amp; Software</p>
+              <div class="service-offer-card mb-3" id="servicesSection">
+                <div class="service-offer-header mb-2">
+                  <p class="panel-kicker mb-0" data-i18n="home.services.kicker">Farm Websites &amp; Software</p>
+                  <span class="service-offer-badge" data-i18n="home.services.badge">Advertisement</span>
+                </div>
                 <p class="service-offer-copy mb-3" data-i18n="home.services.copy">
                   If your farm does not have a website yet, we will create a professional-looking website for you with any features you require. Additionally, if custom software is required to streamline any farm process, also contact us via WhatsApp or E-mail below.
                 </p>
@@ -161,14 +184,14 @@
           <aside class="sidebar-card">
             <div class="sidebar-header">
               <div>
-                <p class="panel-kicker mb-1" data-i18n="home.controls.kicker">Breed Controls</p>
-                <h2 class="panel-title mb-0" data-i18n="home.controls.title">Choose one animal and assign a color</h2>
+                <p class="panel-kicker mb-1" id="catalogPanelKicker" data-i18n="home.catalog.animals.kicker">Animals</p>
+                <h2 class="panel-title mb-0" id="catalogPanelTitle" data-i18n="home.catalog.animals.title">Choose one animal and assign a color</h2>
               </div>
               <span class="selection-pill"><span id="selectedCount">0</span> <span id="selectedCountLabel" data-i18n="common.active">active</span></span>
             </div>
 
             <div class="search-wrap mt-4">
-              <label class="form-label small-label" for="searchInput" data-i18n="home.search.label">Search animals</label>
+              <label class="form-label small-label" for="searchInput" id="catalogSearchLabel" data-i18n="home.search.label">Search animals</label>
               <input
                 id="searchInput"
                 class="form-control form-control-lg"
@@ -182,18 +205,13 @@
               <details class="breed-list-details" id="breedListDetails">
                 <summary class="breed-list-summary">
                   <span class="breed-list-summary-copy">
-                    <span class="breed-list-summary-title" data-i18n="home.breeds.toggle">Breed list</span>
-                    <span class="breed-list-summary-subtitle" data-i18n="home.breeds.toggleHint">Tap to expand and scroll the full list</span>
+                    <span class="breed-list-summary-title" id="catalogListTitle" data-i18n="home.breeds.toggle">Breed list</span>
+                    <span class="breed-list-summary-subtitle" id="catalogListHint" data-i18n="home.breeds.toggleHint">Tap to expand and scroll the full list</span>
                   </span>
                   <span class="breed-list-summary-state" id="breedListSummaryState">14 breeds</span>
                 </summary>
                 <div class="breed-list-panel">
-                  <div class="filter-row mb-3" id="categoryFilters">
-                    <button class="filter-chip active" data-category="all" type="button" data-i18n="home.filters.all">All</button>
-                    <button class="filter-chip" data-category="sheep" type="button" data-i18n="home.filters.sheep">Sheep</button>
-                    <button class="filter-chip" data-category="goat" type="button" data-i18n="home.filters.goat">Goats</button>
-                    <button class="filter-chip" data-category="cattle" type="button" data-i18n="home.filters.cattle">Cattle</button>
-                  </div>
+                  <div class="filter-row mb-3" id="categoryFilters"></div>
                   <div class="breed-list" id="breedList"></div>
                 </div>
               </details>
@@ -206,97 +224,103 @@
               </div>
               <p class="note-copy mb-0" id="noteDescription" data-i18n="home.note.copy" hidden>Either type the name of the specific species you are looking for in the "Search animals" field or, to view the entire range of species, use the arrow to expand the list of animals. Use the middle mouse wheel on the list of species to scroll through. Click any animal card to paint the map immediately. Only one animal is active at a time, and changing its color updates the map straight away.</p>
             </div>
+
+            <div class="catalog-request-card mt-4">
+              <p class="panel-kicker mb-1" id="catalogRequestKicker" data-i18n="home.catalog.animals.requestKicker">Missing animal or breed?</p>
+              <h3 class="detail-title mb-2" id="catalogRequestTitle" data-i18n="home.catalog.animals.requestTitle">Request it before registration is completed</h3>
+              <p class="detail-copy mb-3" id="catalogRequestCopy" data-i18n="home.catalog.animals.requestCopy">If a farmer needs an animal type or breed that does not exist in Stellards yet, they should submit it on the Sign up page so it can be added before registration is completed.</p>
+              <a class="catalog-request-link" id="catalogRequestAction" href="signup.html#entryRequestSection" data-i18n="home.catalog.animals.requestAction">Open the Sign up request section</a>
+            </div>
           </aside>
 
           <section class="content-card">
-            <div class="content-topbar">
-              <div>
-                <p class="panel-kicker mb-1" data-i18n="home.map.kicker">Provincial View</p>
-                <h2 class="panel-title mb-0" data-i18n="home.map.title">South Africa breed distribution map</h2>
-              </div>
-              <div class="status-chip" id="statusChip" data-i18n="home.status.default">Choose an animal to paint the map</div>
-            </div>
-
-            <div class="map-and-detail mt-4">
-              <div class="map-stage" data-map-stage>
-                <div class="map-frame">
-                  <div class="map-frame-controls">
-                    <button
-                      type="button"
-                      class="return-map-button return-map-button-overlay"
-                      data-map-overlay-toggle
-                      aria-pressed="false"
-                    >
-                      Enlarge
-                    </button>
-                    <button
-                      type="button"
-                      class="return-map-button return-map-button-overlay"
-                      data-return-map
-                      disabled
-                      data-i18n="home.drilldown.return"
-                    >
-                      Return to South Africa
-                    </button>
-                  </div>
-                  <svg
-                    id="saMapSvg"
-                    class="map-svg"
-                    viewBox="0 0 760 760"
-                    aria-label="Detailed map of South Africa provinces"
-                    data-i18n-aria-label="home.map.aria"
-                    role="img"
-                  >
-                    <defs id="mapDefs"></defs>
-                    <g id="mapRegions"></g>
-                  </svg>
+              <div class="content-topbar">
+                <div>
+                  <p class="panel-kicker mb-1" id="catalogMapKicker" data-i18n="home.map.kicker">Provincial View</p>
+                  <h2 class="panel-title mb-0" id="catalogMapTitle" data-i18n="home.map.title">South Africa breed distribution map</h2>
                 </div>
-                <p class="map-helper mb-0" id="mapHelper" data-i18n="home.map.helper">
-                  The active animal is painted immediately across every province where it is mapped.
-                </p>
+                <div class="status-chip" id="statusChip" data-i18n="home.status.default">Choose an animal to paint the map</div>
               </div>
-              <div class="map-overlay-backdrop" data-map-overlay-backdrop hidden></div>
 
-              <div class="detail-stack">
-                <div class="province-detail-card">
-                  <p class="panel-kicker mb-1" data-i18n="home.province.kicker">Province Focus</p>
-                  <h3 class="detail-title" id="provinceTitle" data-i18n="home.province.defaultTitle">Select or hover a province</h3>
-                  <p class="detail-copy" id="provinceDescription" data-i18n="home.province.defaultDescription">
-                    The detail panel shows whether the active animal is displayed in the chosen province.
-                  </p>
-                  <div class="legend-list" id="provinceLegend"></div>
-                </div>
-
-                <div class="source-card">
-                  <div class="source-card-header">
-                    <h3 class="detail-title mb-0" data-i18n="home.source.title">Source transparency</h3>
-                    <button type="button" class="note-toggle-button" data-source-toggle aria-expanded="false">Click here to read</button>
-                  </div>
-                  <div id="sourceContent" hidden>
-                    <div class="d-flex justify-content-between align-items-start gap-3 mt-3">
-                      <p class="panel-kicker mb-0" data-i18n="home.source.kicker">Data Notes</p>
-                      <span class="source-badge" data-i18n="home.source.badge">Province-level</span>
+              <div class="map-and-detail mt-4">
+                <div class="map-stage" data-map-stage>
+                  <div class="map-frame">
+                    <div class="map-frame-controls">
+                      <button
+                        type="button"
+                        class="return-map-button return-map-button-overlay"
+                        data-map-overlay-toggle
+                        aria-pressed="false"
+                      >
+                        Enlarge
+                      </button>
+                      <button
+                        type="button"
+                        class="return-map-button return-map-button-overlay"
+                        data-return-map
+                        disabled
+                        data-i18n="home.drilldown.return"
+                      >
+                        Return to South Africa
+                      </button>
                     </div>
-                    <p class="detail-copy mb-3 mt-3" data-i18n="home.source.copy">
-                      This demo uses public breed directories and agricultural references, including SA Stud Book society listings and South African livestock reference pages. The map indicates broad provincial presence and adaptation, not live farm-by-farm registry counts.
-                    </p>
-                    <div id="sourceList" class="source-list"></div>
+                    <svg
+                      id="saMapSvg"
+                      class="map-svg"
+                      viewBox="0 0 760 760"
+                      aria-label="Detailed map of South Africa provinces"
+                      data-i18n-aria-label="home.map.aria"
+                      role="img"
+                    >
+                      <defs id="mapDefs"></defs>
+                      <g id="mapRegions"></g>
+                    </svg>
                   </div>
-                </div>
-
-                <div class="source-card farmer-websites-card" id="farmerWebsitesSection" hidden>
-                  <div>
-                    <p class="panel-kicker mb-1" data-i18n="home.farmerWebsites.kicker">Farmer Websites</p>
-                    <h3 class="detail-title mb-2" data-i18n="home.farmerWebsites.title">Available farmer websites</h3>
-                  </div>
-                  <p class="detail-copy mb-3" id="farmerWebsitesDescription" data-i18n="home.farmerWebsites.copy">
-                    These Stellards-linked farmer websites sell the selected animal. Click any logo or website name to open it in a new tab.
+                  <p class="map-helper mb-0" id="mapHelper" data-i18n="home.map.helper">
+                    The active animal is painted immediately across every province where it is mapped.
                   </p>
-                  <div id="farmerWebsitesList" class="farmer-websites-list"></div>
                 </div>
-              </div>
-            </div>
+                <div class="map-overlay-backdrop" data-map-overlay-backdrop hidden></div>
 
+                <div class="detail-stack">
+                  <div class="province-detail-card">
+                    <p class="panel-kicker mb-1" id="catalogProvinceKicker" data-i18n="home.province.kicker">Province Focus</p>
+                    <h3 class="detail-title" id="provinceTitle" data-i18n="home.province.defaultTitle">Select or hover a province</h3>
+                    <p class="detail-copy" id="provinceDescription" data-i18n="home.province.defaultDescription">
+                      The detail panel shows whether the active animal is displayed in the chosen province.
+                    </p>
+                    <div class="legend-list" id="provinceLegend"></div>
+                  </div>
+
+                  <div class="source-card">
+                    <div class="source-card-header">
+                      <h3 class="detail-title mb-0" id="catalogSourceTitle" data-i18n="home.source.title">Source transparency</h3>
+                      <button type="button" class="note-toggle-button" data-source-toggle aria-expanded="false">Click here to read</button>
+                    </div>
+                    <div id="sourceContent" hidden>
+                      <div class="d-flex justify-content-between align-items-start gap-3 mt-3">
+                        <p class="panel-kicker mb-0" id="catalogSourceKicker" data-i18n="home.source.kicker">Data Notes</p>
+                        <span class="source-badge" id="catalogSourceBadge" data-i18n="home.source.badge">Province-level</span>
+                      </div>
+                      <p class="detail-copy mb-3 mt-3" id="catalogSourceCopy" data-i18n="home.source.copy">
+                        This demo uses public breed directories and agricultural references, including SA Stud Book society listings and South African livestock reference pages. The map indicates broad provincial presence and adaptation, not live farm-by-farm registry counts.
+                      </p>
+                      <div id="sourceList" class="source-list"></div>
+                    </div>
+                  </div>
+
+                  <div class="source-card farmer-websites-card" id="farmerWebsitesSection" hidden>
+                    <div>
+                      <p class="panel-kicker mb-1" data-i18n="home.farmerWebsites.kicker">Farmer Websites</p>
+                      <h3 class="detail-title mb-2" data-i18n="home.farmerWebsites.title">Available farmer websites</h3>
+                    </div>
+                    <p class="detail-copy mb-3" id="farmerWebsitesDescription" data-i18n="home.farmerWebsites.copy">
+                      These Stellards-linked farmer websites sell the selected animal. Click any logo or website name to open it in a new tab.
+                    </p>
+                    <div id="farmerWebsitesList" class="farmer-websites-list"></div>
+                  </div>
+                </div>
+            </section>
           </section>
         </section>
       </main>
@@ -307,5 +331,6 @@
     <script src="auth.js"></script>
     <script src="maps.js"></script>
     <script src="script.js"></script>
+    <script src="scroll-controls.js"></script>
   </body>
 </html>

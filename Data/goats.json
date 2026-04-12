@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "Boer Goat",
+    "Description": "South Africa's flagship meat goat breed with strong Eastern Cape roots and wide production use inland and in the north.",
+    "Location": "EC, FS, NC, NW, LP, KZN",
+    "Image": ""
+  },
+  {
+    "Name": "Kalahari Red",
+    "Description": "A red-coated meat goat adapted to hot, dry grazing conditions in inland provinces.",
+    "Location": "NC, NW, FS, LP",
+    "Image": ""
+  },
+  {
+    "Name": "Savanna Goat",
+    "Description": "A hardy commercial meat goat commonly linked to bushveld and warmer summer-rainfall zones.",
+    "Location": "LP, NW, MP, GP, KZN",
+    "Image": ""
+  },
+  {
+    "Name": "Angora Goat",
+    "Description": "The mohair breed most strongly concentrated in the Eastern Cape and nearby Karoo-linked production belts.",
+    "Location": "EC, WC, NC",
+    "Image": ""
+  }
+]

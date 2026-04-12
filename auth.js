@@ -6,6 +6,9 @@
   const apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhY2Nlc3MtdG9rZW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllci10b2tlbiI6IjE1MzY4YTgxLTE0ZGItNDQzYy01N2ViLTA4ZGU5NWJiMGIwNCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyLXByb2plY3QiOiI4MjVjMWQzNC0xNGVlLTQ0Y2UtMWM4OC0wOGRlOTViOGQxMDMiLCJleHAiOjI1MzQwMjI5NzIwMCwiaXNzIjoiaHR0cHM6Ly9zdGVsbGFyZHMuaW8iLCJhdWQiOiJodHRwczovL2FwaS5zdGVsbGFyZHMuaW8ifQ.YrqjsPt1_eWNXiMFCco8Si1NBNxEWdDaVB1c8iNiZMc";
   const authStorageKey = "south-african-livestock-atlas-auth-session";
   const authEventName = "site-auth-change";
+  const entryRequestStorageKey = "south-african-livestock-atlas-entry-requests";
+  const requestContactEmail = "your-email@example.com";
+  const requestWhatsappNumber = "27000000000";
   const minPasswordLength = 7;
   let authMenuListenersBound = false;
 
@@ -20,12 +23,12 @@
         logout: "Log out"
       },
       header: {
-        appLabel: "Livestock Atlas",
+        appLabel: "Farm Map",
         signedInAs: "Signed in",
         guestCta: "Join the atlas community"
       },
       auth: {
-        loginTitle: "Log in to your livestock atlas account",
+        loginTitle: "Log in to your Agri Atlas account",
         loginCopy: "Use your email and password to sign in, manage your profile, and keep your details up to date.",
         signupTitle: "Create your account",
         signupCopy: "Add your personal details so your profile and future farm submissions are tied to your account.",
@@ -82,7 +85,31 @@
         developerTableEmail: "Email",
         developerTableRole: "Role",
         developerTableStatus: "Status",
-        developerTableActions: "Actions"
+        developerTableActions: "Actions",
+        entryRequestKicker: "Missing animal, plant, item, or service?",
+        entryRequestTitle: "Request a new Stellards listing",
+        entryRequestCopy: "If the animal, plant, item, or service you want to register does not exist in Stellards yet, save a request here and contact us so it can be added before registration is finalised.",
+        entryRequestCategory: "Category",
+        entryRequestCategoryAnimal: "Animal",
+        entryRequestCategoryPlant: "Plant",
+        entryRequestCategoryItem: "Item",
+        entryRequestCategoryService: "Service",
+        entryRequestGroup: "Type or group",
+        entryRequestGroupHint: "Animal type, plant group, item group, or service category.",
+        entryRequestName: "Requested name",
+        entryRequestNameHint: "Dorper cross, citrus tree, Red-Cat Cage, wool classing...",
+        entryRequestDetails: "Details",
+        entryRequestDetailsHint: "Add breed, plant, use case, or service notes needed to add it correctly.",
+        entryRequestSubmit: "Save request draft",
+        entryRequestEmail: "Email request",
+        entryRequestWhatsapp: "WhatsApp request",
+        entryRequestRecent: "Recent local requests",
+        entryRequestEmpty: "No local entry requests have been saved in this browser yet.",
+        entryRequestSaved: "Request saved locally. Use Email or WhatsApp so the site owner can add it before registration is completed.",
+        entryRequestMissingFields: "Choose a category and add the requested name before saving.",
+        entryRequestStorageUnavailable: "The request could not be saved in this browser, but you can still send it by email or WhatsApp.",
+        entryRequestLinksReady: "Complete the request name to enable the contact links.",
+        entryRequestUpgradeNote: "Plants, items, and services are not stored in Stellards yet. Requests are drafted here until the higher package is available."
       }
     },
     af: {
@@ -95,12 +122,12 @@
         logout: "Meld af"
       },
       header: {
-        appLabel: "Lewendehawe-atlas",
+        appLabel: "Plaaskaart",
         signedInAs: "Aangemeld",
         guestCta: "Sluit by die atlas-gemeenskap aan"
       },
       auth: {
-        loginTitle: "Meld aan by jou lewendehawe-atlas rekening",
+        loginTitle: "Meld aan by jou Agri Atlas rekening",
         loginCopy: "Gebruik jou e-posadres en wagwoord om aan te meld, jou profiel te bestuur en jou besonderhede op datum te hou.",
         signupTitle: "Skep jou rekening",
         signupCopy: "Voeg jou persoonlike besonderhede by sodat jou profiel en toekomstige plaasinskrywings aan jou rekening gekoppel is.",
@@ -157,7 +184,31 @@
         developerTableEmail: "E-pos",
         developerTableRole: "Rol",
         developerTableStatus: "Status",
-        developerTableActions: "Aksies"
+        developerTableActions: "Aksies",
+        entryRequestKicker: "Ontbrekende dier, plant, item, of diens?",
+        entryRequestTitle: "Versoek 'n nuwe Stellards-inskrywing",
+        entryRequestCopy: "As die dier, plant, item, of diens wat jy wil registreer nog nie in Stellards bestaan nie, stoor 'n versoek hier en kontak ons sodat dit bygevoeg kan word voordat registrasie afgehandel word.",
+        entryRequestCategory: "Kategorie",
+        entryRequestCategoryAnimal: "Dier",
+        entryRequestCategoryPlant: "Plant",
+        entryRequestCategoryItem: "Item",
+        entryRequestCategoryService: "Diens",
+        entryRequestGroup: "Tipe of groep",
+        entryRequestGroupHint: "Diertipe, plantgroep, itemgroep, of diens-kategorie.",
+        entryRequestName: "Versoekte naam",
+        entryRequestNameHint: "Dorper-kruising, sitrusboom, Red-Cat Cage, wolklassering...",
+        entryRequestDetails: "Besonderhede",
+        entryRequestDetailsHint: "Voeg ras-, plant-, gebruiks- of diensnotas by sodat dit korrek bygevoeg kan word.",
+        entryRequestSubmit: "Stoor versoekkonsep",
+        entryRequestEmail: "E-pos versoek",
+        entryRequestWhatsapp: "WhatsApp versoek",
+        entryRequestRecent: "Onlangse plaaslike versoeke",
+        entryRequestEmpty: "Geen plaaslike inskrywingsversoeke is nog in hierdie blaaier gestoor nie.",
+        entryRequestSaved: "Versoek is plaaslik gestoor. Gebruik E-pos of WhatsApp sodat die eienaar dit kan byvoeg voordat registrasie afgehandel word.",
+        entryRequestMissingFields: "Kies 'n kategorie en voeg die versoekte naam by voordat jy stoor.",
+        entryRequestStorageUnavailable: "Die versoek kon nie in hierdie blaaier gestoor word nie, maar jy kan dit steeds per E-pos of WhatsApp stuur.",
+        entryRequestLinksReady: "Voltooi die versoekte naam om die kontakskakels te aktiveer.",
+        entryRequestUpgradeNote: "Plante, items en dienste word nog nie in Stellards gestoor nie. Versoeke word hier as konsepte bewaar totdat die hoer pakket beskikbaar is."
       }
     }
   };
@@ -535,6 +586,190 @@
     container.dataset.tone = tone;
   }
 
+  function readEntryRequests() {
+    try {
+      const stored = window.localStorage.getItem(entryRequestStorageKey);
+      const parsed = stored ? JSON.parse(stored) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function writeEntryRequests(requests) {
+    try {
+      window.localStorage.setItem(entryRequestStorageKey, JSON.stringify(requests));
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function entryRequestCategoryLabel(category) {
+    if (category === "plant") {
+      return tr("auth.entryRequestCategoryPlant");
+    }
+
+    if (category === "item") {
+      return tr("auth.entryRequestCategoryItem");
+    }
+
+    if (category === "service") {
+      return tr("auth.entryRequestCategoryService");
+    }
+
+    return tr("auth.entryRequestCategoryAnimal");
+  }
+
+  function entryRequestFallbackValue() {
+    return language() === "af" ? "Nie verskaf nie" : "Not provided";
+  }
+
+  function collectEntryRequestDraft(form) {
+    const current = currentUser();
+    const signupForm = document.getElementById("signupForm");
+    const firstName = String(signupForm?.elements.first_name?.value || current?.first_name || "").trim();
+    const lastName = String(signupForm?.elements.last_name?.value || current?.last_name || "").trim();
+    const email = String(signupForm?.elements.email?.value || current?.email || "").trim();
+    const mobileNumber = String(signupForm?.elements.mobile_number?.value || current?.mobile_number || "").trim();
+
+    return {
+      category: String(form?.elements.category?.value || "animal").trim().toLowerCase(),
+      group: String(form?.elements.group?.value || "").trim(),
+      requestedName: String(form?.elements.requested_name?.value || "").trim(),
+      details: String(form?.elements.details?.value || "").trim(),
+      requesterName: `${firstName} ${lastName}`.trim(),
+      requesterEmail: email,
+      requesterMobile: mobileNumber
+    };
+  }
+
+  function buildEntryRequestMessage(request) {
+    const fallback = entryRequestFallbackValue();
+
+    return [
+      language() === "af" ? "Nuwe Stellards-inskrywingsversoek" : "New Stellards listing request",
+      `${tr("auth.entryRequestCategory")}: ${entryRequestCategoryLabel(request.category)}`,
+      `${tr("auth.entryRequestGroup")}: ${request.group || fallback}`,
+      `${tr("auth.entryRequestName")}: ${request.requestedName || fallback}`,
+      `${tr("auth.entryRequestDetails")}: ${request.details || fallback}`,
+      `${tr("auth.firstName")}/${tr("auth.lastName")}: ${request.requesterName || fallback}`,
+      `${tr("auth.email")}: ${request.requesterEmail || fallback}`,
+      `${tr("auth.mobileNumber")}: ${request.requesterMobile || fallback}`
+    ].join("\n");
+  }
+
+  function setRequestContactLink(link, href, isEnabled) {
+    if (!link) {
+      return;
+    }
+
+    link.href = isEnabled ? href : "#";
+    link.setAttribute("aria-disabled", isEnabled ? "false" : "true");
+    link.tabIndex = isEnabled ? 0 : -1;
+  }
+
+  function syncEntryRequestLinks(form) {
+    const emailLink = document.getElementById("entryRequestEmailLink");
+    const whatsappLink = document.getElementById("entryRequestWhatsappLink");
+    if (!form || (!emailLink && !whatsappLink)) {
+      return;
+    }
+
+    const draft = collectEntryRequestDraft(form);
+    const isReady = Boolean(draft.requestedName);
+    const subject = encodeURIComponent(`Stellards ${entryRequestCategoryLabel(draft.category)} request: ${draft.requestedName || entryRequestFallbackValue()}`);
+    const body = encodeURIComponent(buildEntryRequestMessage(draft));
+    setRequestContactLink(emailLink, `mailto:${requestContactEmail}?subject=${subject}&body=${body}`, isReady);
+    setRequestContactLink(whatsappLink, `https://wa.me/${requestWhatsappNumber}?text=${body}`, isReady);
+  }
+
+  function formatEntryRequestDate(value) {
+    try {
+      return new Intl.DateTimeFormat(language() === "af" ? "af-ZA" : "en-ZA", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }).format(new Date(value));
+    } catch {
+      return value;
+    }
+  }
+
+  function renderEntryRequestList() {
+    const list = document.getElementById("entryRequestList");
+    if (!list) {
+      return;
+    }
+
+    const requests = readEntryRequests().slice(-5).reverse();
+    if (!requests.length) {
+      list.innerHTML = `<div class="empty-state">${escapeHtml(tr("auth.entryRequestEmpty"))}</div>`;
+      return;
+    }
+
+    list.innerHTML = requests.map((request) => `
+      <article class="entry-request-item">
+        <div class="entry-request-item-head">
+          <strong>${escapeHtml(request.requestedName || entryRequestFallbackValue())}</strong>
+          <span class="feedback-tag">${escapeHtml(entryRequestCategoryLabel(request.category))}</span>
+        </div>
+        <div class="entry-request-item-meta">${escapeHtml(request.group || entryRequestFallbackValue())}</div>
+        <div class="entry-request-item-meta">${escapeHtml(formatEntryRequestDate(request.createdAt || ""))}</div>
+      </article>
+    `).join("");
+  }
+
+  function bindEntryRequestForm() {
+    const form = document.getElementById("entryRequestForm");
+    if (!form) {
+      return;
+    }
+
+    const status = document.getElementById("entryRequestStatus");
+    const signupForm = document.getElementById("signupForm");
+
+    renderEntryRequestList();
+    syncEntryRequestLinks(form);
+
+    form.addEventListener("input", () => {
+      statusMessage(status, "", "neutral");
+      syncEntryRequestLinks(form);
+    });
+
+    signupForm?.addEventListener("input", () => {
+      syncEntryRequestLinks(form);
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const request = collectEntryRequestDraft(form);
+
+      if (!request.category || !request.requestedName) {
+        statusMessage(status, tr("auth.entryRequestMissingFields"), "error");
+        syncEntryRequestLinks(form);
+        return;
+      }
+
+      const saved = {
+        id: window.crypto?.randomUUID?.() || `entry-request-${Date.now()}`,
+        ...request,
+        createdAt: new Date().toISOString()
+      };
+
+      const requests = readEntryRequests();
+      const didWrite = writeEntryRequests([...requests, saved]);
+      renderEntryRequestList();
+      syncEntryRequestLinks(form);
+
+      if (!didWrite) {
+        statusMessage(status, tr("auth.entryRequestStorageUnavailable"), "error");
+        return;
+      }
+
+      statusMessage(status, tr("auth.entryRequestSaved"), "success");
+    });
+  }
+
   function pageLink(path, params = {}) {
     const url = new URL(path, window.location.href);
     Object.entries(params).forEach(([key, value]) => {
@@ -582,17 +817,14 @@
     host.innerHTML = `
       <div class="site-auth-header-inner">
         <a class="site-auth-brand" href="index.html">
-          <span class="site-auth-brand-mark">SA</span>
+          <span class="site-auth-brand-mark" aria-hidden="true">
+            <img src="icons/logo-mark.svg" alt="" />
+          </span>
           <span>
-            <strong>South African</strong>
+            <strong>Agri Atlas</strong>
             <small>${escapeHtml(tr("header.appLabel"))}</small>
           </span>
         </a>
-
-        <nav class="site-auth-nav" aria-label="Primary">
-          <a class="site-auth-nav-link ${currentPath === "index.html" ? "active" : ""}" href="index.html">${escapeHtml(tr("nav.home"))}</a>
-          <a class="site-auth-nav-link ${currentPath === "feedback.html" ? "active" : ""}" href="feedback.html">${escapeHtml(tr("nav.feedback"))}</a>
-        </nav>
 
         <div class="site-auth-tools">
           ${user ? `
@@ -919,6 +1151,10 @@
     document.querySelectorAll("[data-auth-copy]").forEach((element) => {
       element.textContent = tr(element.dataset.authCopy);
     });
+
+    document.querySelectorAll("[data-auth-placeholder]").forEach((element) => {
+      element.setAttribute("placeholder", tr(element.dataset.authPlaceholder));
+    });
   }
 
   function guardGuestPages() {
@@ -961,6 +1197,7 @@
     applyStaticCopy();
     bindLoginForm();
     bindSignupForm();
+    bindEntryRequestForm();
     bindProfileForm();
     bindDeveloperPanel();
   }
@@ -984,6 +1221,8 @@
     if (user) {
       renderProfileSummary(user);
     }
+    renderEntryRequestList();
+    syncEntryRequestLinks(document.getElementById("entryRequestForm"));
     loadDeveloperUsers();
   });
 
@@ -994,6 +1233,8 @@
     if (user) {
       renderProfileSummary(user);
     }
+    renderEntryRequestList();
+    syncEntryRequestLinks(document.getElementById("entryRequestForm"));
     loadDeveloperUsers();
   });
 

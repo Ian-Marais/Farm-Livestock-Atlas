@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "Nguni",
+    "Description": "An indigenous cattle breed produced widely in South Africa and especially associated with eastern and northern grazing systems.",
+    "Location": "EC, KZN, LP, MP, NW",
+    "Image": ""
+  },
+  {
+    "Name": "Bonsmara",
+    "Description": "A dominant South African beef breed with broad commercial adoption across inland and mixed grazing regions.",
+    "Location": "FS, NW, NC, LP, MP, EC",
+    "Image": ""
+  },
+  {
+    "Name": "Afrikaner Cattle",
+    "Description": "A hardy indigenous-derived cattle breed associated with hot, extensive beef systems.",
+    "Location": "FS, NC, NW, LP",
+    "Image": ""
+  },
+  {
+    "Name": "Drakensberger",
+    "Description": "A South African beef breed strongly linked to the eastern interior and Drakensberg-adjacent regions.",
+    "Location": "KZN, FS, MP, GP",
+    "Image": ""
+  },
+  {
+    "Name": "Brahman",
+    "Description": "A heat-tolerant beef breed widely used in South Africa's warm commercial cattle areas and crossbreeding systems.",
+    "Location": "LP, NW, MP, KZN, FS, GP",
+    "Image": ""
+  }
+]

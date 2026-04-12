@@ -1,16 +1,34 @@
 const provinces = window.SouthAfricaMap.provinces;
 const { t, provinceName, applyTranslations, getLanguage, animalSummary, animalSourceNote } = window.SiteI18n;
 
-const stellardsFarmerWebsites = {};
-
-const animals = [
+const sharedLivestockWebsites = [
   {
-    id: "dorper",
-    name: "Dorper",
-    category: "sheep",
+    name: "BKB Livestock & Auctioneering",
+    url: "https://www.bkb.co.za/livestock-and-auctioneering"
+  }
+];
+
+const stellardsFarmerWebsites = {
+  dorper: sharedLivestockWebsites,
+  merino: sharedLivestockWebsites,
+  "dohne-merino": sharedLivestockWebsites,
+  "namaqua-afrikaner": sharedLivestockWebsites,
+  damara: sharedLivestockWebsites,
+  "boer-goat": sharedLivestockWebsites,
+  "kalahari-red": sharedLivestockWebsites,
+  "savanna-goat": sharedLivestockWebsites,
+  angora: sharedLivestockWebsites,
+  nguni: sharedLivestockWebsites,
+  bonsmara: sharedLivestockWebsites,
+  "afrikaner-cattle": sharedLivestockWebsites,
+  drakensberger: sharedLivestockWebsites,
+  brahman: sharedLivestockWebsites
+};
+const highlightColor = "#cf7a2f";
+
+const sheepCatalogMeta = {
+  dorper: {
     color: "#ff8b5f",
-    provinces: ["WC", "NC", "EC", "FS", "NW"],
-    summary: "A hardy meat sheep developed for dry South African conditions and strongly associated with Karoo and inland production regions.",
     sources: [
       {
         title: "SA Stud Book Sheep Breeders' Societies",
@@ -24,13 +42,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "merino",
-    name: "Merino",
-    category: "sheep",
+  merino: {
     color: "#4dc3ff",
-    provinces: ["WC", "EC", "FS", "NC"],
-    summary: "Fine-wool sheep concentrated in the Cape, Free State and central wool-producing provinces.",
     sources: [
       {
         title: "SA Stud Book Sheep Breeders' Societies",
@@ -44,13 +57,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "dohne-merino",
-    name: "Dohne Merino",
-    category: "sheep",
+  "dohne-merino": {
     color: "#7d95ff",
-    provinces: ["EC", "FS", "WC"],
-    summary: "Dual-purpose sheep with strong roots in Eastern Cape and major wool-and-meat production belts.",
     sources: [
       {
         title: "SA Stud Book Sheep Breeders' Societies",
@@ -64,13 +72,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "namaqua-afrikaner",
-    name: "Namaqua Afrikaner",
-    category: "sheep",
+  "namaqua-afrikaner": {
     color: "#f4b942",
-    provinces: ["NC", "WC"],
-    summary: "An arid-zone fat-tailed breed most closely tied to the western and north-western dryland systems.",
     sources: [
       {
         title: "SA Stud Book Sheep Breeders' Societies",
@@ -84,13 +87,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "damara",
-    name: "Damara",
-    category: "sheep",
+  damara: {
     color: "#c17eff",
-    provinces: ["NC", "WC", "EC", "FS", "NW"],
-    summary: "A drought-tolerant sheep suited to extensive and semi-arid grazing areas.",
     sources: [
       {
         title: "SA Stud Book Sheep Breeders' Societies",
@@ -103,14 +101,12 @@ const animals = [
         note: "Used for adaptation-driven provincial mapping."
       }
     ]
-  },
-  {
-    id: "boer-goat",
-    name: "Boer Goat",
-    category: "goat",
+  }
+};
+
+const goatCatalogMeta = {
+  "boer-goat": {
     color: "#ff6b6b",
-    provinces: ["EC", "FS", "NC", "NW", "LP", "KZN"],
-    summary: "South Africa's flagship meat goat breed with strong Eastern Cape roots and wide production use inland and in the north.",
     sources: [
       {
         title: "DAFF Goat Market Value Chain Profile",
@@ -124,13 +120,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "kalahari-red",
-    name: "Kalahari Red",
-    category: "goat",
+  "kalahari-red": {
     color: "#ff9d4d",
-    provinces: ["NC", "NW", "FS", "LP"],
-    summary: "A red-coated meat goat adapted to hot, dry grazing conditions in inland provinces.",
     sources: [
       {
         title: "DAFF Goat Market Value Chain Profile",
@@ -144,13 +135,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "savanna-goat",
-    name: "Savanna Goat",
-    category: "goat",
+  "savanna-goat": {
     color: "#ffd166",
-    provinces: ["LP", "NW", "MP", "GP", "KZN"],
-    summary: "A hardy commercial meat goat commonly linked to bushveld and warmer summer-rainfall zones.",
     sources: [
       {
         title: "DAFF Goat Market Value Chain Profile",
@@ -164,13 +150,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "angora",
-    name: "Angora Goat",
-    category: "goat",
+  angora: {
     color: "#90e0ef",
-    provinces: ["EC", "WC", "NC"],
-    summary: "The mohair breed most strongly concentrated in the Eastern Cape and nearby Karoo-linked production belts.",
     sources: [
       {
         title: "South Africa Online Goat Breeds",
@@ -183,14 +164,11 @@ const animals = [
         note: "Supports province-level goat concentration notes."
       }
     ]
-  },
-  {
-    id: "nguni",
-    name: "Nguni",
-    category: "cattle",
+  }
+};
+const cattleCatalogMeta = {
+  nguni: {
     color: "#2dd4bf",
-    provinces: ["EC", "KZN", "LP", "MP", "NW"],
-    summary: "An indigenous cattle breed produced widely in South Africa and especially associated with eastern and northern grazing systems.",
     sources: [
       {
         title: "South Africa Online Nguni Cattle",
@@ -204,13 +182,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "bonsmara",
-    name: "Bonsmara",
-    category: "cattle",
+  bonsmara: {
     color: "#52b788",
-    provinces: ["FS", "NW", "NC", "LP", "MP", "EC"],
-    summary: "A dominant South African beef breed with broad commercial adoption across inland and mixed grazing regions.",
     sources: [
       {
         title: "SA Stud Book Elite Awards 2016",
@@ -224,13 +197,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "afrikaner-cattle",
-    name: "Afrikaner Cattle",
-    category: "cattle",
+  "afrikaner-cattle": {
     color: "#ef476f",
-    provinces: ["FS", "NC", "NW", "LP"],
-    summary: "A hardy indigenous-derived cattle breed associated with hot, extensive beef systems.",
     sources: [
       {
         title: "SA Stud Book Welcome",
@@ -244,13 +212,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "drakensberger",
-    name: "Drakensberger",
-    category: "cattle",
+  drakensberger: {
     color: "#6c63ff",
-    provinces: ["KZN", "FS", "MP", "GP"],
-    summary: "A South African beef breed strongly linked to the eastern interior and Drakensberg-adjacent regions.",
     sources: [
       {
         title: "SA Stud Book Welcome",
@@ -264,13 +227,8 @@ const animals = [
       }
     ]
   },
-  {
-    id: "brahman",
-    name: "Brahman",
-    category: "cattle",
+  brahman: {
     color: "#06d6a0",
-    provinces: ["LP", "NW", "MP", "KZN", "FS", "GP"],
-    summary: "A heat-tolerant beef breed widely used in South Africa's warm commercial cattle areas and crossbreeding systems.",
     sources: [
       {
         title: "SA Stud Book Welcome",
@@ -284,35 +242,253 @@ const animals = [
       }
     ]
   }
-];
+};
+
+let animals = [];
+
+function normaliseAnimalEntry(entry, category, metadataMap) {
+  const name = String(entry?.Name ?? "").trim();
+  const id = slugify(name);
+  const metadata = metadataMap[id] ?? {};
+  const provinces = String(entry?.Location ?? entry?.location ?? "")
+    .split(",")
+    .map((provinceCode) => provinceCode.trim().toUpperCase())
+    .filter(Boolean);
+
+  return {
+    id,
+    name,
+    category,
+    color: highlightColor,
+    provinces,
+    summary: String(entry?.Description ?? "").trim(),
+    imageUrl: String(entry?.Image ?? entry?.["image link"] ?? entry?.imageLink ?? "").trim(),
+    sources: metadata.sources ?? []
+  };
+}
+
+async function loadAnimalCatalog(filePath, category, metadataMap) {
+  const response = await fetch(new URL(filePath, window.location.href));
+
+  if (!response.ok) {
+    throw new Error(`Failed to load ${category} catalog: ${response.status}`);
+  }
+
+  const entries = await response.json();
+
+  if (!Array.isArray(entries)) {
+    throw new Error(`${category} catalog must be an array`);
+  }
+
+  return entries.map((entry) => normaliseAnimalEntry(entry, category, metadataMap)).filter((entry) => entry.id && entry.name);
+}
+
+let itemsCatalog = [];
+
+function normaliseItemEntry(entry) {
+  const name = String(entry?.Name ?? "").trim();
+  const id = slugify(name);
+  const provinces = String(entry?.Location ?? entry?.location ?? "")
+    .split(",")
+    .map((provinceCode) => provinceCode.trim().toUpperCase())
+    .filter(Boolean);
+
+  return {
+    id,
+    name,
+    group: String(entry?.Group ?? entry?.group ?? "").trim(),
+    color: String(entry?.Color ?? entry?.color ?? "#cf7a2f").trim(),
+    provinces,
+    summary: String(entry?.Description ?? "").trim(),
+    imageUrl: String(entry?.Image ?? entry?.["image link"] ?? entry?.imageLink ?? "").trim(),
+    tags: Array.isArray(entry?.Tags) ? entry.Tags : [],
+    sources: Array.isArray(entry?.Sources) ? entry.Sources : []
+  };
+}
+
+async function loadItemCatalog(filePath) {
+  const response = await fetch(new URL(filePath, window.location.href));
+
+  if (!response.ok) {
+    throw new Error(`Failed to load items catalog: ${response.status}`);
+  }
+
+  const entries = await response.json();
+
+  if (!Array.isArray(entries)) {
+    throw new Error("Items catalog must be an array");
+  }
+
+  return entries.map(normaliseItemEntry).filter((entry) => entry.id && entry.name);
+}
+
+let plantsCatalog = [];
+
+async function loadPlantCatalog(filePath) {
+  const response = await fetch(new URL(filePath, window.location.href));
+
+  if (!response.ok) {
+    throw new Error(`Failed to load plants catalog: ${response.status}`);
+  }
+
+  const entries = await response.json();
+
+  if (!Array.isArray(entries)) {
+    throw new Error("Plants catalog must be an array");
+  }
+
+  return entries.map(normaliseItemEntry).filter((entry) => entry.id && entry.name);
+}
+
+const serviceCatalogMeta = {
+  "fencing-installation": {
+    group: "Farm Infrastructure",
+    color: "#8d7a42",
+    sources: [
+      {
+        title: "Planned Stellards service example",
+        note: "This service is shown as a sample provider category while service tables are still pending in Stellards."
+      }
+    ]
+  },
+  "animal-transport": {
+    group: "Logistics",
+    color: "#3f8f7a",
+    sources: [
+      {
+        title: "Planned Stellards service example",
+        note: "Transport services are illustrated here to preview how provincial service availability will be shown later."
+      }
+    ]
+  }
+};
+
+function normaliseServiceEntry(entry) {
+  const name = String(entry?.Name ?? "").trim();
+  const id = slugify(name);
+  const metadata = serviceCatalogMeta[id] ?? {};
+  const provinces = String(entry?.Location ?? entry?.location ?? "")
+    .split(",")
+    .map((provinceCode) => provinceCode.trim().toUpperCase())
+    .filter(Boolean);
+
+  return {
+    id,
+    name,
+    group: String(entry?.Group ?? entry?.group ?? metadata.group ?? "").trim(),
+    color: String(entry?.Color ?? entry?.color ?? metadata.color ?? "#8d7a42").trim(),
+    provinces,
+    summary: String(entry?.Description ?? "").trim(),
+    imageUrl: String(entry?.Image ?? entry?.["image link"] ?? entry?.imageLink ?? "").trim(),
+    tags: Array.isArray(entry?.Tags) ? entry.Tags : [],
+    sources: metadata.sources ?? []
+  };
+}
+
+async function loadServiceCatalog(filePath) {
+  const response = await fetch(new URL(filePath, window.location.href));
+
+  if (!response.ok) {
+    throw new Error(`Failed to load services catalog: ${response.status}`);
+  }
+
+  const entries = await response.json();
+
+  if (!Array.isArray(entries)) {
+    throw new Error("Services catalog must be an array");
+  }
+
+  return entries.map(normaliseServiceEntry).filter((entry) => entry.id && entry.name);
+}
+
+let servicesCatalog = [];
+
+const catalogHashes = {
+  animals: "#animalsSection",
+  plants: "#plantsSection",
+  items: "#itemsSection",
+  services: "#servicesSection"
+};
+
+function initialCatalogView() {
+  const hash = window.location.hash.replace("#", "");
+  if (hash === "plantsSection") {
+    return "plants";
+  }
+
+  if (hash === "itemsSection") {
+    return "items";
+  }
+
+  if (hash === "servicesSection") {
+    return "services";
+  }
+
+  return "animals";
+}
 
 const state = {
-  category: "all",
-  search: "",
-  activeAnimalId: null,
   activeProvince: null,
   selectedProvinceCode: null,
-  searchExpandedBreedList: false
+  searchExpandedBreedList: false,
+  catalogView: initialCatalogView(),
+  searches: {
+    animals: "",
+    plants: "",
+    items: "",
+    services: ""
+  },
+  filters: {
+    animals: "all",
+    plants: "all",
+    items: "all",
+    services: "all"
+  },
+  activeIds: {
+    animals: null,
+    plants: null,
+    items: null,
+    services: null
+  }
 };
 
 const breedList = document.getElementById("breedList");
+const breedListDetails = document.getElementById("breedListDetails");
 const selectedCount = document.getElementById("selectedCount");
 const breedCountElements = [...document.querySelectorAll("[data-breed-count]")];
+const catalogViewButtons = [...document.querySelectorAll("[data-catalog-view]")];
 const searchInput = document.getElementById("searchInput");
 const categoryFilters = document.getElementById("categoryFilters");
 const breedListSummaryState = document.getElementById("breedListSummaryState");
+const catalogPanelKicker = document.getElementById("catalogPanelKicker");
+const catalogPanelTitle = document.getElementById("catalogPanelTitle");
+const catalogSearchLabel = document.getElementById("catalogSearchLabel");
+const catalogListTitle = document.getElementById("catalogListTitle");
+const catalogListHint = document.getElementById("catalogListHint");
+const catalogRequestKicker = document.getElementById("catalogRequestKicker");
+const catalogRequestTitle = document.getElementById("catalogRequestTitle");
+const catalogRequestCopy = document.getElementById("catalogRequestCopy");
+const catalogRequestAction = document.getElementById("catalogRequestAction");
 const statusChip = document.getElementById("statusChip");
+const catalogMapKicker = document.getElementById("catalogMapKicker");
+const catalogMapTitle = document.getElementById("catalogMapTitle");
 const provinceTitle = document.getElementById("provinceTitle");
 const provinceDescription = document.getElementById("provinceDescription");
+const catalogProvinceKicker = document.getElementById("catalogProvinceKicker");
 const provinceLegend = document.getElementById("provinceLegend");
 const sourceList = document.getElementById("sourceList");
 const sourceContent = document.getElementById("sourceContent");
 const sourceToggleButton = document.querySelector("[data-source-toggle]");
+const catalogSourceTitle = document.getElementById("catalogSourceTitle");
+const catalogSourceKicker = document.getElementById("catalogSourceKicker");
+const catalogSourceBadge = document.getElementById("catalogSourceBadge");
+const catalogSourceCopy = document.getElementById("catalogSourceCopy");
 const farmerWebsitesSection = document.getElementById("farmerWebsitesSection");
 const farmerWebsitesDescription = document.getElementById("farmerWebsitesDescription");
 const farmerWebsitesList = document.getElementById("farmerWebsitesList");
 const noteDescription = document.getElementById("noteDescription");
 const noteToggleButton = document.querySelector("[data-note-toggle]");
+const mapHelper = document.getElementById("mapHelper");
 const provinceSelector = document.getElementById("provinceSelector");
 const sidebarCard = document.querySelector(".sidebar-card");
 const mapStage = document.querySelector("[data-map-stage]");
@@ -325,6 +501,11 @@ const mapStageOriginalParent = mapStage?.parentElement ?? null;
 const mapStageOriginalNextSibling = mapStage?.nextElementSibling ?? null;
 const mapOverlayBackdropOriginalParent = mapOverlayBackdrop?.parentElement ?? null;
 const mapOverlayBackdropOriginalNextSibling = mapOverlayBackdrop?.nextElementSibling ?? null;
+const mapOverlayState = {
+  scrollX: 0,
+  scrollY: 0,
+  restoreFocusTarget: null
+};
 const mapController = window.SouthAfricaMap.createMapController({
   svgId: "saMapSvg",
   defsId: "mapDefs",
@@ -386,10 +567,29 @@ function restoreMapOverlayNode(node, parent, nextSibling) {
   parent.appendChild(node);
 }
 
+function storeMapOverlayViewport() {
+  mapOverlayState.scrollX = window.scrollX;
+  mapOverlayState.scrollY = window.scrollY;
+  mapOverlayState.restoreFocusTarget = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+}
+
+function restoreMapOverlayViewport() {
+  window.scrollTo(mapOverlayState.scrollX, mapOverlayState.scrollY);
+
+  const focusTarget = mapOverlayState.restoreFocusTarget instanceof HTMLElement
+    && document.contains(mapOverlayState.restoreFocusTarget)
+    ? mapOverlayState.restoreFocusTarget
+    : mapOverlayToggle;
+
+  focusTarget?.focus?.({ preventScroll: true });
+}
+
 function openMapOverlay() {
   if (!mapStage || document.body.classList.contains("map-overlay-open")) {
     return;
   }
+
+  storeMapOverlayViewport();
 
   if (mapOverlayBackdrop) {
     document.body.appendChild(mapOverlayBackdrop);
@@ -409,11 +609,19 @@ function closeMapOverlay() {
     return;
   }
 
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
   document.body.classList.remove("map-overlay-open");
   restoreMapOverlayNode(mapOverlayBackdrop, mapOverlayBackdropOriginalParent, mapOverlayBackdropOriginalNextSibling);
   restoreMapOverlayNode(mapStage, mapStageOriginalParent, mapStageOriginalNextSibling);
   restoreMapOverlayNode(sidebarCard, sidebarCardOriginalParent, sidebarCardOriginalNextSibling);
   syncMapOverlayControls();
+
+  requestAnimationFrame(() => {
+    restoreMapOverlayViewport();
+  });
 }
 
 function toggleMapOverlay() {
@@ -435,58 +643,365 @@ function categoryLabel(category) {
   return t("categories.cattle");
 }
 
-function provinceAbbreviations(item) {
-  return item.provinces.map((provinceCode) => {
+function slugify(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function catalogConfig(view = state.catalogView) {
+  if (view === "plants") {
+    return {
+      view,
+      entries: plantsCatalog,
+      filterProperty: "group",
+      panelKickerKey: "home.catalog.plants.kicker",
+      panelTitleKey: "home.catalog.plants.title",
+      searchLabelKey: "home.catalog.plants.searchLabel",
+      searchPlaceholderKey: "home.catalog.plants.searchPlaceholder",
+      listTitleKey: "home.catalog.plants.listTitle",
+      listHintKey: "home.catalog.plants.listHint",
+      countKey: "home.catalog.plants.count",
+      noteCopyKey: "home.catalog.plants.noteCopy",
+      requestKickerKey: "home.catalog.plants.requestKicker",
+      requestTitleKey: "home.catalog.plants.requestTitle",
+      requestCopyKey: "home.catalog.plants.requestCopy",
+      requestActionKey: "home.catalog.plants.requestAction",
+      mapKickerKey: "home.map.kicker",
+      mapTitleKey: "home.catalog.plants.mapTitle",
+      mapHelperKey: "home.catalog.plants.mapHelper",
+      statusDefaultKey: "home.catalog.plants.statusDefault",
+      statusPaintedKey: "home.catalog.plants.statusPainted",
+      provinceKickerKey: "home.province.kicker",
+      provinceDefaultTitleKey: "home.province.defaultTitle",
+      provinceDefaultDescriptionKey: "home.catalog.plants.provinceDefaultDescription",
+      provinceNoSelectionKey: "home.catalog.plants.provinceNoSelection",
+      provinceNotMappedKey: "home.catalog.plants.provinceNotMapped",
+      provinceMappedKey: "home.catalog.plants.provinceMapped",
+      sourceTitleKey: "home.source.title",
+      sourceKickerKey: "home.source.kicker",
+      sourceBadgeKey: "home.source.badge",
+      sourceCopyKey: "home.catalog.plants.sourceCopy",
+      sourceEmptyKey: "home.catalog.plants.sourceEmpty",
+      foundInKey: "home.catalog.plants.foundIn",
+      colorAriaKey: "home.catalog.plants.colorAria",
+      emptyKey: "home.catalog.plants.empty",
+      websitesEnabled: false
+    };
+  }
+
+  if (view === "items") {
+    return {
+      view,
+      entries: itemsCatalog,
+      filterProperty: "group",
+      panelKickerKey: "home.catalog.items.kicker",
+      panelTitleKey: "home.catalog.items.title",
+      searchLabelKey: "home.catalog.items.searchLabel",
+      searchPlaceholderKey: "home.catalog.items.searchPlaceholder",
+      listTitleKey: "home.catalog.items.listTitle",
+      listHintKey: "home.catalog.items.listHint",
+      countKey: "home.catalog.items.count",
+      noteCopyKey: "home.catalog.items.noteCopy",
+      requestKickerKey: "home.catalog.items.requestKicker",
+      requestTitleKey: "home.catalog.items.requestTitle",
+      requestCopyKey: "home.catalog.items.requestCopy",
+      requestActionKey: "home.catalog.items.requestAction",
+      mapKickerKey: "home.map.kicker",
+      mapTitleKey: "home.catalog.items.mapTitle",
+      mapHelperKey: "home.catalog.items.mapHelper",
+      statusDefaultKey: "home.catalog.items.statusDefault",
+      statusPaintedKey: "home.catalog.items.statusPainted",
+      provinceKickerKey: "home.province.kicker",
+      provinceDefaultTitleKey: "home.province.defaultTitle",
+      provinceDefaultDescriptionKey: "home.catalog.items.provinceDefaultDescription",
+      provinceNoSelectionKey: "home.catalog.items.provinceNoSelection",
+      provinceNotMappedKey: "home.catalog.items.provinceNotMapped",
+      provinceMappedKey: "home.catalog.items.provinceMapped",
+      sourceTitleKey: "home.source.title",
+      sourceKickerKey: "home.source.kicker",
+      sourceBadgeKey: "home.source.badge",
+      sourceCopyKey: "home.catalog.items.sourceCopy",
+      sourceEmptyKey: "home.catalog.items.sourceEmpty",
+      foundInKey: "home.catalog.items.foundIn",
+      colorAriaKey: "home.catalog.items.colorAria",
+      emptyKey: "home.catalog.items.empty",
+      websitesEnabled: false
+    };
+  }
+
+  if (view === "services") {
+    return {
+      view,
+      entries: servicesCatalog,
+      filterProperty: "group",
+      panelKickerKey: "home.catalog.services.kicker",
+      panelTitleKey: "home.catalog.services.title",
+      searchLabelKey: "home.catalog.services.searchLabel",
+      searchPlaceholderKey: "home.catalog.services.searchPlaceholder",
+      listTitleKey: "home.catalog.services.listTitle",
+      listHintKey: "home.catalog.services.listHint",
+      countKey: "home.catalog.services.count",
+      noteCopyKey: "home.catalog.services.noteCopy",
+      requestKickerKey: "home.catalog.services.requestKicker",
+      requestTitleKey: "home.catalog.services.requestTitle",
+      requestCopyKey: "home.catalog.services.requestCopy",
+      requestActionKey: "home.catalog.services.requestAction",
+      mapKickerKey: "home.map.kicker",
+      mapTitleKey: "home.catalog.services.mapTitle",
+      mapHelperKey: "home.catalog.services.mapHelper",
+      statusDefaultKey: "home.catalog.services.statusDefault",
+      statusPaintedKey: "home.catalog.services.statusPainted",
+      provinceKickerKey: "home.province.kicker",
+      provinceDefaultTitleKey: "home.province.defaultTitle",
+      provinceDefaultDescriptionKey: "home.catalog.services.provinceDefaultDescription",
+      provinceNoSelectionKey: "home.catalog.services.provinceNoSelection",
+      provinceNotMappedKey: "home.catalog.services.provinceNotMapped",
+      provinceMappedKey: "home.catalog.services.provinceMapped",
+      sourceTitleKey: "home.source.title",
+      sourceKickerKey: "home.source.kicker",
+      sourceBadgeKey: "home.source.badge",
+      sourceCopyKey: "home.catalog.services.sourceCopy",
+      sourceEmptyKey: "home.catalog.services.sourceEmpty",
+      foundInKey: "home.catalog.services.foundIn",
+      colorAriaKey: "home.catalog.services.colorAria",
+      emptyKey: "home.catalog.services.empty",
+      websitesEnabled: false
+    };
+  }
+
+  return {
+    view,
+    entries: animals,
+    filterProperty: "category",
+    panelKickerKey: "home.catalog.animals.kicker",
+    panelTitleKey: "home.catalog.animals.title",
+    searchLabelKey: "home.search.label",
+    searchPlaceholderKey: "home.search.placeholder",
+    listTitleKey: "home.breeds.toggle",
+    listHintKey: "home.breeds.toggleHint",
+    countKey: "home.breeds.count",
+    noteCopyKey: "home.note.copy",
+    requestKickerKey: "home.catalog.animals.requestKicker",
+    requestTitleKey: "home.catalog.animals.requestTitle",
+    requestCopyKey: "home.catalog.animals.requestCopy",
+    requestActionKey: "home.catalog.animals.requestAction",
+    mapKickerKey: "home.map.kicker",
+    mapTitleKey: "home.map.title",
+    mapHelperKey: "home.map.helper",
+    statusDefaultKey: "home.status.default",
+    statusPaintedKey: "home.status.painted",
+    provinceKickerKey: "home.province.kicker",
+    provinceDefaultTitleKey: "home.province.defaultTitle",
+    provinceDefaultDescriptionKey: "home.province.defaultDescription",
+    provinceNoSelectionKey: "atlas.chooseAnimalForProvince",
+    provinceNotMappedKey: "atlas.notMappedToProvince",
+    provinceMappedKey: "atlas.mappedToProvince",
+    sourceTitleKey: "home.source.title",
+    sourceKickerKey: "home.source.kicker",
+    sourceBadgeKey: "home.source.badge",
+    sourceCopyKey: "home.source.copy",
+    sourceEmptyKey: null,
+    foundInKey: "home.breed.foundIn",
+    colorAriaKey: "home.breed.colorAria",
+    emptyKey: "atlas.emptyBreeds",
+    websitesEnabled: true
+  };
+}
+
+function currentSearch(view = state.catalogView) {
+  return state.searches[view] ?? "";
+}
+
+function setCurrentSearch(view, value) {
+  state.searches[view] = value;
+}
+
+function currentFilter(view = state.catalogView) {
+  return state.filters[view] ?? "all";
+}
+
+function setCurrentFilter(view, value) {
+  state.filters[view] = value;
+}
+
+function activeEntryId(view = state.catalogView) {
+  return state.activeIds[view] ?? null;
+}
+
+function setActiveEntryId(view, value) {
+  state.activeIds[view] = value;
+}
+
+function activeEntry(view = state.catalogView) {
+  return catalogConfig(view).entries.find((entry) => entry.id === activeEntryId(view)) ?? null;
+}
+
+function activeAnimal() {
+  return activeEntry("animals");
+}
+
+function provinceAbbreviations(entry) {
+  return entry.provinces.map((provinceCode) => {
     const label = provinceName(provinceCode);
     return `<span class="province-tag">${provinceCode}<span>${label}</span></span>`;
   }).join("");
 }
 
-function animalSummaryText(item) {
-  return animalSummary(item.id, item.summary);
+function entrySummaryText(entry, view = state.catalogView) {
+  return view === "animals" ? animalSummary(entry.id, entry.summary) : entry.summary;
 }
 
-function activeAnimal() {
-  return animals.find((item) => item.id === state.activeAnimalId) ?? null;
+function entryMetaLabel(entry, view = state.catalogView) {
+  return view === "animals" ? categoryLabel(entry.category) : entry.group;
 }
 
-function filteredAnimals() {
-  const query = state.search.trim().toLowerCase();
+function entryFilterValue(entry, view = state.catalogView) {
+  return view === "animals" ? entry.category : slugify(entry.group);
+}
 
-  return animals.filter((item) => {
-    const matchesCategory = state.category === "all" || item.category === state.category;
-    const matchesQuery = query === "" || item.name.toLowerCase().startsWith(query);
+function filterOptions(view = state.catalogView) {
+  if (view === "animals") {
+    return [
+      { value: "all", label: t("home.filters.all") },
+      { value: "sheep", label: t("home.filters.sheep") },
+      { value: "goat", label: t("home.filters.goat") },
+      { value: "cattle", label: t("home.filters.cattle") }
+    ];
+  }
 
-    return matchesCategory && matchesQuery;
+  const groups = [...new Set(catalogConfig(view).entries.map((entry) => entry.group))];
+  return [
+    { value: "all", label: t("home.filters.all") },
+    ...groups.map((group) => ({ value: slugify(group), label: group }))
+  ];
+}
+
+function filteredEntries(view = state.catalogView) {
+  const query = currentSearch(view).trim().toLowerCase();
+  const filter = currentFilter(view);
+
+  return catalogConfig(view).entries.filter((entry) => {
+    const matchesFilter = filter === "all" || entryFilterValue(entry, view) === filter;
+    const haystack = [entry.name, entry.group, entrySummaryText(entry, view), ...(entry.tags || [])].join(" ").toLowerCase();
+    const matchesQuery = query === "" || haystack.includes(query);
+    return matchesFilter && matchesQuery;
   });
 }
 
-function renderAnimalList() {
-  const results = filteredAnimals();
+function entryTextVars(entry, province = "") {
+  return {
+    animal: entry?.name || "",
+    plant: entry?.name || "",
+    item: entry?.name || "",
+    service: entry?.name || "",
+    entry: entry?.name || "",
+    province
+  };
+}
+
+function refreshCatalogCopy() {
+  const config = catalogConfig();
+
+  if (catalogPanelKicker) catalogPanelKicker.textContent = t(config.panelKickerKey);
+  if (catalogPanelTitle) catalogPanelTitle.textContent = t(config.panelTitleKey);
+  if (catalogSearchLabel) catalogSearchLabel.textContent = t(config.searchLabelKey);
+  if (searchInput) {
+    searchInput.placeholder = t(config.searchPlaceholderKey);
+    searchInput.value = currentSearch();
+  }
+  if (catalogListTitle) catalogListTitle.textContent = t(config.listTitleKey);
+  if (catalogListHint) catalogListHint.textContent = t(config.listHintKey);
+  if (noteDescription) noteDescription.textContent = t(config.noteCopyKey);
+  if (catalogRequestKicker) catalogRequestKicker.textContent = t(config.requestKickerKey);
+  if (catalogRequestTitle) catalogRequestTitle.textContent = t(config.requestTitleKey);
+  if (catalogRequestCopy) catalogRequestCopy.textContent = t(config.requestCopyKey);
+  if (catalogRequestAction) {
+    catalogRequestAction.textContent = t(config.requestActionKey);
+    catalogRequestAction.href = "signup.html#entryRequestSection";
+  }
+  if (catalogMapKicker) catalogMapKicker.textContent = t(config.mapKickerKey);
+  if (catalogMapTitle) catalogMapTitle.textContent = t(config.mapTitleKey);
+  if (mapHelper) mapHelper.textContent = t(config.mapHelperKey);
+  if (catalogProvinceKicker) catalogProvinceKicker.textContent = t(config.provinceKickerKey);
+  if (catalogSourceTitle) catalogSourceTitle.textContent = t(config.sourceTitleKey);
+  if (catalogSourceKicker) catalogSourceKicker.textContent = t(config.sourceKickerKey);
+  if (catalogSourceBadge) catalogSourceBadge.textContent = t(config.sourceBadgeKey);
+  if (catalogSourceCopy) catalogSourceCopy.textContent = t(config.sourceCopyKey);
+
+  if (!state.activeProvince) {
+    provinceTitle.textContent = t(config.provinceDefaultTitleKey);
+    provinceDescription.textContent = t(config.provinceDefaultDescriptionKey);
+  }
+}
+
+function syncCatalogButtons() {
+  catalogViewButtons.forEach((button) => {
+    const isActive = button.dataset.catalogView === state.catalogView;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function catalogHash(view) {
+  return catalogHashes[view] ?? catalogHashes.animals;
+}
+
+function syncCatalogHash() {
+  const nextUrl = new URL(window.location.href);
+  nextUrl.hash = catalogHash(state.catalogView);
+  window.history.replaceState({}, "", nextUrl);
+}
+
+function renderFilterOptions() {
+  if (!categoryFilters) {
+    return;
+  }
+
+  const view = state.catalogView;
+  const options = filterOptions(view);
+  const activeFilter = currentFilter(view);
+
+  categoryFilters.innerHTML = options.map((option) => `
+    <button class="filter-chip ${option.value === activeFilter ? "active" : ""}" data-filter-value="${option.value}" type="button">${option.label}</button>
+  `).join("");
+}
+
+function renderEntryList() {
+  const view = state.catalogView;
+  const config = catalogConfig(view);
+  const results = filteredEntries(view);
 
   updateBreedListSummary(results.length);
 
+  if (activeEntryId(view) && !results.some((entry) => entry.id === activeEntryId(view))) {
+    setActiveEntryId(view, null);
+  }
+
   if (!results.length) {
-    breedList.innerHTML = `<div class="empty-state">${t("atlas.emptyBreeds")}</div>`;
+    breedList.innerHTML = `<div class="empty-state">${t(config.emptyKey)}</div>`;
     updateSelectedCount();
     return;
   }
 
-  breedList.innerHTML = results.map((item) => `
-    <article class="breed-card ${item.id === state.activeAnimalId ? "active" : ""}" data-card-id="${item.id}">
+  breedList.innerHTML = results.map((entry) => `
+    <article class="breed-card ${entry.id === activeEntryId(view) ? "active" : ""}" data-card-id="${entry.id}">
+      ${entry.imageUrl ? `<img class="breed-card-image" src="${entry.imageUrl}" alt="${entry.name}" loading="lazy" />` : ""}
       <div class="breed-card-top">
         <div>
-          <div class="breed-name">${item.name}</div>
-          <div class="breed-meta">${categoryLabel(item.category)}</div>
+          <div class="breed-name">${entry.name}</div>
+          <div class="breed-meta">${entryMetaLabel(entry, view)}</div>
         </div>
         <div class="breed-controls">
-          <span class="breed-trigger">${item.id === state.activeAnimalId ? t("home.breed.live") : t("home.breed.show")}</span>
-          <input class="color-input" type="color" data-color-id="${item.id}" value="${item.color}" aria-label="${t("home.breed.colorAria", { animal: item.name })}" />
+          <span class="breed-trigger">${entry.id === activeEntryId(view) ? t("home.breed.live") : t("home.breed.show")}</span>
+          <span class="breed-color-swatch" aria-hidden="true" style="background:${highlightColor}"></span>
         </div>
       </div>
-      <p class="breed-summary">${animalSummaryText(item)}</p>
-      <div class="province-count mb-2">${t("home.breed.foundIn", { count: item.provinces.length })}</div>
-      <div class="province-tags">${provinceAbbreviations(item)}</div>
+      <p class="breed-summary">${entrySummaryText(entry, view)}</p>
+      <div class="province-count mb-2">${t(config.foundInKey, { count: entry.provinces.length })}</div>
+      <div class="province-tags">${provinceAbbreviations(entry)}</div>
     </article>
   `).join("");
 
@@ -498,7 +1013,7 @@ function updateSelectedCount() {
     return;
   }
 
-  selectedCount.textContent = state.activeAnimalId ? "1" : "0";
+  selectedCount.textContent = activeEntry() ? "1" : "0";
 }
 
 function updateBreedListSummary(count) {
@@ -506,16 +1021,15 @@ function updateBreedListSummary(count) {
     return;
   }
 
-  breedListSummaryState.textContent = t("home.breeds.count", { count });
+  breedListSummaryState.textContent = t(catalogConfig().countKey, { count });
 }
 
 function syncBreedListSearchVisibility() {
-  const breedListDetails = document.getElementById("breedListDetails");
   if (!breedListDetails) {
     return;
   }
 
-  const hasSearch = state.search.trim().length > 0;
+  const hasSearch = currentSearch().trim().length > 0;
 
   if (hasSearch) {
     breedListDetails.open = true;
@@ -581,8 +1095,8 @@ function selectProvince(provinceCode) {
 }
 
 function provinceBreakdown(provinceCode) {
-  const item = activeAnimal();
-  const matches = item && item.provinces.includes(provinceCode) ? [item] : [];
+  const selectedEntry = activeEntry();
+  const matches = selectedEntry && selectedEntry.provinces.includes(provinceCode) ? [selectedEntry] : [];
 
   if (!matches.length) {
     return [];
@@ -592,18 +1106,19 @@ function provinceBreakdown(provinceCode) {
 }
 
 function paintMap() {
-  const picked = activeAnimal();
+  const config = catalogConfig();
+  const picked = activeEntry();
 
   if (!picked) {
     Object.keys(mapController.provinceShapes).forEach((provinceCode) => {
       mapController.setProvinceVisual(provinceCode, [], false);
     });
-    statusChip.textContent = t("home.status.default");
+    statusChip.textContent = t(config.statusDefaultKey);
     if (state.activeProvince) {
       updateProvinceDetail(state.activeProvince);
     }
     syncProvinceFocus();
-    renderSourceList([]);
+    renderSourceList();
     renderFarmerWebsites();
     return;
   }
@@ -612,37 +1127,39 @@ function paintMap() {
     mapController.setProvinceVisual(provinceCode, provinceBreakdown(provinceCode), true);
   });
 
-  statusChip.textContent = t("home.status.painted", { animal: picked.name });
+  statusChip.textContent = t(config.statusPaintedKey, entryTextVars(picked));
 
   if (state.activeProvince) {
     updateProvinceDetail(state.activeProvince);
   }
 
   syncProvinceFocus();
-  renderSourceList([picked]);
+  renderSourceList();
   renderFarmerWebsites();
 }
 
 function clearMap() {
-  state.activeAnimalId = null;
+  setActiveEntryId(state.catalogView, null);
   Object.keys(mapController.provinceShapes).forEach((provinceCode) => {
     mapController.setProvinceVisual(provinceCode, [], false);
   });
   mapController.clearActiveProvince();
 
+  const config = catalogConfig();
   state.activeProvince = null;
-  statusChip.textContent = t("home.status.default");
-  provinceTitle.textContent = t("home.province.defaultTitle");
-  provinceDescription.textContent = t("home.province.defaultDescription");
+  statusChip.textContent = t(config.statusDefaultKey);
+  provinceTitle.textContent = t(config.provinceDefaultTitleKey);
+  provinceDescription.textContent = t(config.provinceDefaultDescriptionKey);
   provinceLegend.innerHTML = "";
   renderProvinceSelector();
   syncProvinceFocus();
-  renderAnimalList();
-  renderSourceList([]);
+  renderEntryList();
+  renderSourceList();
   renderFarmerWebsites();
 }
 
 function updateProvinceDetail(provinceCode) {
+  const config = catalogConfig();
   const translatedProvinceName = provinceName(provinceCode);
   const matches = provinceBreakdown(provinceCode);
 
@@ -651,39 +1168,40 @@ function updateProvinceDetail(provinceCode) {
   state.activeProvince = provinceCode;
   provinceTitle.textContent = translatedProvinceName;
 
-  const currentAnimal = activeAnimal();
+  const currentSelection = activeEntry();
 
-  if (!currentAnimal) {
-    provinceDescription.textContent = t("atlas.chooseAnimalForProvince");
+  if (!currentSelection) {
+    provinceDescription.textContent = t(config.provinceNoSelectionKey);
     provinceLegend.innerHTML = "";
     return;
   }
 
   if (!matches.length) {
-    provinceDescription.textContent = t("atlas.notMappedToProvince", { animal: currentAnimal.name, province: translatedProvinceName });
+    provinceDescription.textContent = t(config.provinceNotMappedKey, entryTextVars(currentSelection, translatedProvinceName));
     provinceLegend.innerHTML = "";
     return;
   }
 
-  provinceDescription.textContent = t("atlas.mappedToProvince", { animal: currentAnimal.name, province: translatedProvinceName });
+  provinceDescription.textContent = t(config.provinceMappedKey, entryTextVars(currentSelection, translatedProvinceName));
   provinceLegend.innerHTML = matches.map((item) => `
     <div class="legend-item">
       <span class="legend-swatch" style="background:${item.color}"></span>
       <div class="legend-copy">
         <strong>${item.name}</strong>
-        <span>${t("atlas.coverage", { category: categoryLabel(item.category), percentage: item.percentage })}</span>
+        <span>${t("atlas.coverage", { category: entryMetaLabel(item), percentage: item.percentage })}</span>
       </div>
     </div>
   `).join("");
 }
 
-function uniqueSources(items) {
+function uniqueSources(items, view = state.catalogView) {
   const seen = new Map();
 
   items.forEach((item) => {
     item.sources.forEach((source, sourceIndex) => {
-      if (!seen.has(source.url)) {
-        seen.set(source.url, {
+      const key = source.url || `${view}:${item.id}:${source.title || sourceIndex}`;
+      if (!seen.has(key)) {
+        seen.set(key, {
           ...source,
           animalId: item.id,
           sourceIndex
@@ -717,6 +1235,12 @@ function renderFarmerWebsites() {
     return;
   }
 
+  if (state.catalogView !== "animals") {
+    farmerWebsitesSection.hidden = true;
+    farmerWebsitesList.innerHTML = "";
+    return;
+  }
+
   const currentAnimal = activeAnimal();
   const websites = currentAnimal ? (stellardsFarmerWebsites[currentAnimal.id] ?? []) : [];
 
@@ -745,22 +1269,51 @@ function renderFarmerWebsites() {
   }).join("");
 }
 
-function renderSourceList(items) {
+function renderSourceList() {
   if (!sourceList) {
     return;
   }
 
-  const displayItems = items.length ? items : animals.slice(0, 6);
-  const sources = uniqueSources(displayItems).slice(0, 8);
+  const config = catalogConfig();
+  const selectedEntry = activeEntry();
+  const sources = state.catalogView === "animals"
+    ? uniqueSources(selectedEntry ? [selectedEntry] : animals.slice(0, 6), "animals").slice(0, 8)
+    : (selectedEntry?.sources ?? []);
+
+  if (!sources.length && config.sourceEmptyKey) {
+    sourceList.innerHTML = `
+      <div class="source-item">
+        <div>
+          <span class="source-link source-link-static">${t(config.sourceEmptyKey)}</span>
+        </div>
+      </div>
+    `;
+    return;
+  }
 
   sourceList.innerHTML = sources.map((source) => `
     <div class="source-item">
       <div>
-        <a class="source-link" href="${source.url}" target="_blank" rel="noreferrer">${source.title}</a>
-        <div class="source-text">${animalSourceNote(source.animalId, source.sourceIndex, source.note)}</div>
+        ${source.url ? `<a class="source-link" href="${source.url}" target="_blank" rel="noreferrer">${source.title}</a>` : `<span class="source-link source-link-static">${source.title}</span>`}
+        <div class="source-text">${state.catalogView === "animals" ? animalSourceNote(source.animalId, source.sourceIndex, source.note) : source.note}</div>
       </div>
     </div>
   `).join("");
+}
+
+function setCatalogView(view) {
+  if (!["animals", "plants", "items", "services"].includes(view)) {
+    return;
+  }
+
+  state.catalogView = view;
+  syncCatalogButtons();
+  refreshCatalogCopy();
+  renderFilterOptions();
+  syncBreedListSearchVisibility();
+  renderEntryList();
+  syncCatalogHash();
+  paintMap();
 }
 
 function refreshLanguage() {
@@ -770,80 +1323,51 @@ function refreshLanguage() {
   syncSourceToggle();
   syncMapOverlayControls();
   renderProvinceSelector();
-  renderAnimalList();
-
-  if (state.activeAnimalId) {
-    paintMap();
-  } else {
-    statusChip.textContent = t("home.status.default");
-    renderSourceList([]);
-    renderFarmerWebsites();
-    if (!state.activeProvince) {
-      provinceTitle.textContent = t("home.province.defaultTitle");
-      provinceDescription.textContent = t("home.province.defaultDescription");
-    }
-  }
-
-  if (state.activeProvince) {
-    updateProvinceDetail(state.activeProvince);
-  }
+  refreshCatalogCopy();
+  renderFilterOptions();
+  renderEntryList();
+  paintMap();
 }
 
 if (searchInput) {
   searchInput.addEventListener("input", (event) => {
-    state.search = event.target.value;
+    setCurrentSearch(state.catalogView, event.target.value);
     syncBreedListSearchVisibility();
-    renderAnimalList();
+    renderEntryList();
+    paintMap();
   });
 }
 
+catalogViewButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setCatalogView(button.dataset.catalogView);
+  });
+});
+
 if (categoryFilters) {
   categoryFilters.addEventListener("click", (event) => {
-    const button = event.target.closest("button[data-category]");
+    const button = event.target.closest("button[data-filter-value]");
     if (!button) {
       return;
     }
 
-    state.category = button.dataset.category;
-    [...categoryFilters.querySelectorAll("button")].forEach((chip) => {
-      chip.classList.toggle("active", chip === button);
-    });
-    renderAnimalList();
+    setCurrentFilter(state.catalogView, button.dataset.filterValue);
+    renderFilterOptions();
+    renderEntryList();
+    paintMap();
   });
 }
 
 if (breedList) {
-  breedList.addEventListener("input", (event) => {
-    const colorInput = event.target.closest("input[data-color-id]");
-
-    if (colorInput) {
-      const item = animals.find((entry) => entry.id === colorInput.dataset.colorId);
-      item.color = colorInput.value;
-      if (state.activeAnimalId === item.id) {
-        paintMap();
-      }
-    }
-  });
-
   breedList.addEventListener("click", (event) => {
-    if (event.target.closest("input[data-color-id]")) {
-      return;
-    }
-
     const card = event.target.closest("[data-card-id]");
     if (!card) {
       return;
     }
 
     const nextId = card.dataset.cardId;
-    state.activeAnimalId = state.activeAnimalId === nextId ? null : nextId;
-    renderAnimalList();
-
-    if (!state.activeAnimalId) {
-      clearMap();
-      return;
-    }
-
+    setActiveEntryId(state.catalogView, activeEntryId() === nextId ? null : nextId);
+    renderEntryList();
     paintMap();
   });
 }
@@ -880,11 +1404,12 @@ mapOverlayBackdrop?.addEventListener("click", closeMapOverlay);
 
 returnMapButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    const config = catalogConfig();
     state.selectedProvinceCode = null;
     renderProvinceSelector();
     syncProvinceFocus();
-    provinceTitle.textContent = t("home.province.defaultTitle");
-    provinceDescription.textContent = t("home.province.defaultDescription");
+    provinceTitle.textContent = t(config.provinceDefaultTitleKey);
+    provinceDescription.textContent = t(config.provinceDefaultDescriptionKey);
     provinceLegend.innerHTML = "";
     mapController.clearActiveProvince();
     state.activeProvince = null;
@@ -897,9 +1422,38 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+window.addEventListener("hashchange", () => {
+  setCatalogView(initialCatalogView());
+});
+
 window.addEventListener("site-language-change", refreshLanguage);
 
-if (breedList && breedCountElements.length && searchInput && categoryFilters && statusChip && provinceTitle && provinceDescription && provinceLegend && sourceList) {
+async function initializeApp() {
+  if (!(breedList && breedCountElements.length && searchInput && categoryFilters && statusChip && provinceTitle && provinceDescription && provinceLegend && sourceList)) {
+    return;
+  }
+
+  try {
+    const [sheepEntries, goatEntries, cattleEntries, plantEntries, itemEntries, serviceEntries] = await Promise.all([
+      loadAnimalCatalog("Data/sheep.json", "sheep", sheepCatalogMeta),
+      loadAnimalCatalog("Data/goats.json", "goat", goatCatalogMeta),
+      loadAnimalCatalog("Data/cattle.json", "cattle", cattleCatalogMeta),
+      loadPlantCatalog("Data/plants.json"),
+      loadItemCatalog("Data/items.json"),
+      loadServiceCatalog("Data/services.json")
+    ]);
+    animals = [...sheepEntries, ...goatEntries, ...cattleEntries];
+    plantsCatalog = plantEntries;
+    itemsCatalog = itemEntries;
+    servicesCatalog = serviceEntries;
+  } catch (error) {
+    console.error(error);
+  }
+
+  breedCountElements.forEach((element) => {
+    element.textContent = String(animals.length);
+  });
+
   applyTranslations(document);
   Object.keys(mapController.provinceShapes).forEach((provinceCode) => {
     mapController.setProvinceVisual(provinceCode, [], false);
@@ -910,6 +1464,11 @@ if (breedList && breedCountElements.length && searchInput && categoryFilters && 
   syncMapOverlayControls();
   renderProvinceSelector();
   syncProvinceFocus();
-  renderAnimalList();
-  renderSourceList([]);
+  refreshCatalogCopy();
+  renderFilterOptions();
+  renderEntryList();
+  paintMap();
+  setCatalogView(state.catalogView);
 }
+
+initializeApp();

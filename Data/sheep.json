@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "Dorper",
+    "Description": "A hardy meat sheep developed for dry South African conditions and strongly associated with Karoo and inland production regions.",
+    "Location": "WC, NC, EC, FS, NW",
+    "Image": ""
+  },
+  {
+    "Name": "Merino",
+    "Description": "Fine-wool sheep concentrated in the Cape, Free State and central wool-producing provinces.",
+    "Location": "WC, EC, FS, NC",
+    "Image": ""
+  },
+  {
+    "Name": "Dohne Merino",
+    "Description": "Dual-purpose sheep with strong roots in Eastern Cape and major wool-and-meat production belts.",
+    "Location": "EC, FS, WC",
+    "Image": ""
+  },
+  {
+    "Name": "Namaqua Afrikaner",
+    "Description": "An arid-zone fat-tailed breed most closely tied to the western and north-western dryland systems.",
+    "Location": "NC, WC",
+    "Image": ""
+  },
+  {
+    "Name": "Damara",
+    "Description": "A drought-tolerant sheep suited to extensive and semi-arid grazing areas.",
+    "Location": "NC, WC, EC, FS, NW",
+    "Image": ""
+  }
+]

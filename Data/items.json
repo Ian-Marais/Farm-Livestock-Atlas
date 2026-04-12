@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "Irrigation Supplies",
+    "Group": "Water Systems",
+    "Description": "Retail-stocked irrigation components and farm water accessories available through Agrimark's national agri-retail footprint.",
+    "Location": "WC, EC, FS, NC, KZN, GP, LP, MP, NW",
+    "Image": "",
+    "Tags": ["irrigation", "water", "fittings", "farm supplies"],
+    "Sources": [
+      {
+        "title": "Agrimark Stores",
+        "url": "https://www.agrimark.co.za/stores",
+        "note": "Agrimark says it has 70+ stores in South Africa and explicitly includes irrigation systems in its product range."
+      }
+    ]
+  },
+  {
+    "Name": "Animal Health Supplies",
+    "Group": "Farm Inputs",
+    "Description": "Animal health and feed-related retail stock supplied through BKB's agri-retail network and online shop.",
+    "Location": "WC, EC, FS, NC, KZN, GP, LP, MP, NW",
+    "Image": "",
+    "Tags": ["animal health", "feed", "farm inputs", "retail"],
+    "Sources": [
+      {
+        "title": "BKB Retail Shops",
+        "url": "https://www.bkb.co.za/retail-shops",
+        "note": "BKB says its nationwide retail channels carry extensive agriculture products, equipment, and animal health stock."
+      }
+    ]
+  },
+  {
+    "Name": "Mechanised Farm Equipment",
+    "Group": "Machinery",
+    "Description": "Mechanised equipment supply for crop and mixed-farm operations through AFGRI's agribusiness solutions network.",
+    "Location": "GP, LP, MP, NW",
+    "Image": "",
+    "Tags": ["equipment", "machinery", "mechanised", "farm"],
+    "Sources": [
+      {
+        "title": "AFGRI Solutions",
+        "url": "https://www.afgri.co.za/",
+        "note": "AFGRI lists equipment as a core solution and says its retail business has a significant footprint across South Africa's Northern provinces."
+      }
+    ]
+  },
+  {
+    "Name": "Water Storage Tanks",
+    "Group": "Water Systems",
+    "Description": "Farm water storage tanks and reserve-water hardware suited to livestock watering, irrigation buffering, and yard use.",
+    "Location": "WC, EC, FS, NC, KZN, GP, LP, MP, NW",
+    "Image": "",
+    "Tags": ["water tank", "storage", "water systems", "farm"],
+    "Sources": [
+      {
+        "title": "JoJo Tanks",
+        "url": "https://www.jojotanks.co.za/",
+        "note": "This supplier site was one of the integrated-browser source tabs used to seed the farm water storage item category."
+      }
+    ]
+  }
+]

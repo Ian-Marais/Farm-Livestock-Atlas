@@ -1,4 +1,4 @@
-# South African Livestock Atlas
+# Agri Atlas
 
 Open the site locally:
 
