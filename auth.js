@@ -11,6 +11,10 @@
   const requestWhatsappNumber = "27000000000";
   const minPasswordLength = 7;
   let authMenuListenersBound = false;
+  let installListenersBound = false;
+  let deferredInstallPrompt = null;
+  let installPlatformPromise = null;
+  let installPlatformDetails = null;
 
   const copy = {
     en: {
@@ -25,7 +29,20 @@
       header: {
         appLabel: "Farm Map",
         signedInAs: "Signed in",
-        guestCta: "Join the atlas community"
+        guestCta: "Join the atlas community",
+        installLabel: "Install App",
+        installAria: "Install Agri Atlas on this device",
+        installWindows11: "Accept the install prompt, then right-click the Agri Atlas icon on the Windows 11 taskbar and choose Pin to taskbar.",
+        installWindows10: "Accept the install prompt, then right-click the Agri Atlas icon on the Windows 10 taskbar and choose Pin to taskbar.",
+        installWindows: "Install Agri Atlas from your browser, then pin it to the Windows taskbar for faster access.",
+        installMac: "Install Agri Atlas from your browser, then right-click the Dock icon and choose Options, then Keep in Dock.",
+        installLinux: "Install Agri Atlas from your browser, then pin it to your dock, panel, or favorites in your app launcher.",
+        installAndroid: "Install Agri Atlas when prompted. If no prompt appears, open your browser menu and choose Install app or Add to Home screen.",
+        installIphone: "Open this site in Safari, tap Share, then choose Add to Home Screen to place Agri Atlas on your Home Screen.",
+        installIpad: "Open this site in Safari, tap Share, then choose Add to Home Screen to place Agri Atlas on your Home Screen.",
+        installDesktop: "Install Agri Atlas from your browser, then pin the app to your taskbar or dock so it stays easy to launch.",
+        installedDesktop: "Agri Atlas is already installed. If you want quicker access, pin its app icon to your taskbar or dock.",
+        installedMobile: "Agri Atlas is already installed. Keep it on your Home Screen for quicker access."
       },
       auth: {
         loginTitle: "Log in to your Agri Atlas account",
@@ -124,7 +141,20 @@
       header: {
         appLabel: "Plaaskaart",
         signedInAs: "Aangemeld",
-        guestCta: "Sluit by die atlas-gemeenskap aan"
+        guestCta: "Sluit by die atlas-gemeenskap aan",
+        installLabel: "Installeer Toep",
+        installAria: "Installeer Agri Atlas op hierdie toestel",
+        installWindows11: "Aanvaar die installasieboodskap, klik dan met die regtermuisknop op die Agri Atlas-ikoon op die Windows 11-taakbalk en kies Pin to taskbar.",
+        installWindows10: "Aanvaar die installasieboodskap, klik dan met die regtermuisknop op die Agri Atlas-ikoon op die Windows 10-taakbalk en kies Pin to taskbar.",
+        installWindows: "Installeer Agri Atlas vanaf jou blaaier en pen dit dan aan die Windows-taakbalk vas vir vinniger toegang.",
+        installMac: "Installeer Agri Atlas vanaf jou blaaier en klik dan met die regtermuisknop op die Dock-ikoon en kies Options, dan Keep in Dock.",
+        installLinux: "Installeer Agri Atlas vanaf jou blaaier en pen dit dan aan jou dok, paneel, of gunstelinge in jou toepassingslanseerder vas.",
+        installAndroid: "Installeer Agri Atlas wanneer jy gevra word. As geen boodskap verskyn nie, maak jou blaaierkieslys oop en kies Install app of Add to Home screen.",
+        installIphone: "Maak hierdie werf in Safari oop, tik Share, en kies dan Add to Home Screen om Agri Atlas op jou tuisskerm te plaas.",
+        installIpad: "Maak hierdie werf in Safari oop, tik Share, en kies dan Add to Home Screen om Agri Atlas op jou tuisskerm te plaas.",
+        installDesktop: "Installeer Agri Atlas vanaf jou blaaier en pen die toep dan aan jou taakbalk of dok vas sodat dit maklik bly om oop te maak.",
+        installedDesktop: "Agri Atlas is reeds geinstalleer. As jy vinniger toegang wil he, pen die toepikoon aan jou taakbalk of dok vas.",
+        installedMobile: "Agri Atlas is reeds geinstalleer. Hou dit op jou tuisskerm vir vinniger toegang."
       },
       auth: {
         loginTitle: "Meld aan by jou Agri Atlas rekening",
@@ -303,6 +333,236 @@
     });
 
     authMenuListenersBound = true;
+  }
+
+  function isStandaloneMode() {
+    return Boolean(
+      (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches)
+      || window.navigator.standalone
+    );
+  }
+
+  function isMobileInstallPlatform(kind) {
+    return kind === "android" || kind === "iphone" || kind === "ipad";
+  }
+
+  function detectInstallPlatform() {
+    if (installPlatformDetails) {
+      return Promise.resolve(installPlatformDetails);
+    }
+
+    if (installPlatformPromise) {
+      return installPlatformPromise;
+    }
+
+    installPlatformPromise = (async () => {
+      const nav = window.navigator;
+      const userAgent = String(nav.userAgent || "");
+      const platform = String(nav.userAgentData?.platform || nav.platform || "");
+      const normalized = `${userAgent} ${platform}`.toLowerCase();
+      const touchPoints = Number(nav.maxTouchPoints || 0);
+
+      if (/ipad/.test(normalized) || (/macintosh/.test(normalized) && touchPoints > 1)) {
+        installPlatformDetails = { kind: "ipad" };
+        return installPlatformDetails;
+      }
+
+      if (/iphone/.test(normalized)) {
+        installPlatformDetails = { kind: "iphone" };
+        return installPlatformDetails;
+      }
+
+      if (/android/.test(normalized)) {
+        installPlatformDetails = { kind: "android" };
+        return installPlatformDetails;
+      }
+
+      if (/windows/.test(normalized)) {
+        let kind = "windows";
+
+        if (nav.userAgentData?.platform === "Windows" && typeof nav.userAgentData.getHighEntropyValues === "function") {
+          try {
+            const values = await nav.userAgentData.getHighEntropyValues(["platformVersion"]);
+            const majorVersion = Number.parseInt(String(values.platformVersion || "").split(".")[0], 10);
+            if (Number.isFinite(majorVersion)) {
+              kind = majorVersion >= 13 ? "windows11" : "windows10";
+            }
+          } catch {
+            kind = /windows nt 10\.0/.test(normalized) ? "windows" : kind;
+          }
+        }
+
+        installPlatformDetails = { kind };
+        return installPlatformDetails;
+      }
+
+      if (/mac os x|macintosh/.test(normalized)) {
+        installPlatformDetails = { kind: "mac" };
+        return installPlatformDetails;
+      }
+
+      if (/linux|x11/.test(normalized)) {
+        installPlatformDetails = { kind: "linux" };
+        return installPlatformDetails;
+      }
+
+      installPlatformDetails = { kind: "desktop" };
+      return installPlatformDetails;
+    })().finally(() => {
+      installPlatformPromise = null;
+    });
+
+    return installPlatformPromise;
+  }
+
+  function installTooltipCopy(kind) {
+    if (isStandaloneMode()) {
+      return tr(isMobileInstallPlatform(kind) ? "header.installedMobile" : "header.installedDesktop");
+    }
+
+    switch (kind) {
+      case "windows11":
+        return tr("header.installWindows11");
+      case "windows10":
+        return tr("header.installWindows10");
+      case "windows":
+        return tr("header.installWindows");
+      case "mac":
+        return tr("header.installMac");
+      case "linux":
+        return tr("header.installLinux");
+      case "android":
+        return tr("header.installAndroid");
+      case "iphone":
+        return tr("header.installIphone");
+      case "ipad":
+        return tr("header.installIpad");
+      default:
+        return tr("header.installDesktop");
+    }
+  }
+
+  function closeInstallTooltip() {
+    document.querySelectorAll("[data-install-tooltip]").forEach((tooltip) => {
+      tooltip.hidden = true;
+    });
+
+    document.querySelectorAll("[data-install-button]").forEach((button) => {
+      button.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  function updateInstallControls(root = document) {
+    const installMode = isStandaloneMode() ? "installed" : deferredInstallPrompt ? "ready" : "manual";
+
+    root.querySelectorAll("[data-install-button]").forEach((button) => {
+      button.dataset.installMode = installMode;
+      button.setAttribute("aria-label", tr("header.installAria"));
+      button.setAttribute("title", tr("header.installAria"));
+    });
+  }
+
+  function showInstallTooltip(button) {
+    const wrapper = button.closest("[data-install-wrap]");
+    const tooltip = wrapper?.querySelector("[data-install-tooltip]");
+
+    if (!wrapper || !tooltip) {
+      return;
+    }
+
+    closeInstallTooltip();
+    button.setAttribute("aria-expanded", "true");
+    tooltip.hidden = false;
+    tooltip.textContent = installPlatformDetails ? installTooltipCopy(installPlatformDetails.kind) : tr("header.installDesktop");
+
+    detectInstallPlatform().then((platform) => {
+      if (button.getAttribute("aria-expanded") === "true") {
+        tooltip.textContent = installTooltipCopy(platform.kind);
+      }
+    });
+  }
+
+  async function handleInstallAction(event) {
+    const button = event.currentTarget;
+    if (!(button instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    showInstallTooltip(button);
+
+    if (!isStandaloneMode() && deferredInstallPrompt) {
+      const promptEvent = deferredInstallPrompt;
+      deferredInstallPrompt = null;
+
+      try {
+        await promptEvent.prompt();
+        await promptEvent.userChoice;
+      } catch (error) {
+        console.error("PWA install prompt failed", error);
+      }
+
+      updateInstallControls(document);
+      showInstallTooltip(button);
+    }
+  }
+
+  function bindInstallControls(root = document) {
+    root.querySelectorAll("[data-install-button]").forEach((button) => {
+      button.addEventListener("click", handleInstallAction);
+    });
+
+    updateInstallControls(root);
+  }
+
+  function ensureInstallListeners() {
+    if (installListenersBound) {
+      return;
+    }
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      updateInstallControls(document);
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      updateInstallControls(document);
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element) || target.closest("[data-install-wrap]")) {
+        return;
+      }
+
+      closeInstallTooltip();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeInstallTooltip();
+      }
+    });
+
+    if (window.matchMedia) {
+      const standaloneQuery = window.matchMedia("(display-mode: standalone)");
+      if (typeof standaloneQuery.addEventListener === "function") {
+        standaloneQuery.addEventListener("change", () => {
+          updateInstallControls(document);
+        });
+      } else if (typeof standaloneQuery.addListener === "function") {
+        standaloneQuery.addListener(() => {
+          updateInstallControls(document);
+        });
+      }
+    }
+
+    detectInstallPlatform().then(() => {
+      updateInstallControls(document);
+    });
+
+    installListenersBound = true;
   }
 
   function setSession(user) {
@@ -816,15 +1076,21 @@
 
     host.innerHTML = `
       <div class="site-auth-header-inner">
-        <a class="site-auth-brand" href="index.html">
-          <span class="site-auth-brand-mark" aria-hidden="true">
-            <img src="icons/logo-mark.svg" alt="" />
-          </span>
-          <span>
-            <strong>Agri Atlas</strong>
-            <small>${escapeHtml(tr("header.appLabel"))}</small>
-          </span>
-        </a>
+        <div class="site-auth-primary">
+          <a class="site-auth-brand" href="index.html">
+            <span class="site-auth-brand-mark" aria-hidden="true">
+              <img src="icons/logo-mark.svg" alt="" />
+            </span>
+            <span>
+              <strong>Agri Atlas</strong>
+              <small>${escapeHtml(tr("header.appLabel"))}</small>
+            </span>
+          </a>
+          <div class="site-install-wrap" data-install-wrap>
+            <button type="button" class="site-auth-action site-install-button" data-install-button aria-describedby="siteInstallTooltip" aria-expanded="false">${escapeHtml(tr("header.installLabel"))}</button>
+            <div class="site-install-tooltip" id="siteInstallTooltip" data-install-tooltip role="status" aria-live="polite" hidden></div>
+          </div>
+        </div>
 
         <div class="site-auth-tools">
           ${user ? `
@@ -869,6 +1135,8 @@
         button.setAttribute("aria-expanded", isOpen ? "false" : "true");
       });
     }
+
+    bindInstallControls(host);
   }
 
   function bindLoginForm() {
@@ -1193,6 +1461,7 @@
   function init() {
     guardGuestPages();
     registerServiceWorker();
+    ensureInstallListeners();
     renderHeader();
     applyStaticCopy();
     bindLoginForm();

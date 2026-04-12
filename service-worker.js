@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sa-livestock-atlas-v5";
+const CACHE_VERSION = "sa-livestock-atlas-v7";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const OFFLINE_URL = "./offline.html";
@@ -12,6 +12,7 @@ const APP_SHELL = [
   "./profile.html",
   "./offline.html",
   "./styles.css",
+  "./styles.css?v=install-app-v1",
   "./i18n.js",
   "./auth.js",
   "./maps.js",

@@ -2358,6 +2358,14 @@ html[data-theme="dark"] .map-context-label {
   box-shadow: 0 18px 40px rgba(72, 54, 20, 0.1);
 }
 
+.site-auth-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
 .site-auth-brand {
   display: inline-flex;
   align-items: center;
@@ -2417,6 +2425,74 @@ html[data-theme="dark"] .map-context-label {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.site-install-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-install-button {
+  position: relative;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(135deg, rgba(103, 124, 55, 0.18), rgba(200, 152, 79, 0.24));
+  border-color: rgba(98, 116, 58, 0.26);
+  white-space: nowrap;
+}
+
+.site-install-button::before {
+  content: "+";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  background: rgba(255, 250, 241, 0.8);
+  color: #4a381d;
+  font-size: 0.88rem;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.site-install-button[data-install-mode="installed"] {
+  background: linear-gradient(135deg, rgba(121, 143, 77, 0.14), rgba(121, 143, 77, 0.2));
+  border-color: rgba(98, 116, 58, 0.2);
+}
+
+.site-install-button[data-install-mode="installed"]::before {
+  content: "\2713";
+}
+
+.site-install-tooltip {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 0;
+  z-index: 20;
+  width: min(24rem, calc(100vw - 2rem));
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(103, 92, 53, 0.16);
+  background: rgba(251, 245, 229, 0.98);
+  box-shadow: 0 18px 32px rgba(72, 54, 20, 0.16);
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.site-install-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -0.45rem;
+  left: 1.4rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  transform: rotate(45deg);
+  border-top: 1px solid rgba(103, 92, 53, 0.16);
+  border-left: 1px solid rgba(103, 92, 53, 0.16);
+  background: rgba(251, 245, 229, 0.98);
 }
 
 .site-auth-nav-link,
@@ -2742,6 +2818,7 @@ html[data-theme="dark"] .site-auth-brand,
 html[data-theme="dark"] .site-auth-dropdown-link,
 html[data-theme="dark"] .site-auth-user-button,
 html[data-theme="dark"] .site-auth-action,
+html[data-theme="dark"] .site-install-tooltip,
 html[data-theme="dark"] .site-auth-nav-link.active,
 html[data-theme="dark"] .site-auth-nav-link:hover,
 html[data-theme="dark"] .auth-form-footnote a {
@@ -2807,6 +2884,27 @@ html[data-theme="dark"] .site-auth-action {
   border-color: rgba(188, 145, 69, 0.32);
 }
 
+html[data-theme="dark"] .site-install-button {
+  background: linear-gradient(135deg, rgba(103, 124, 55, 0.28), rgba(140, 88, 33, 0.26));
+  border-color: rgba(188, 145, 69, 0.28);
+}
+
+html[data-theme="dark"] .site-install-button::before {
+  background: rgba(243, 238, 223, 0.12);
+  color: var(--text);
+}
+
+html[data-theme="dark"] .site-install-tooltip {
+  background: rgba(36, 41, 31, 0.98);
+  border-color: rgba(208, 190, 135, 0.14);
+}
+
+html[data-theme="dark"] .site-install-tooltip::before {
+  background: rgba(36, 41, 31, 0.98);
+  border-top-color: rgba(208, 190, 135, 0.14);
+  border-left-color: rgba(208, 190, 135, 0.14);
+}
+
 html[data-theme="dark"] .site-auth-dropdown-link:hover {
   background: rgba(104, 121, 59, 0.24);
 }
@@ -2870,6 +2968,10 @@ html[data-theme="dark"] .catalog-request-link:hover {
     align-items: flex-start;
   }
 
+  .site-auth-primary {
+    width: 100%;
+  }
+
   .site-auth-tools {
     width: 100%;
     flex-wrap: wrap;
@@ -2897,11 +2999,24 @@ html[data-theme="dark"] .catalog-request-link:hover {
 
   .site-auth-header-inner,
   .site-auth-nav,
+  .site-auth-primary,
   .site-auth-tools,
   .auth-inline-tools {
     width: 100%;
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .site-install-wrap {
+    width: 100%;
+  }
+
+  .site-install-button {
+    width: 100%;
+  }
+
+  .site-install-tooltip {
+    width: min(24rem, calc(100vw - 3rem));
   }
 
   .site-auth-user-button,
@@ -2925,15 +3040,25 @@ html[data-theme="dark"] .catalog-request-link:hover {
   }
 
   .site-auth-header--guest .site-auth-header-inner {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.85rem;
   }
 
+  .site-auth-header--guest .site-auth-primary,
   .site-auth-header--guest .site-auth-brand,
   .site-auth-header--guest .site-auth-tools {
-    width: auto;
+    width: 100%;
+  }
+
+  .site-auth-header--guest .site-auth-primary {
+    flex: 0 0 auto;
+    min-width: 0;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .site-auth-header--guest .site-auth-tools {
@@ -2943,7 +3068,7 @@ html[data-theme="dark"] .catalog-request-link:hover {
   }
 
   .site-auth-header--guest .site-auth-guest-copy,
-  .site-auth-header--guest .site-auth-action:not(.site-auth-action-secondary) {
+  .site-auth-header--guest .site-auth-action:not(.site-auth-action-secondary):not(.site-install-button) {
     display: none;
   }
 
@@ -2951,6 +3076,16 @@ html[data-theme="dark"] .catalog-request-link:hover {
     width: auto;
     padding: 0.68rem 0.92rem;
     white-space: nowrap;
+  }
+
+  .site-auth-header--guest .site-install-wrap,
+  .site-auth-header--guest .site-install-button {
+    width: auto;
+  }
+
+  .site-auth-header--guest .site-install-button {
+    display: inline-flex;
+    padding: 0.68rem 0.88rem;
   }
 
   .site-auth-header--guest .site-auth-brand {
