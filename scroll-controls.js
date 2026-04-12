@@ -4,6 +4,7 @@
   let controls;
   let scrollToTopButton;
   let scrollToBottomButton;
+  let themeToggleButton;
   let resizeObserver;
   let frameId = 0;
   let autoScrollDirection = null;
@@ -49,8 +50,13 @@
     const pageIsScrollable = maxScroll > visibilityThreshold;
     const atTop = scrollTop <= visibilityThreshold;
     const atBottom = maxScroll <= visibilityThreshold || scrollTop >= maxScroll - visibilityThreshold;
+    const hasThemeToggle = Boolean(themeToggleButton);
 
-    controls.hidden = !pageIsScrollable;
+    controls.hidden = !pageIsScrollable && !hasThemeToggle;
+
+    if (themeToggleButton) {
+      themeToggleButton.hidden = false;
+    }
 
     if (autoScrollDirection === "top") {
       scrollToTopButton.hidden = !pageIsScrollable || atTop;
@@ -140,6 +146,13 @@
     controls = document.createElement("div");
     controls.className = "scroll-jump-controls";
     controls.hidden = true;
+
+    themeToggleButton = document.querySelector(".js-theme-toggle");
+
+    if (themeToggleButton) {
+      themeToggleButton.classList.add("scroll-jump-theme-button");
+      controls.appendChild(themeToggleButton);
+    }
 
     scrollToTopButton = document.createElement("button");
     scrollToTopButton.type = "button";

@@ -146,7 +146,7 @@
     ].join(" ");
   }
 
-  function createMapController({ svgId, defsId, regionsId, onProvinceInteract, onProvinceSelect }) {
+  function createMapController({ svgId, defsId, regionsId, onProvinceInteract, onProvinceLeave, onProvinceSelect }) {
     const svg = document.getElementById(svgId);
     const defs = document.getElementById(defsId);
     const regions = document.getElementById(regionsId);
@@ -240,6 +240,14 @@
 
         ["mouseenter", "focus"].forEach((eventName) => {
           group.addEventListener(eventName, () => onProvinceInteract(provinceCode));
+        });
+
+        ["mouseleave", "blur"].forEach((eventName) => {
+          group.addEventListener(eventName, () => {
+            if (onProvinceLeave) {
+              onProvinceLeave(provinceCode);
+            }
+          });
         });
 
         group.addEventListener("click", () => {

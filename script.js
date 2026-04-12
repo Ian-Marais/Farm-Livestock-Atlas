@@ -511,6 +511,7 @@ const mapController = window.SouthAfricaMap.createMapController({
   defsId: "mapDefs",
   regionsId: "mapRegions",
   onProvinceInteract: updateProvinceDetail,
+  onProvinceLeave: handleProvinceLeave,
   onProvinceSelect: selectProvince
 });
 
@@ -1194,6 +1195,29 @@ function updateProvinceDetail(provinceCode) {
   `).join("");
 }
 
+function resetProvinceDetail() {
+  const config = catalogConfig();
+
+  provinceTitle.textContent = t(config.provinceDefaultTitleKey);
+  provinceDescription.textContent = t(config.provinceDefaultDescriptionKey);
+  provinceLegend.innerHTML = "";
+}
+
+function handleProvinceLeave(provinceCode) {
+  if (state.selectedProvinceCode) {
+    updateProvinceDetail(state.selectedProvinceCode);
+    return;
+  }
+
+  if (state.activeProvince !== provinceCode) {
+    return;
+  }
+
+  mapController.clearActiveProvince();
+  state.activeProvince = null;
+  resetProvinceDetail();
+}
+
 function uniqueSources(items, view = state.catalogView) {
   const seen = new Map();
 
@@ -1404,15 +1428,12 @@ mapOverlayBackdrop?.addEventListener("click", closeMapOverlay);
 
 returnMapButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const config = catalogConfig();
     state.selectedProvinceCode = null;
     renderProvinceSelector();
     syncProvinceFocus();
-    provinceTitle.textContent = t(config.provinceDefaultTitleKey);
-    provinceDescription.textContent = t(config.provinceDefaultDescriptionKey);
-    provinceLegend.innerHTML = "";
     mapController.clearActiveProvince();
     state.activeProvince = null;
+    resetProvinceDetail();
   });
 });
 
