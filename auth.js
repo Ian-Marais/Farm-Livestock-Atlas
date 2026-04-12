@@ -9,6 +9,12 @@
   const entryRequestStorageKey = "south-african-livestock-atlas-entry-requests";
   const requestContactEmail = "your-email@example.com";
   const requestWhatsappNumber = "27000000000";
+  const installStoreLinks = {
+    microsoftStore: "https://apps.microsoft.com/search?query=Agri%20Atlas",
+    googlePlay: "https://play.google.com/store/search?q=Agri%20Atlas&c=apps",
+    appleAppStore: "https://apps.apple.com/us/search?term=Agri%20Atlas",
+    flatpak: "https://flathub.org/apps/search?q=Agri%20Atlas"
+  };
   const minPasswordLength = 7;
   let authMenuListenersBound = false;
   let installListenersBound = false;
@@ -30,7 +36,7 @@
         appLabel: "Farm Map",
         signedInAs: "Signed in",
         guestCta: "Join the atlas community",
-        installLabel: "Install App",
+        installLabel: "INSTALL APP",
         installAria: "Install Agri Atlas on this device",
         installWindows11: "Accept the install prompt, then right-click the Agri Atlas icon on the Windows 11 taskbar and choose Pin to taskbar.",
         installWindows10: "Accept the install prompt, then right-click the Agri Atlas icon on the Windows 10 taskbar and choose Pin to taskbar.",
@@ -42,7 +48,37 @@
         installIpad: "Open this site in Safari, tap Share, then choose Add to Home Screen to place Agri Atlas on your Home Screen.",
         installDesktop: "Install Agri Atlas from your browser, then pin the app to your taskbar or dock so it stays easy to launch.",
         installedDesktop: "Agri Atlas is already installed. If you want quicker access, pin its app icon to your taskbar or dock.",
-        installedMobile: "Agri Atlas is already installed. Keep it on your Home Screen for quicker access."
+        installedMobile: "Agri Atlas is already installed. Keep it on your Home Screen for quicker access.",
+        installModalTitle: "Install Agri Atlas",
+        installModalCopy: "Choose the easiest way to install Agri Atlas on this device.",
+        installModalQuickTitle: "For a simplified installation",
+        installModalQuickCopy: "",
+        installModalQuickHint: "",
+        installModalQuickAction: "INSTALL WPA APP",
+        installModalQuickInstalled: "Already installed",
+        installModalPinToggle: "Pin the installed app after installation",
+        installModalPinHelp: "Show taskbar or dock pin steps after the app is installed.",
+        installModalPinTitle: "Pin after installation",
+        installModalPinPending: "Install Agri Atlas first, then the pinning steps for your device will appear here.",
+        pinGuideWindows11: "After Agri Atlas installs, right-click its icon on the Windows 11 taskbar and choose Pin to taskbar.",
+        pinGuideWindows10: "After Agri Atlas installs, right-click its icon on the Windows 10 taskbar and choose Pin to taskbar.",
+        pinGuideWindows: "After Agri Atlas installs, open it once, then right-click its icon and pin it to the Windows taskbar.",
+        pinGuideMac: "After Agri Atlas opens on macOS, right-click its Dock icon and choose Options, then Keep in Dock.",
+        pinGuideLinux: "After Agri Atlas installs on Linux, open your app launcher and pin it to Favorites, Dock, or Panel using your desktop menu.",
+        pinGuideDesktop: "After Agri Atlas installs, pin it from your operating system app launcher or dock for faster access.",
+        installModalOptionsTitle: "Other install options",
+        installModalOptionsCopy: "These options can be used if you prefer a store-managed install.",
+        installModalMicrosoftTitle: "Microsoft Store",
+        installModalMicrosoftCopy: "Install a Windows store edition if a listing is available.",
+        installModalGoogleTitle: "Google Play Store",
+        installModalGoogleCopy: "Install an Android store edition if a listing is available.",
+        installModalAppleTitle: "Apple App Store",
+        installModalAppleCopy: "Install an iPhone or iPad store edition if a listing is available.",
+        installModalFlatpakTitle: "Linux Flatpak",
+        installModalFlatpakCopy: "Install a Flatpak package if a Linux listing is available.",
+        installModalStoreOpen: "Open option",
+        installModalStoreUnavailable: "Listing not available yet",
+        installModalClose: "Close install options"
       },
       auth: {
         loginTitle: "Log in to your Agri Atlas account",
@@ -142,7 +178,7 @@
         appLabel: "Plaaskaart",
         signedInAs: "Aangemeld",
         guestCta: "Sluit by die atlas-gemeenskap aan",
-        installLabel: "Installeer Toep",
+        installLabel: "INSTALLEER TOEP",
         installAria: "Installeer Agri Atlas op hierdie toestel",
         installWindows11: "Aanvaar die installasieboodskap, klik dan met die regtermuisknop op die Agri Atlas-ikoon op die Windows 11-taakbalk en kies Pin to taskbar.",
         installWindows10: "Aanvaar die installasieboodskap, klik dan met die regtermuisknop op die Agri Atlas-ikoon op die Windows 10-taakbalk en kies Pin to taskbar.",
@@ -154,7 +190,37 @@
         installIpad: "Maak hierdie werf in Safari oop, tik Share, en kies dan Add to Home Screen om Agri Atlas op jou tuisskerm te plaas.",
         installDesktop: "Installeer Agri Atlas vanaf jou blaaier en pen die toep dan aan jou taakbalk of dok vas sodat dit maklik bly om oop te maak.",
         installedDesktop: "Agri Atlas is reeds geinstalleer. As jy vinniger toegang wil he, pen die toepikoon aan jou taakbalk of dok vas.",
-        installedMobile: "Agri Atlas is reeds geinstalleer. Hou dit op jou tuisskerm vir vinniger toegang."
+        installedMobile: "Agri Atlas is reeds geinstalleer. Hou dit op jou tuisskerm vir vinniger toegang.",
+        installModalTitle: "Installeer Agri Atlas",
+        installModalCopy: "Kies die maklikste manier om Agri Atlas op hierdie toestel te installeer.",
+        installModalQuickTitle: "Vir 'n vereenvoudigde installasie",
+        installModalQuickCopy: "",
+        installModalQuickHint: "",
+        installModalQuickAction: "INSTALLEER WPA TOEP",
+        installModalQuickInstalled: "Reeds geinstalleer",
+        installModalPinToggle: "Pen die geinstalleerde toep vas na installasie",
+        installModalPinHelp: "Wys taakbalk- of dokvaspen-stappe nadat die toep geinstalleer is.",
+        installModalPinTitle: "Vaspen na installasie",
+        installModalPinPending: "Installeer eers Agri Atlas, dan sal die vaspen-stappe vir jou toestel hier verskyn.",
+        pinGuideWindows11: "Nadat Agri Atlas geinstalleer is, klik met die regtermuisknop op sy ikoon op die Windows 11-taakbalk en kies Pin to taskbar.",
+        pinGuideWindows10: "Nadat Agri Atlas geinstalleer is, klik met die regtermuisknop op sy ikoon op die Windows 10-taakbalk en kies Pin to taskbar.",
+        pinGuideWindows: "Nadat Agri Atlas geinstalleer is, maak dit een keer oop en pen dit dan aan die Windows-taakbalk vas.",
+        pinGuideMac: "Nadat Agri Atlas op macOS oopmaak, klik met die regtermuisknop op sy Dock-ikoon en kies Options, dan Keep in Dock.",
+        pinGuideLinux: "Nadat Agri Atlas op Linux geinstalleer is, maak jou toepassingslanseerder oop en pen dit aan Gunstelinge, Dok, of Paneel vas.",
+        pinGuideDesktop: "Nadat Agri Atlas geinstalleer is, pen dit vanaf jou bedryfstelsel se toepassingslanseerder of dok vas vir vinniger toegang.",
+        installModalOptionsTitle: "Ander installasie-opsies",
+        installModalOptionsCopy: "Hierdie opsies kan gebruik word as jy 'n winkelbestuurde installasie verkies.",
+        installModalMicrosoftTitle: "Microsoft Store",
+        installModalMicrosoftCopy: "Installeer 'n Windows-winkelweergawe as 'n lysinskrywing beskikbaar is.",
+        installModalGoogleTitle: "Google Play Store",
+        installModalGoogleCopy: "Installeer 'n Android-winkelweergawe as 'n lysinskrywing beskikbaar is.",
+        installModalAppleTitle: "Apple App Store",
+        installModalAppleCopy: "Installeer 'n iPhone- of iPad-winkelweergawe as 'n lysinskrywing beskikbaar is.",
+        installModalFlatpakTitle: "Linux Flatpak",
+        installModalFlatpakCopy: "Installeer 'n Flatpak-pakket as 'n Linux-lysinskrywing beskikbaar is.",
+        installModalStoreOpen: "Maak opsie oop",
+        installModalStoreUnavailable: "Lysinskrywing nog nie beskikbaar nie",
+        installModalClose: "Maak installasie-opsies toe"
       },
       auth: {
         loginTitle: "Meld aan by jou Agri Atlas rekening",
@@ -346,6 +412,44 @@
     return kind === "android" || kind === "iphone" || kind === "ipad";
   }
 
+  function detectInstallPlatformSync() {
+    if (installPlatformDetails) {
+      return installPlatformDetails;
+    }
+
+    const nav = window.navigator;
+    const userAgent = String(nav.userAgent || "");
+    const platform = String(nav.userAgentData?.platform || nav.platform || "");
+    const normalized = `${userAgent} ${platform}`.toLowerCase();
+    const touchPoints = Number(nav.maxTouchPoints || 0);
+
+    if (/ipad/.test(normalized) || (/macintosh/.test(normalized) && touchPoints > 1)) {
+      return { kind: "ipad" };
+    }
+
+    if (/iphone/.test(normalized)) {
+      return { kind: "iphone" };
+    }
+
+    if (/android/.test(normalized)) {
+      return { kind: "android" };
+    }
+
+    if (/windows/.test(normalized)) {
+      return { kind: "windows" };
+    }
+
+    if (/mac os x|macintosh/.test(normalized)) {
+      return { kind: "mac" };
+    }
+
+    if (/linux|x11/.test(normalized)) {
+      return { kind: "linux" };
+    }
+
+    return { kind: "desktop" };
+  }
+
   function detectInstallPlatform() {
     if (installPlatformDetails) {
       return Promise.resolve(installPlatformDetails);
@@ -357,28 +461,11 @@
 
     installPlatformPromise = (async () => {
       const nav = window.navigator;
-      const userAgent = String(nav.userAgent || "");
-      const platform = String(nav.userAgentData?.platform || nav.platform || "");
-      const normalized = `${userAgent} ${platform}`.toLowerCase();
-      const touchPoints = Number(nav.maxTouchPoints || 0);
+      const basePlatform = detectInstallPlatformSync();
+      installPlatformDetails = basePlatform;
 
-      if (/ipad/.test(normalized) || (/macintosh/.test(normalized) && touchPoints > 1)) {
-        installPlatformDetails = { kind: "ipad" };
-        return installPlatformDetails;
-      }
-
-      if (/iphone/.test(normalized)) {
-        installPlatformDetails = { kind: "iphone" };
-        return installPlatformDetails;
-      }
-
-      if (/android/.test(normalized)) {
-        installPlatformDetails = { kind: "android" };
-        return installPlatformDetails;
-      }
-
-      if (/windows/.test(normalized)) {
-        let kind = "windows";
+      if (basePlatform.kind === "windows") {
+        let kind = basePlatform.kind;
 
         if (nav.userAgentData?.platform === "Windows" && typeof nav.userAgentData.getHighEntropyValues === "function") {
           try {
@@ -388,7 +475,7 @@
               kind = majorVersion >= 13 ? "windows11" : "windows10";
             }
           } catch {
-            kind = /windows nt 10\.0/.test(normalized) ? "windows" : kind;
+            kind = basePlatform.kind;
           }
         }
 
@@ -396,17 +483,6 @@
         return installPlatformDetails;
       }
 
-      if (/mac os x|macintosh/.test(normalized)) {
-        installPlatformDetails = { kind: "mac" };
-        return installPlatformDetails;
-      }
-
-      if (/linux|x11/.test(normalized)) {
-        installPlatformDetails = { kind: "linux" };
-        return installPlatformDetails;
-      }
-
-      installPlatformDetails = { kind: "desktop" };
       return installPlatformDetails;
     })().finally(() => {
       installPlatformPromise = null;
@@ -442,6 +518,190 @@
     }
   }
 
+  function pinGuideCopy(kind) {
+    switch (kind) {
+      case "windows11":
+        return tr("header.pinGuideWindows11");
+      case "windows10":
+        return tr("header.pinGuideWindows10");
+      case "windows":
+        return tr("header.pinGuideWindows");
+      case "mac":
+        return tr("header.pinGuideMac");
+      case "linux":
+        return tr("header.pinGuideLinux");
+      default:
+        return tr("header.pinGuideDesktop");
+    }
+  }
+
+  function installPrimaryStoreTarget(kind) {
+    if (kind === "android") {
+      return installStoreLinks.googlePlay;
+    }
+
+    if (kind === "iphone" || kind === "ipad") {
+      return installStoreLinks.appleAppStore;
+    }
+
+    return "";
+  }
+
+  function updateInstallPinGuide() {
+    const toggle = document.querySelector("[data-install-pin-toggle]");
+    const panel = document.querySelector("[data-install-pin-panel]");
+    const copyNode = document.querySelector("[data-install-pin-copy]");
+    if (!panel || !copyNode) {
+      return;
+    }
+
+    installPlatformDetails = installPlatformDetails || detectInstallPlatformSync();
+    const shouldShow = Boolean(toggle?.checked) && !isMobileInstallPlatform(installPlatformDetails.kind);
+    panel.hidden = !shouldShow;
+
+    if (!shouldShow) {
+      return;
+    }
+
+    copyNode.textContent = isStandaloneMode() ? pinGuideCopy(installPlatformDetails.kind) : tr("header.installModalPinPending");
+  }
+
+  function installExperienceState() {
+    if (isStandaloneMode()) {
+      return "installed";
+    }
+
+    return deferredInstallPrompt ? "ready" : "manual";
+  }
+
+  function installStoreCatalog() {
+    return [
+      {
+        key: "microsoftStore",
+        title: tr("header.installModalMicrosoftTitle"),
+        copy: tr("header.installModalMicrosoftCopy"),
+        href: installStoreLinks.microsoftStore
+      },
+      {
+        key: "googlePlay",
+        title: tr("header.installModalGoogleTitle"),
+        copy: tr("header.installModalGoogleCopy"),
+        href: installStoreLinks.googlePlay
+      },
+      {
+        key: "appleAppStore",
+        title: tr("header.installModalAppleTitle"),
+        copy: tr("header.installModalAppleCopy"),
+        href: installStoreLinks.appleAppStore
+      },
+      {
+        key: "flatpak",
+        title: tr("header.installModalFlatpakTitle"),
+        copy: tr("header.installModalFlatpakCopy"),
+        href: installStoreLinks.flatpak
+      }
+    ];
+  }
+
+  function renderInstallStoreAction(option) {
+    if (option.href) {
+      return `<a class="site-install-option-action" href="${escapeHtml(option.href)}" target="_blank" rel="noreferrer">${escapeHtml(tr("header.installModalStoreOpen"))}</a>`;
+    }
+
+    return `<span class="site-install-option-action site-install-option-action-disabled" aria-disabled="true">${escapeHtml(tr("header.installModalStoreUnavailable"))}</span>`;
+  }
+
+  function renderInstallModal() {
+    installPlatformDetails = installPlatformDetails || detectInstallPlatformSync();
+    const installState = installExperienceState();
+    const isMobileStoreInstall = isMobileInstallPlatform(installPlatformDetails.kind);
+    const quickInstallAction = installState === "installed"
+      ? `<button type="button" class="site-install-modal-primary" data-install-pwa-action disabled>${escapeHtml(tr("header.installModalQuickInstalled"))}</button>`
+      : installState === "ready" || installState === "manual" || isMobileStoreInstall
+        ? `<button type="button" class="site-install-modal-primary" data-install-pwa-action>${escapeHtml(tr("header.installModalQuickAction"))}</button>`
+        : "";
+
+    const quickInstallCopy = tr("header.installModalQuickCopy");
+    const optionCards = installStoreCatalog().map((option) => `
+      <article class="site-install-option-card">
+        <div>
+          <h3 class="site-install-option-title">${escapeHtml(option.title)}</h3>
+          <p class="site-install-option-copy mb-0">${escapeHtml(option.copy)}</p>
+        </div>
+        ${renderInstallStoreAction(option)}
+      </article>
+    `).join("");
+
+    return `
+      <div class="site-install-modal-backdrop" data-install-modal hidden>
+        <section class="site-install-modal" role="dialog" aria-modal="true" aria-labelledby="siteInstallModalTitle" aria-describedby="siteInstallModalCopy">
+          <button type="button" class="site-install-modal-close" data-install-modal-close aria-label="${escapeHtml(tr("header.installModalClose"))}">x</button>
+          <p class="panel-kicker mb-1">${escapeHtml(tr("header.installLabel"))}</p>
+          <h2 class="site-install-modal-title mb-2" id="siteInstallModalTitle">${escapeHtml(tr("header.installModalTitle"))}</h2>
+          <p class="site-install-modal-copy mb-0" id="siteInstallModalCopy">${escapeHtml(tr("header.installModalCopy"))}</p>
+
+          <div class="site-install-feature-card">
+            <div>
+              <p class="panel-kicker mb-1">${escapeHtml(tr("header.installLabel"))}</p>
+              <h3 class="site-install-feature-title mb-2">${escapeHtml(tr("header.installModalQuickTitle"))}</h3>
+              ${quickInstallCopy ? `<p class="site-install-feature-copy mb-2">${escapeHtml(quickInstallCopy)}</p>` : ""}
+              ${!isMobileStoreInstall ? `
+                <label class="site-install-pin-toggle">
+                  <input type="checkbox" data-install-pin-toggle />
+                  <span>
+                    <strong>${escapeHtml(tr("header.installModalPinToggle"))}</strong>
+                    <small>${escapeHtml(tr("header.installModalPinHelp"))}</small>
+                  </span>
+                </label>
+              ` : ""}
+            </div>
+            <div class="site-install-feature-actions">
+              ${quickInstallAction}
+              ${!isMobileStoreInstall ? `
+                <div class="site-install-pin-panel" data-install-pin-panel hidden>
+                  <h4 class="site-install-pin-title mb-1">${escapeHtml(tr("header.installModalPinTitle"))}</h4>
+                  <p class="site-install-pin-copy mb-0" data-install-pin-copy>${escapeHtml(tr("header.installModalPinPending"))}</p>
+                </div>
+              ` : ""}
+            </div>
+          </div>
+
+          <div class="site-install-options-section">
+            <div class="site-install-options-header">
+              <h3 class="site-install-options-title mb-1">${escapeHtml(tr("header.installModalOptionsTitle"))}</h3>
+              <p class="site-install-options-copy mb-0">${escapeHtml(tr("header.installModalOptionsCopy"))}</p>
+            </div>
+            <div class="site-install-options-grid">
+              ${optionCards}
+            </div>
+          </div>
+        </section>
+      </div>
+    `;
+  }
+
+  function openInstallModal() {
+    const modal = document.querySelector("[data-install-modal]");
+    if (!modal) {
+      return;
+    }
+
+    closeInstallTooltip();
+    modal.hidden = false;
+    document.body.classList.add("install-modal-open");
+    modal.querySelector("[data-install-pwa-action]:not([disabled]), [data-install-modal-close]")?.focus();
+  }
+
+  function closeInstallModal() {
+    const modal = document.querySelector("[data-install-modal]");
+    if (!modal) {
+      return;
+    }
+
+    modal.hidden = true;
+    document.body.classList.remove("install-modal-open");
+  }
+
   function closeInstallTooltip() {
     document.querySelectorAll("[data-install-tooltip]").forEach((tooltip) => {
       tooltip.hidden = true;
@@ -458,7 +718,7 @@
     root.querySelectorAll("[data-install-button]").forEach((button) => {
       button.dataset.installMode = installMode;
       button.setAttribute("aria-label", tr("header.installAria"));
-      button.setAttribute("title", tr("header.installAria"));
+      button.removeAttribute("title");
     });
   }
 
@@ -473,7 +733,8 @@
     closeInstallTooltip();
     button.setAttribute("aria-expanded", "true");
     tooltip.hidden = false;
-    tooltip.textContent = installPlatformDetails ? installTooltipCopy(installPlatformDetails.kind) : tr("header.installDesktop");
+    installPlatformDetails = installPlatformDetails || detectInstallPlatformSync();
+    tooltip.textContent = installTooltipCopy(installPlatformDetails.kind);
 
     detectInstallPlatform().then((platform) => {
       if (button.getAttribute("aria-expanded") === "true") {
@@ -483,35 +744,102 @@
   }
 
   async function handleInstallAction(event) {
+    event.preventDefault();
     const button = event.currentTarget;
     if (!(button instanceof HTMLButtonElement)) {
       return;
     }
 
-    showInstallTooltip(button);
+    installPlatformDetails = installPlatformDetails || detectInstallPlatformSync();
+    const installState = installExperienceState();
+    const mobileStoreTarget = installPrimaryStoreTarget(installPlatformDetails.kind);
 
-    if (!isStandaloneMode() && deferredInstallPrompt) {
+    if (mobileStoreTarget) {
+      window.open(mobileStoreTarget, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    if (installState === "installed" || installState === "manual") {
+      updateInstallPinGuide();
+      if (installState === "manual") {
+        showInstallTooltip(document.querySelector("[data-install-button]") || button);
+      }
+      return;
+    }
+
+    if (deferredInstallPrompt) {
       const promptEvent = deferredInstallPrompt;
       deferredInstallPrompt = null;
+      let choice = null;
 
       try {
         await promptEvent.prompt();
-        await promptEvent.userChoice;
+        choice = await promptEvent.userChoice;
       } catch (error) {
         console.error("PWA install prompt failed", error);
       }
 
-      updateInstallControls(document);
-      showInstallTooltip(button);
+      renderHeader();
+      openInstallModal();
+      if (choice?.outcome === "accepted") {
+        updateInstallPinGuide();
+      }
     }
   }
 
   function bindInstallControls(root = document) {
     root.querySelectorAll("[data-install-button]").forEach((button) => {
+      button.addEventListener("pointerenter", () => {
+        showInstallTooltip(button);
+      });
+      button.addEventListener("pointerleave", () => {
+        closeInstallTooltip();
+      });
+      button.addEventListener("focus", () => {
+        showInstallTooltip(button);
+      });
+      button.addEventListener("blur", () => {
+        closeInstallTooltip();
+      });
+      button.addEventListener("click", (event) => {
+        installPlatformDetails = installPlatformDetails || detectInstallPlatformSync();
+
+        if (!isMobileInstallPlatform(installPlatformDetails.kind)) {
+          handleInstallAction(event);
+          return;
+        }
+
+        event.preventDefault();
+        openInstallModal();
+      });
+    });
+
+    root.querySelectorAll("[data-install-modal-close]").forEach((button) => {
+      button.addEventListener("click", () => {
+        closeInstallModal();
+      });
+    });
+
+    root.querySelectorAll("[data-install-modal]").forEach((modal) => {
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          closeInstallModal();
+        }
+      });
+    });
+
+    root.querySelectorAll("[data-install-pwa-action]").forEach((button) => {
       button.addEventListener("click", handleInstallAction);
     });
 
+    root.querySelectorAll("[data-install-pin-toggle]").forEach((toggle) => {
+      toggle.addEventListener("change", () => {
+        updateInstallPinGuide();
+      });
+    });
+
     updateInstallControls(root);
+    updateInstallPinGuide();
   }
 
   function ensureInstallListeners() {
@@ -522,12 +850,12 @@
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
       deferredInstallPrompt = event;
-      updateInstallControls(document);
+      renderHeader();
     });
 
     window.addEventListener("appinstalled", () => {
       deferredInstallPrompt = null;
-      updateInstallControls(document);
+      renderHeader();
     });
 
     document.addEventListener("click", (event) => {
@@ -542,6 +870,7 @@
     window.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         closeInstallTooltip();
+        closeInstallModal();
       }
     });
 
@@ -1114,6 +1443,7 @@
           `}
         </div>
       </div>
+      ${renderInstallModal()}
     `;
 
     const logoutButton = host.querySelector("[data-auth-logout]");

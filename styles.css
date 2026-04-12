@@ -2495,6 +2495,173 @@ html[data-theme="dark"] .map-context-label {
   background: rgba(251, 245, 229, 0.98);
 }
 
+body.install-modal-open {
+  overflow: hidden;
+}
+
+.site-install-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(45, 35, 20, 0.42);
+  backdrop-filter: blur(10px);
+}
+
+.site-install-modal {
+  position: relative;
+  width: min(42rem, 100%);
+  max-height: min(88vh, 56rem);
+  overflow: auto;
+  padding: 1.4rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(103, 92, 53, 0.16);
+  background: rgba(251, 245, 229, 0.98);
+  box-shadow: 0 24px 48px rgba(72, 54, 20, 0.22);
+}
+
+.site-install-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(132, 65, 24, 0.18);
+  background: rgba(255, 250, 241, 0.7);
+  color: #432b15;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.site-install-modal-title {
+  font-family: "Bitter", serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  color: #2f2416;
+}
+
+.site-install-modal-copy,
+.site-install-option-copy,
+.site-install-feature-copy,
+.site-install-options-copy,
+.site-install-feature-steps,
+.site-install-feature-hint {
+  color: var(--muted);
+}
+
+.site-install-feature-card {
+  margin-top: 1.1rem;
+  padding: 1.15rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(98, 116, 58, 0.18);
+  background: linear-gradient(135deg, rgba(244, 238, 220, 0.98), rgba(233, 244, 211, 0.86));
+  display: grid;
+  gap: 1rem;
+}
+
+.site-install-feature-title,
+.site-install-options-title,
+.site-install-option-title {
+  font-family: "Bitter", serif;
+  color: #2f2416;
+}
+
+.site-install-feature-title,
+.site-install-options-title {
+  font-size: 1.1rem;
+}
+
+.site-install-feature-actions {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.site-install-pin-toggle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  margin-top: 0.25rem;
+}
+
+.site-install-pin-toggle input {
+  margin-top: 0.18rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.site-install-pin-toggle span {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.site-install-pin-toggle small,
+.site-install-pin-copy {
+  color: var(--muted);
+}
+
+.site-install-pin-panel {
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(103, 92, 53, 0.16);
+  background: rgba(255, 250, 241, 0.78);
+}
+
+.site-install-pin-title {
+  font-family: "Bitter", serif;
+  color: #2f2416;
+  font-size: 1rem;
+}
+
+.site-install-modal-primary,
+.site-install-option-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(98, 116, 58, 0.22);
+  background: linear-gradient(135deg, rgba(103, 124, 55, 0.18), rgba(200, 152, 79, 0.22));
+  color: #432b15;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.site-install-modal-primary[disabled],
+.site-install-option-action-disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+  background: rgba(255, 250, 241, 0.72);
+}
+
+.site-install-options-section {
+  margin-top: 1.2rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.site-install-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.site-install-option-card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(103, 92, 53, 0.16);
+  background: rgba(255, 250, 241, 0.74);
+}
+
 .site-auth-nav-link,
 .site-auth-action {
   display: inline-flex;
@@ -2899,6 +3066,58 @@ html[data-theme="dark"] .site-install-tooltip {
   border-color: rgba(208, 190, 135, 0.14);
 }
 
+html[data-theme="dark"] .site-install-modal {
+  background: rgba(36, 41, 31, 0.98);
+  border-color: rgba(208, 190, 135, 0.14);
+}
+
+html[data-theme="dark"] .site-install-modal-close,
+html[data-theme="dark"] .site-install-option-card,
+html[data-theme="dark"] .site-install-option-action-disabled {
+  background: rgba(48, 53, 41, 0.9);
+  border-color: rgba(208, 190, 135, 0.14);
+}
+
+html[data-theme="dark"] .site-install-feature-card {
+  background: linear-gradient(135deg, rgba(58, 64, 45, 0.96), rgba(73, 58, 36, 0.92));
+  border-color: rgba(208, 190, 135, 0.16);
+}
+
+html[data-theme="dark"] .site-install-modal-title,
+html[data-theme="dark"] .site-install-feature-title,
+html[data-theme="dark"] .site-install-options-title,
+html[data-theme="dark"] .site-install-option-title,
+html[data-theme="dark"] .site-install-modal-close {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .site-install-modal-copy,
+html[data-theme="dark"] .site-install-option-copy,
+html[data-theme="dark"] .site-install-feature-copy,
+html[data-theme="dark"] .site-install-options-copy,
+.site-install-pin-toggle small,
+html[data-theme="dark"] .site-install-feature-steps,
+html[data-theme="dark"] .site-install-feature-hint,
+html[data-theme="dark"] .site-install-pin-copy {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .site-install-pin-panel {
+  background: rgba(48, 53, 41, 0.9);
+  border-color: rgba(208, 190, 135, 0.14);
+}
+
+html[data-theme="dark"] .site-install-pin-title {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .site-install-modal-primary,
+html[data-theme="dark"] .site-install-option-action {
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(103, 124, 55, 0.28), rgba(140, 88, 33, 0.26));
+  border-color: rgba(188, 145, 69, 0.28);
+}
+
 html[data-theme="dark"] .site-install-tooltip::before {
   background: rgba(36, 41, 31, 0.98);
   border-top-color: rgba(208, 190, 135, 0.14);
@@ -3017,6 +3236,15 @@ html[data-theme="dark"] .catalog-request-link:hover {
 
   .site-install-tooltip {
     width: min(24rem, calc(100vw - 3rem));
+  }
+
+  .site-install-modal {
+    width: min(100%, 32rem);
+    padding: 1.05rem;
+  }
+
+  .site-install-options-grid {
+    grid-template-columns: 1fr;
   }
 
   .site-auth-user-button,
